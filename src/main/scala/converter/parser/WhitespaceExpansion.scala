@@ -11,7 +11,7 @@ import org.parboiled.scala._
 trait WhitespaceExpansion {
 
   // self type, class mixing this in must be a Parser
-  self: Parser =>
+  this: Parser =>
 
   /** Rule that matches all whitespace.
     *
