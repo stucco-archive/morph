@@ -3,6 +3,7 @@ package converter.ast
 import converter.utils.Utils._
 
 import collection.immutable.ListMap
+import scala.language.implicitConversions
 
 /** General type of an AST node.
   *
@@ -11,11 +12,18 @@ import collection.immutable.ListMap
   */
 sealed abstract class ValueNode {
 
+  /** Convert to a JSON string.
+    *
+    * @throws UnsupportedOperationException If the node type is not
+    * an object or an array (in which case it would not be valid JSON).
+    *
+    * @return The JSON representation of the node.
+    */
   def toJson = this match {
     case node: ObjectNode => toString
     case node: ArrayNode => toString
     case _ => {
-      val msg = "can't convert a " + this.getClass.getName + " to JSON"
+      val msg = "can't convert a " + this.getClass.getSimpleName + " to JSON"
       throw new UnsupportedOperationException(msg)
     }
   }
@@ -131,4 +139,19 @@ case object FalseNode extends BooleanNode {
 case object NullNode extends ValueNode {
 
   override def toString = "null"
+}
+
+object Implicits {
+
+  implicit def StringToStringNode(s: String): StringNode = StringNode(s)
+
+  implicit def BooleanToBooleanNode(b: Boolean): BooleanNode = BooleanNode(b)
+
+  implicit def IntToNumberNode(n: Int): NumberNode = NumberNode(n)
+
+  implicit def LongToNumberNode(n: Long): NumberNode = NumberNode(n)
+
+  implicit def DoubleToNumberNode(n: Double): NumberNode = NumberNode(n)
+
+  implicit def BigDecimalToNumberNode(n: BigDecimal): NumberNode = NumberNode(n)
 }
