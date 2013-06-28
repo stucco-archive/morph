@@ -1,7 +1,6 @@
 import org.scalatest.FunSuite
 
 import converter.ast._
-import converter.ast.Implicits._
 
 class AstSuite extends FunSuite {
 
@@ -25,24 +24,47 @@ class AstSuite extends FunSuite {
   }
 
   test("convert array node to json") {
-    val json = ArrayNode("this", "is", "a", "test").toJson
+    val json = ArrayNode(StringNode("a"), StringNode("test")).toJson
     assert(json ===
       """|[
-         |  "this",
-         |  "is",
          |  "a",
          |  "test"
          |]""".stripMargin)
   }
 
   test("implicit string, boolean, and number conversion in array to json") {
-    val json = ArrayNode(1, true, "test").toJson
+    import converter.ast.Implicits._
+
+    val json = ArrayNode(1, true, "test", 3.1415).toJson
     assert(json ===
       """|[
          |  1,
          |  true,
-         |  "test"
+         |  "test",
+         |  3.1415
          |]""".stripMargin)
+  }
+
+  test("nested objects / arrays") {
+    import converter.ast.Implicits._
+
+    val A = ArrayNode
+    val O = ObjectNode
+    val json = O("array" -> A(1, 2), "nested" -> A(A(true, A()))).toJson
+    assert(json ===
+      """|{
+         |  "array": [
+         |    1,
+         |    2
+         |  ],
+         |  "nested": [
+         |    [
+         |      true,
+         |      []
+         |    ]
+         |  ]
+         |}""".stripMargin)
+
   }
 
   test("invalid json conversion throws exception") {
