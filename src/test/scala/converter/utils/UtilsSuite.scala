@@ -37,4 +37,8 @@ class UtilsSuite extends FunSuite {
       ===
       "one\\ntwo")
   }
+
+  test("escape a string with various escape sequences") {
+    assert("\"\\\b\n\r".escaped === "\\\"\\\\\\b\\n\\r")
+  }
 }
