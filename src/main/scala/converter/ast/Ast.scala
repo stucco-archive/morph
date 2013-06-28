@@ -1,3 +1,5 @@
+package converter.ast
+
 sealed abstract class ValueNode
 
 case class ObjectNode(fields: Map[String, ValueNode]) extends ValueNode
