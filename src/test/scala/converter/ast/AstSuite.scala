@@ -69,7 +69,19 @@ class AstSuite extends FunSuite {
 
   test("invalid json conversion throws exception") {
     intercept[UnsupportedOperationException] {
+      NullNode.toJson
+    }
+
+    intercept[UnsupportedOperationException] {
       TrueNode.toJson
+    }
+
+    intercept[UnsupportedOperationException] {
+      FalseNode.toJson
+    }
+
+    intercept[UnsupportedOperationException] {
+      StringNode("test").toJson
     }
   }
 }
