@@ -5,7 +5,7 @@ import converter.utils.Utils._
 class UtilsSuite extends FunSuite {
 
   test("indent single line string") {
-    assert("this is a test".indent === " this is a test")
+    assert("this is a test".indent === "  this is a test")
   }
 
   test("indent multi line string") {
@@ -13,8 +13,8 @@ class UtilsSuite extends FunSuite {
       """|this is
          |a test""".stripMargin.indent
          ===
-      """| this is
-         | a test""".stripMargin)
+      """|  this is
+         |  a test""".stripMargin)
   }
 
   test("indent single line string by specified amount") {
