@@ -118,14 +118,3 @@ case object NullNode extends ValueNode {
 
   override def toString = "null"
 }
-
-/** TEMPORARY
-  */
-object Test {
-  val obj = ObjectNode(Map(
-    "awesome" -> TrueNode,
-    "str" -> StringNode("stringy"),
-    "moremaps" -> ObjectNode(Map("yes" -> StringNode("absolutely"))),
-    "list" -> ArrayNode(List(StringNode("a string"), NumberNode(3.1415)))
-  ))
-}
