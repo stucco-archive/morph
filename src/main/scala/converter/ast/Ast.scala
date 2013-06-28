@@ -5,8 +5,21 @@ import converter.utils.Utils._
 import collection.immutable.ListMap
 
 /** General type of an AST node.
+  *
+  * For human readability, the `.toString` form of AST nodes looks just like
+  * JSON (and in fact, it is valid JSON).
   */
-sealed abstract class ValueNode
+sealed abstract class ValueNode {
+
+  def toJson = this match {
+    case node: ObjectNode => toString
+    case node: ArrayNode => toString
+    case _ => {
+      val msg = "can't convert a " + this.getClass.getName + " to JSON"
+      throw new UnsupportedOperationException(msg)
+    }
+  }
+}
 
 /** An object.
   */
@@ -14,7 +27,7 @@ case class ObjectNode(fields: Map[String, ValueNode]) extends ValueNode {
   
   override def toString = {
     val mapStr = fields map { case (k, v) => "\"" + k + "\": " + v } mkString ",\n"
-    "{\n" + mapStr.indent + "\n}"
+    if (fields.isEmpty) "{}" else "{\n" + mapStr.indent + "\n}"
   }
 
   /** Get a list of the contents corresponding to the specified field names.
@@ -42,7 +55,8 @@ object ObjectNode {
   */
 case class ArrayNode(elements: List[ValueNode]) extends ValueNode {
 
-  override def toString = "[\n" + elements.mkString(",\n").indent + "\n]"
+  override def toString = if (elements.isEmpty)
+    "[]" else "[\n" + elements.mkString(",\n").indent + "\n]"
 }
 
 object ArrayNode {
