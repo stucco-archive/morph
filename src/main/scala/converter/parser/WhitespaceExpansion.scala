@@ -1,3 +1,5 @@
+package converter.parser
+
 import scala.language.implicitConversions
 
 import org.parboiled.scala._
@@ -7,6 +9,8 @@ import org.parboiled.scala._
   * When this trait is mixed in, all strings of the form `"text "` are
   * automatically converted to a rule that matches all trailing
   * whitespace characters as well.
+  *
+  * @author Anish Athalye
   */
 trait WhitespaceExpansion {
 

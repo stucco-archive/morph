@@ -9,6 +9,8 @@ import scala.language.implicitConversions
   *
   * For human readability, the `.toString` form of AST nodes looks just like
   * JSON (and in fact, it is valid JSON).
+  *
+  * @author Anish Athalye
   */
 sealed abstract class ValueNode {
 
@@ -30,6 +32,8 @@ sealed abstract class ValueNode {
 }
 
 /** An object.
+  *
+  * @author Anish Athalye
   */
 case class ObjectNode(fields: Map[String, ValueNode]) extends ValueNode {
   
@@ -60,6 +64,8 @@ object ObjectNode {
 }
 
 /** An array.
+  *
+  * @author Anish Athalye
   */
 case class ArrayNode(elements: List[ValueNode]) extends ValueNode {
 
@@ -73,6 +79,8 @@ object ArrayNode {
 }
 
 /** A string.
+  *
+  * @author Anish Athalye
   */
 case class StringNode(value: String) extends ValueNode {
 
@@ -87,6 +95,8 @@ object StringNode {
 /** A number.
   *
   * A generic number type represented as a BigDecimal.
+  *
+  * @author Anish Athalye
   */
 case class NumberNode(value: BigDecimal) extends ValueNode {
 
@@ -118,6 +128,8 @@ sealed abstract class BooleanNode extends ValueNode {
 }
 
 /** A boolean.
+  *
+  * @author Anish Athalye
   */
 object BooleanNode {
   def apply(x: Boolean): BooleanNode =
@@ -135,12 +147,19 @@ case object FalseNode extends BooleanNode {
 }
 
 /** A null value.
+  *
+  * @author Anish Athalye
   */
 case object NullNode extends ValueNode {
 
   override def toString = "null"
 }
 
+/** Implicit conversions from several scala built in data types to
+  * their corresponding AST representations.
+  *
+  * @author Anish Athalye
+  */
 object Implicits {
 
   implicit def StringToStringNode(s: String): StringNode = StringNode(s)

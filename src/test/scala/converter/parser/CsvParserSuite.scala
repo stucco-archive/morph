@@ -7,8 +7,8 @@ import converter.ast.Implicits._
 class CsvParserSuite extends FunSuite {
 
   // to make testing easier
-  def A = ArrayNode
-  def C = CsvParser
+  val A = ArrayNode
+  val C = CsvParser
 
   test("parse single element csv with no quotes") {
     val csv = "test"

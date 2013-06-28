@@ -6,6 +6,8 @@ import org.parboiled.scala._
 import org.parboiled.errors.{ErrorUtils, ParsingException}
 
 /** The base class of all parsers.
+  *
+  * @author Anish Athalye
   */
 abstract class BaseParser extends Parser {
 

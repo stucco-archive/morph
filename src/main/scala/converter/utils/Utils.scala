@@ -1,10 +1,14 @@
 package converter.utils
 
 /** A collection of various utilities.
+  *
+  * @author Anish Athalye
   */
 object Utils {
 
   /** An implicit class to provide additional methods on `String`.
+    *
+    * @author Anish Athalye
     */
   implicit class StringUtils(str: String) {
 

@@ -10,6 +10,8 @@ import org.parboiled.errors.{ErrorUtils, ParsingException}
   * It can parse CSV files that conform to the RFC 4180 spec.
   * This parser was implemented almost directly from the ABNF grammar
   * found in the RFC.
+  *
+  * @author Anish Athalye
   */
 object CsvParser extends BaseParser {
 
