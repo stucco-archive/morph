@@ -76,7 +76,7 @@ object ArrayNode {
   */
 case class StringNode(value: String) extends ValueNode {
 
-  override def toString = "\"" + value + "\""
+  override def toString = "\"" + value.escaped + "\""
 }
 
 object StringNode {

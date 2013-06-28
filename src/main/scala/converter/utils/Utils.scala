@@ -22,5 +22,20 @@ object Utils {
       */
     def indent(num: Int): String =
       " " * num + str.replace("\n", "\n" + " " * num)
+
+    /** Escape the escape codes in the string to be suitable for printing
+      * or displaying the escape sequences.
+      *
+      * @return The string with escapes visibly escaped.
+      */
+    def escaped: String = str flatMap {
+      case '\b' => "\\b"
+      case '\f' => "\\f"
+      case '\n' => "\\n"
+      case '\r' => "\\r"
+      case '\t' => "\\t"
+      case '\\' => "\\\\"
+      case char => char.toString
+    }
   }
 }

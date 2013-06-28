@@ -29,4 +29,12 @@ class UtilsSuite extends FunSuite {
       """|    this is
          |    a test""".stripMargin)
   }
+
+  test("escape a string with a newline") {
+    assert(
+      """|one
+         |two""".stripMargin.escaped
+      ===
+      "one\\ntwo")
+  }
 }
