@@ -15,7 +15,7 @@ import org.parboiled.errors.{ErrorUtils, ParsingException}
   */
 object CsvParser extends BaseParser {
 
-  def RootRule = Csv
+  override def RootRule = Csv
 
   lazy val Csv = rule { File ~ optional(CRLF) ~ EOI }
 
