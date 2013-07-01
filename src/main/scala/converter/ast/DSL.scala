@@ -3,10 +3,19 @@ package converter.ast
 import scalaz._
 import Scalaz._
 
+/** An implementation of a DSL for manipulating and searching an AST.
+  *
+  * To be able to use the DSL, it is necessary to import the inner nested
+  * classes by doing `import converter.ast.DSL._`.
+  *
+  * @author Anish Athalye
+  */
 object DSL {
 
 	/** An implicit class that provides the implementation of the DSL for
 	  * manipulating AST nodes.
+    *
+    * @author Anish Athalye
 	  */
 	implicit class RichValueNode(node: ValueNode) {
 
@@ -91,6 +100,8 @@ object DSL {
 
 	/** An implicit class that provides certain methods on `Option[ValueNode]`
 	  * to allow chaining of those methods that return an `Option[ValueNode]`.
+    *
+    * @author Anish Athalye
 	  */
 	implicit class RichOptionValueNode(opt: Option[ValueNode]) {
 
