@@ -12,7 +12,7 @@ import org.parboiled.scala._
   *
   * @author Anish Athalye
   */
-trait WhitespaceExpansion {
+trait WhiteSpaceExpansion {
 
   // self type, class mixing this in must be a Parser
   this: Parser =>

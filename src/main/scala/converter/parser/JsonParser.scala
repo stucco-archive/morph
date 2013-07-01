@@ -16,7 +16,7 @@ import java.lang.StringBuilder
   *
   * @author Anish Athalye
   */
-object JsonParser extends BaseParser with WhitespaceExpansion {
+object JsonParser extends BaseParser with WhiteSpaceExpansion {
 
   override def RootRule = Json
 
