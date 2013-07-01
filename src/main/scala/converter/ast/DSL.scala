@@ -10,13 +10,29 @@ object DSL {
 	  */
 	implicit class RichValueNode(node: ValueNode) {
 
+    /** Returns the value corresponding to the specified key in an ObjectNode.
+      *
+      * @throws NoSuchElementException If the key does not exist.
+      * @throws IllegalArgumentException If the node is not an ObjectNode.
+      *
+      * @param key The key corresponding to the value to retrieve.
+      *
+      * @return The value.
+      */
+    def \ (key: String): ValueNode = node match {
+      case ObjectNode(fields) => fields(key)
+      case _ => throw new IllegalArgumentException("field access of non-object node")
+    }
+
 		/** Returns the value corresponding to the specified key in an ObjectNode.
+      *
+      * Safely searches an object for a key.
 		  *
 		  * @param key The key corresponding to the value to retrieve.
 		  *
 		  * @return The value wrapped in an Option[ValueNode].
 		  */
-		def \ (key: String): Option[ValueNode] = node match {
+		def \? (key: String): Option[ValueNode] = node match {
 			case ObjectNode(fields) => fields get key
 			case _ => None
 		}
@@ -84,7 +100,7 @@ object DSL {
 		  *
 		  * @return The value wrapped in an Option[ValueNode].
 		  */
-		def \ (key: String): Option[ValueNode] = opt flatMap { _ \ key }
+		def \? (key: String): Option[ValueNode] = opt flatMap { _ \? key }
 
 		/** Recursively searches for a value corresponding to the specified key.
 		  *

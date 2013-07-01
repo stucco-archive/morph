@@ -45,13 +45,21 @@ class DSLSuite extends FunSuite {
   """)
 
   test("search for key in object") {
-    assert(library \ "name" === Some(S("Test Library")))
+    assert(library \ "name" === S("Test Library"))
 
-    assert(library \ "books" \ "one" === Some(O("author" -> "nobody")))
+    assert(library \ "books" \ "one" === O("author" -> "nobody"))
   }
 
-  test("search for nonexistant key in object") {
-    assert(library \ "bla" === None)
+  test("safely search for key in object") {
+    assert(library \? "name" === Some(S("Test Library")))
+
+    assert(library \? "books" \? "one" === Some(O("author" -> "nobody")))
+  }
+
+  test("search for nonexistant key in object throws exception") {
+    intercept[NoSuchElementException] {
+      library \ "bla"
+    }
   }
 
   test("recursively search for key") {
