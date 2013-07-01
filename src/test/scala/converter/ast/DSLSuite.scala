@@ -61,4 +61,12 @@ class DSLSuite extends FunSuite {
 
     assert(program \\ "value" === A("File", "New", "Open", "Close"))
   }
+
+  test("find nodes by predicate") {
+    val matched = program find {
+      case S(str) => str.contains("()")
+      case _ => false
+    }
+    assert(matched === A("CreateNewDoc()", "OpenDoc()", "CloseDoc()"))
+  }
 }

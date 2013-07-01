@@ -49,6 +49,9 @@ object DSL {
 
 		/** Recursively finds all nodes that match a given predicate.
 		  *
+		  * @note This method is not tail recursive, so it is necessary to be
+		  * aware of potential stack overflow problems.
+
 		  * @param pred The predicate.
 		  *
 		  * @return A list of all nodes that match the predicate.
