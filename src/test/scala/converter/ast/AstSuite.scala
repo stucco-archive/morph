@@ -45,6 +45,16 @@ class AstSuite extends FunSuite {
          |]""".stripMargin)
   }
 
+  test("implicit (string, string) pair conversion in object to json") {
+    import converter.ast.Implicits._
+
+    val json = ObjectNode("key" -> "value").toJson
+    assert(json ===
+      """|{
+         |  "key": "value"
+         |}""".stripMargin)
+  }
+
   test("nested objects / arrays") {
     import converter.ast.Implicits._
 

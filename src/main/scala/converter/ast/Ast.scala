@@ -164,6 +164,9 @@ object Implicits {
 
   implicit def StringToStringNode(s: String): StringNode = StringNode(s)
 
+  implicit def StringStringToStringStringNode(
+    ss: (String, String)): (String, StringNode) = (ss._1, StringNode(ss._2))
+
   implicit def BooleanToBooleanNode(b: Boolean): BooleanNode = BooleanNode(b)
 
   implicit def IntToNumberNode(n: Int): NumberNode = NumberNode(n)
