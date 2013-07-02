@@ -9,7 +9,7 @@ import org.parboiled.errors.{ErrorUtils, ParsingException}
   *
   * @author Anish Athalye
   */
-abstract class BaseParser extends Parser {
+abstract class BaseParser extends Parser with AstBuilder {
 
   /** The root parsing rule.
     */
@@ -24,7 +24,7 @@ abstract class BaseParser extends Parser {
     *
     * @return The root of the generated AST.
     */
-  def apply(input: String): ValueNode = apply(input.toCharArray)
+  override def apply(input: String): ValueNode = apply(input.toCharArray)
 
   /** The main parsing method.
     *
@@ -35,7 +35,7 @@ abstract class BaseParser extends Parser {
     *
     * @return The root of the generated AST.
     */
-  def apply(input: Array[Char]): ValueNode = {
+  override def apply(input: Array[Char]): ValueNode = {
     val parsingResult = ReportingParseRunner(RootRule).run(input)
     parsingResult.result getOrElse {
       throw new ParsingException("Invalid source:\n" +
