@@ -155,16 +155,16 @@ object DSL {
 		  *
 		  * @return A list of all nodes that satisfy the predicate.
 		  */
-    def -?> (predicate: ValueNode => Boolean): ArrayNode = (node match {
+    def ?> (predicate: ValueNode => Boolean): ArrayNode = (node match {
 			case ObjectNode(fields) => {
 				val submap = fields.toList map {
-          case (k, v) => (v -?> predicate).elements
+          case (k, v) => (v ?> predicate).elements
 				}
 				val sub = submap.flatten
 				if (predicate(node)) node :: sub else sub
 			}
 			case ArrayNode(elem) => {
-        val submap = elem map { v => (v -?> predicate).elements }
+        val submap = elem map { v => (v ?> predicate).elements }
 				val sub = submap.flatten
 				if (predicate(node)) node :: sub else sub
 			}
@@ -180,7 +180,7 @@ object DSL {
 		  *
 		  * @return A list of all nodes that satisfy the predicate.
 		  */
-    def find(predicate: ValueNode => Boolean): ArrayNode = node -?> predicate
+    def find(predicate: ValueNode => Boolean): ArrayNode = node ?> predicate
 
     /** Map a function onto an array node.
       *
@@ -188,7 +188,7 @@ object DSL {
       *
       * @param func The function to map onto the array.
       */
-    def +*> (func: ValueNode => ValueNode): ArrayNode = node match {
+    def >> (func: ValueNode => ValueNode): ArrayNode = node match {
       case ArrayNode(elem) => ArrayNode(elem map func)
       case _ => throw new
         IllegalArgumentException("element access of non-array node")
@@ -200,7 +200,7 @@ object DSL {
       *
       * @param func The function to map onto the array.
       */
-    def map(func: ValueNode => ValueNode): ArrayNode = node +*> func
+    def map(func: ValueNode => ValueNode): ArrayNode = node >> func
 
     /** Filter an array node by a predicate.
       *
@@ -208,7 +208,7 @@ object DSL {
       *
       * @param predicate The predicate to filter by.
       */
-    def +/> (predicate: ValueNode => Boolean): ArrayNode = node match {
+    def /> (predicate: ValueNode => Boolean): ArrayNode = node match {
       case ArrayNode(elem) => ArrayNode(elem filter predicate)
       case _ => throw new
         IllegalArgumentException("element access of non-array node")
@@ -220,7 +220,7 @@ object DSL {
       *
       * @param predicate The predicate to filter by.
       */
-    def filter(predicate: ValueNode => Boolean): ArrayNode = node +/> predicate
+    def filter(predicate: ValueNode => Boolean): ArrayNode = node /> predicate
 	}
   
 	/** An implicit class that provides certain methods on `Option[ValueNode]`
