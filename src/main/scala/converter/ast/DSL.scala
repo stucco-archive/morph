@@ -1,5 +1,7 @@
 package converter.ast
 
+import scala.language.implicitConversions
+
 import scalaz._
 import Scalaz._
 
@@ -270,79 +272,61 @@ object DSL {
     def recget(key: String): ArrayNode = opt ->> key
 	}
 
-  /** ObjectNode constructor.
-    *
-    * Can be used to construct literal objects like `^("a" -> "b", ...)`
-    *
+  /** An implicit conversion from `Option[ValueNode]` to
+    * an `Either[...]` to help have a type safe `^` object constructor
+    * and `*` array constructor.
     */
-  val ^ = ObjectNode // object ObjectNode provides these
+  implicit def OptionValueNodeToEither(
+      opt: Option[ValueNode]): Either[Option[ValueNode], ValueNode] =
+    Left(opt)
+
+  /** An implicit conversion from `ValueNode` to
+    * an `Either[...]` to help have a type safe `^` object constructor
+    * and `*` array constructor.
+    */
+  implicit def ValueNodeToEither(
+      value: ValueNode): Either[Option[ValueNode], ValueNode] =
+    Right(value)
 
   /** ObjectNode with mixed `ValueNode` and `Option[ValueNode]` constructor.
     *
     * Can be used to construct literal objects like `^("a" -> "b", ...)`
     *
-    * This constructor provides very concise syntax and flexibility
-    * at the cost of compile-time type safety.
+    * This constructor provides very concise syntax and flexibility,
+    * and it is completely type safe.
     */
-  object ^^ {
+  object ^ {
 
-    def apply(members: (String, AnyRef)*) = {
-      val filtered = members filter {
-        case (k, opt: Option[_]) => {
-          if (opt.nonEmpty) {
-            if (opt.get.isInstanceOf[ValueNode]) true
-            else throw new IllegalArgumentException(
-              "objectnode constructor elements cannot be of kind " +
-                opt.get.getClass.getName)
-          } else false
-        }
-        case (k, value: ValueNode) => true
-        case x => throw new IllegalArgumentException(
-          "objectnode constructor elements cannot be of kind " +
-            x.getClass.getName)
+    def apply(members: (String, Either[Option[ValueNode], ValueNode])*) = {
+      val filtered = members withFilter {
+        case (k, Left(opt)) => opt.nonEmpty
+        case _ => true
       }
       val flattened = filtered map {
-        case (k, opt: Option[_]) => k -> opt.get.asInstanceOf[ValueNode]
-        case (k, value: ValueNode) => k -> value
+        case (k, Left(opt)) => k -> opt.get
+        case (k, Right(value)) => k -> value
       }
       ObjectNode(flattened: _*)
     }
   }
 
-  /** ArrayNode constructor.
-    *
-    * Can be used to construct literal arrays like `*("a", "b", ...)`
-    *
-    */
-  val * = ArrayNode // object ArrayNode provides these
-
   /** ArrayNode with mixed `ValueNode` and `Option[ValueNode]` constructor.
     *
     * Can be used to construct literal arrays like `*("a", "b", ...)`
     *
-    * This constructor provides very concise syntax and flexibility
-    * at the cost of compile-time type safety.
+    * This constructor provides very concise syntax and flexibility,
+    * and it is completely type safe.
     */
-  object ** {
+  object * {
 
-    def apply(elements: AnyRef*) = {
-      val filtered = elements filter {
-        case opt: Option[_] => {
-          if (opt.nonEmpty) {
-            if (opt.get.isInstanceOf[ValueNode]) true
-            else throw new IllegalArgumentException(
-              "objectnode constructor elements cannot be of kind " +
-                opt.get.getClass.getName)
-          } else false
-        }
-        case value: ValueNode => true
-        case x => throw new IllegalArgumentException(
-          "objectnode constructor elements cannot be of kind " +
-            x.getClass.getName)
+    def apply(elements: Either[Option[ValueNode], ValueNode]*) = {
+      val filtered = elements withFilter {
+        case Left(opt) => opt.nonEmpty
+        case _ => true
       }
       val flattened = filtered map {
-        case opt: Option[_] => opt.get.asInstanceOf[ValueNode]
-        case value: ValueNode => value
+        case Left(opt) => opt.get
+        case Right(value) => value
       }
       ArrayNode(flattened: _*)
     }
