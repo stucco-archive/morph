@@ -77,4 +77,28 @@ class DSLSuite extends FunSuite {
     }
     assert(matched === A("CreateNewDoc()", "OpenDoc()", "CloseDoc()"))
   }
+
+  test("filter nodes by predicate") {
+    val filtered = program -> "menu" -> "popup" -> "menuitem" filter {
+      _ -> "value" == S("New")
+    }
+    assert(filtered === A(O("value" -> "New", "onclick" -> "CreateNewDoc()")))
+  }
+
+  test("map function over array") {
+    val mapped = program -> "menu" -> "popup" -> "menuitem" map {
+      _ -> "value"
+    }
+    assert(mapped === A("New", "Open", "Close"))
+  }
+
+  test("object constructor") {
+    val obj = ^("a" -> Some(S("test")), "b" -> None, "c" -> TrueNode)
+    assert(obj === O("a" -> "test", "c" -> TrueNode))
+  }
+
+  test("array constructor") {
+    val arr = *(S("a"), Some(NullNode), None)
+    assert(arr === A("a", NullNode))
+  }
 }
