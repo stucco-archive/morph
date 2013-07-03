@@ -71,7 +71,7 @@ object DSL {
       *
       * @param index The index of the element to retrieve.
       */
-    def +> (index: Int): ValueNode = node match {
+    def -> (index: Int): ValueNode = node match {
       case ArrayNode(elem) => elem(index)
       case _ => throw new
         IllegalArgumentException("element access of non-array node")
@@ -84,7 +84,7 @@ object DSL {
       *
       * @param index The index of the element to retrieve.
       */
-    def get(index: Int): ValueNode = node +> index
+    def get(index: Int): ValueNode = node -> index
 
 		/** Returns the value corresponding to the specified key in an ObjectNode.
       *
@@ -155,72 +155,45 @@ object DSL {
 		  *
 		  * @return A list of all nodes that satisfy the predicate.
 		  */
-    def ?> (predicate: ValueNode => Boolean): ArrayNode = (node match {
+    def find (predicate: ValueNode => Boolean): ArrayNode = (node match {
 			case ObjectNode(fields) => {
 				val submap = fields.toList map {
-          case (k, v) => (v ?> predicate).elements
+          case (k, v) => (v find predicate).elements
 				}
 				val sub = submap.flatten
 				if (predicate(node)) node :: sub else sub
 			}
 			case ArrayNode(elem) => {
-        val submap = elem map { v => (v ?> predicate).elements }
+        val submap = elem map { v => (v find predicate).elements }
 				val sub = submap.flatten
 				if (predicate(node)) node :: sub else sub
 			}
 			case _ => if (predicate(node)) List(node) else Nil
 		}) |> { ArrayNode(_) }
 
-		/** Recursively finds all nodes that match a given predicate.
-		  *
-		  * @note This method is not tail recursive, so it is necessary to be
-		  * aware of potential stack overflow problems.
-
-		  * @param predicate The predicate.
-		  *
-		  * @return A list of all nodes that satisfy the predicate.
-		  */
-    def find(predicate: ValueNode => Boolean): ArrayNode = node ?> predicate
-
     /** Map a function onto an array node.
       *
       * @throws IllegalArgumentException If the node is not an ArrayNode.
       *
       * @param func The function to map onto the array.
       */
-    def >> (func: ValueNode => ValueNode): ArrayNode = node match {
+    def map (func: ValueNode => ValueNode): ArrayNode = node match {
       case ArrayNode(elem) => ArrayNode(elem map func)
       case _ => throw new
         IllegalArgumentException("element access of non-array node")
     }
 
-    /** Map a function onto an array node.
-      *
-      * @throws IllegalArgumentException If the node is not an ArrayNode.
-      *
-      * @param func The function to map onto the array.
-      */
-    def map(func: ValueNode => ValueNode): ArrayNode = node >> func
-
     /** Filter an array node by a predicate.
       *
       * @throws IllegalArgumentException If the node is not an ArrayNode.
       *
       * @param predicate The predicate to filter by.
       */
-    def /> (predicate: ValueNode => Boolean): ArrayNode = node match {
+    def filter (predicate: ValueNode => Boolean): ArrayNode = node match {
       case ArrayNode(elem) => ArrayNode(elem filter predicate)
       case _ => throw new
         IllegalArgumentException("element access of non-array node")
     }
-
-    /** Filter an array node by a predicate.
-      *
-      * @throws IllegalArgumentException If the node is not an ArrayNode.
-      *
-      * @param predicate The predicate to filter by.
-      */
-    def filter(predicate: ValueNode => Boolean): ArrayNode = node /> predicate
 	}
   
 	/** An implicit class that provides certain methods on `Option[ValueNode]`
