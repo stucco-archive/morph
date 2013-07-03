@@ -45,33 +45,33 @@ class DSLSuite extends FunSuite {
   """)
 
   test("search for key in object") {
-    assert(library \ "name" === S("Test Library"))
+    assert(library -> "name" === S("Test Library"))
 
-    assert(library \ "books" \ "one" === O("author" -> "nobody"))
+    assert(library -> "books" -> "one" === O("author" -> "nobody"))
   }
 
   test("safely search for key in object") {
-    assert(library \? "name" === Some(S("Test Library")))
+    assert(library ~> "name" === Some(S("Test Library")))
 
-    assert(library \? "books" \? "one" === Some(O("author" -> "nobody")))
+    assert(library ~> "books" ~> "one" === Some(O("author" -> "nobody")))
   }
 
   test("search for nonexistant key in object throws exception") {
     intercept[NoSuchElementException] {
-      library \ "bla"
+      library -> "bla"
     }
   }
 
   test("recursively search for key") {
-    assert(library \\ "author" === A("nobody", "somebody", "anybody"))
+    assert(library ->> "author" === A("nobody", "somebody", "anybody"))
 
-    assert(program \ "menu" \ "popup" \\ "value" === A("New", "Open", "Close"))
+    assert(program -> "menu" -> "popup" ->> "value" === A("New", "Open", "Close"))
 
-    assert(program \\ "value" === A("File", "New", "Open", "Close"))
+    assert(program ->> "value" === A("File", "New", "Open", "Close"))
   }
 
   test("find nodes by predicate") {
-    val matched = program find {
+    val matched = program -?> {
       case S(str) => str contains "()"
       case _ => false
     }
