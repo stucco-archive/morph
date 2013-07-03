@@ -14,12 +14,12 @@ import Scalaz._
   */
 object DSL {
 
-	/** An implicit class that provides the implementation of the DSL for
-	  * manipulating AST nodes.
+  /** An implicit class that provides the implementation of the DSL for
+    * manipulating AST nodes.
     *
     * @author Anish Athalye
-	  */
-	implicit class RichValueNode(node: ValueNode) {
+    */
+  implicit class RichValueNode(node: ValueNode) {
 
     /** Returns the fields of an ObjectNode.
       *
@@ -86,90 +86,90 @@ object DSL {
       */
     def get(index: Int): ValueNode = node -> index
 
-		/** Returns the value corresponding to the specified key in an ObjectNode.
+    /** Returns the value corresponding to the specified key in an ObjectNode.
       *
       * Safely searches an object for a key.
-		  *
-		  * @param key The key corresponding to the value to retrieve.
-		  *
-		  * @return The value wrapped in an Option[ValueNode].
-		  */
-		def ~> (key: String): Option[ValueNode] = node match {
-			case ObjectNode(fields) => fields get key
-			case _ => None
-		}
+      *
+      * @param key The key corresponding to the value to retrieve.
+      *
+      * @return The value wrapped in an Option[ValueNode].
+      */
+    def ~> (key: String): Option[ValueNode] = node match {
+      case ObjectNode(fields) => fields get key
+      case _ => None
+    }
 
-		/** Returns the value corresponding to the specified key in an ObjectNode.
+    /** Returns the value corresponding to the specified key in an ObjectNode.
       *
       * Safely searches an object for a key.
-		  *
-		  * @param key The key corresponding to the value to retrieve.
-		  *
-		  * @return The value wrapped in an Option[ValueNode].
-		  */
+      *
+      * @param key The key corresponding to the value to retrieve.
+      *
+      * @return The value wrapped in an Option[ValueNode].
+      */
     def optget(key: String): Option[ValueNode] = node ~> key
 
-		/** Recursively searches for a value corresponding to the specified key.
-		  *
-		  * @note This method is not tail recursive, so it is necessary to be
-		  * aware of potential stack overflow problems.
-		  *
-		  * @param key The key corresponding to the value to retrieve.
-		  *
-		  * @return A list of all matching nodes.
-		  */
+    /** Recursively searches for a value corresponding to the specified key.
+      *
+      * @note This method is not tail recursive, so it is necessary to be
+      * aware of potential stack overflow problems.
+      *
+      * @param key The key corresponding to the value to retrieve.
+      *
+      * @return A list of all matching nodes.
+      */
     def ->> (key: String): ArrayNode = (node match {
-			case ObjectNode(fields) => {
-				val sub = fields.toList map {
+      case ObjectNode(fields) => {
+        val sub = fields.toList map {
           case (k, v) => (v ->> key).elements
-				}
-				fields get key match {
-					case Some(value) => value :: sub.flatten
-					case None => sub.flatten
-				}
-			}
-			case ArrayNode(elem) => {
+        }
+        fields get key match {
+          case Some(value) => value :: sub.flatten
+          case None => sub.flatten
+        }
+      }
+      case ArrayNode(elem) => {
         val sub = elem map { _ ->> key } map { _.elements }
-				sub.flatten
-			}
-			case _ => Nil
-		}) |> { ArrayNode(_) }
+        sub.flatten
+      }
+      case _ => Nil
+    }) |> { ArrayNode(_) }
 
-		/** Recursively searches for a value corresponding to the specified key.
-		  *
-		  * @note This method is not tail recursive, so it is necessary to be
-		  * aware of potential stack overflow problems.
-		  *
-		  * @param key The key corresponding to the value to retrieve.
-		  *
-		  * @return A list of all matching nodes.
-		  */
+    /** Recursively searches for a value corresponding to the specified key.
+      *
+      * @note This method is not tail recursive, so it is necessary to be
+      * aware of potential stack overflow problems.
+      *
+      * @param key The key corresponding to the value to retrieve.
+      *
+      * @return A list of all matching nodes.
+      */
     def recget(key: String): ArrayNode = node ->> key
 
-		/** Recursively finds all nodes that match a given predicate.
-		  *
-		  * @note This method is not tail recursive, so it is necessary to be
-		  * aware of potential stack overflow problems.
+    /** Recursively finds all nodes that match a given predicate.
+      *
+      * @note This method is not tail recursive, so it is necessary to be
+      * aware of potential stack overflow problems.
 
-		  * @param predicate The predicate.
-		  *
-		  * @return A list of all nodes that satisfy the predicate.
-		  */
+      * @param predicate The predicate.
+      *
+      * @return A list of all nodes that satisfy the predicate.
+      */
     def find (predicate: ValueNode => Boolean): ArrayNode = (node match {
-			case ObjectNode(fields) => {
-				val submap = fields.toList map {
+      case ObjectNode(fields) => {
+        val submap = fields.toList map {
           case (k, v) => (v find predicate).elements
-				}
-				val sub = submap.flatten
-				if (predicate(node)) node :: sub else sub
-			}
-			case ArrayNode(elem) => {
+        }
+        val sub = submap.flatten
+        if (predicate(node)) node :: sub else sub
+      }
+      case ArrayNode(elem) => {
         val submap = elem map { v => (v find predicate).elements }
-				val sub = submap.flatten
-				if (predicate(node)) node :: sub else sub
-			}
-			case _ => if (predicate(node)) List(node) else Nil
-		}) |> { ArrayNode(_) }
+        val sub = submap.flatten
+        if (predicate(node)) node :: sub else sub
+      }
+      case _ => if (predicate(node)) List(node) else Nil
+    }) |> { ArrayNode(_) }
 
     /** Map a function onto an array node.
       *
@@ -194,56 +194,56 @@ object DSL {
       case _ => throw new
         IllegalArgumentException("element access of non-array node")
     }
-	}
+  }
   
-	/** An implicit class that provides certain methods on `Option[ValueNode]`
-	  * to allow chaining of those methods that return an `Option[ValueNode]`.
+  /** An implicit class that provides certain methods on `Option[ValueNode]`
+    * to allow chaining of those methods that return an `Option[ValueNode]`.
     *
     * @author Anish Athalye
-	  */
-	implicit class RichOptionValueNode(opt: Option[ValueNode]) {
+    */
+  implicit class RichOptionValueNode(opt: Option[ValueNode]) {
 
-		/** Returns the value corresponding to the specified key in an ObjectNode.
-		  *
-		  * @param key The key corresponding to the value to retrieve.
-		  *
-		  * @return The value wrapped in an Option[ValueNode].
-		  */
+    /** Returns the value corresponding to the specified key in an ObjectNode.
+      *
+      * @param key The key corresponding to the value to retrieve.
+      *
+      * @return The value wrapped in an Option[ValueNode].
+      */
     def ~> (key: String): Option[ValueNode] = opt flatMap { _ ~> key }
 
-		/** Returns the value corresponding to the specified key in an ObjectNode.
-		  *
-		  * @param key The key corresponding to the value to retrieve.
-		  *
-		  * @return The value wrapped in an Option[ValueNode].
-		  */
+    /** Returns the value corresponding to the specified key in an ObjectNode.
+      *
+      * @param key The key corresponding to the value to retrieve.
+      *
+      * @return The value wrapped in an Option[ValueNode].
+      */
     def optget(key: String): Option[ValueNode] = opt ~> key
 
-		/** Recursively searches for a value corresponding to the specified key.
-		  *
-		  * @note This method is not tail recursive, so it is necessary to be
-		  * aware of potential stack overflow problems.
-		  *
-		  * @param key The key corresponding to the value to retrieve.
-		  *
-		  * @return A list of all matching nodes.
-		  */
+    /** Recursively searches for a value corresponding to the specified key.
+      *
+      * @note This method is not tail recursive, so it is necessary to be
+      * aware of potential stack overflow problems.
+      *
+      * @param key The key corresponding to the value to retrieve.
+      *
+      * @return A list of all matching nodes.
+      */
     def ->> (key: String): ArrayNode = opt match {
       case Some(node) => node ->> key
-			case None => ArrayNode()
-		}
+      case None => ArrayNode()
+    }
 
-		/** Recursively searches for a value corresponding to the specified key.
-		  *
-		  * @note This method is not tail recursive, so it is necessary to be
-		  * aware of potential stack overflow problems.
-		  *
-		  * @param key The key corresponding to the value to retrieve.
-		  *
-		  * @return A list of all matching nodes.
-		  */
+    /** Recursively searches for a value corresponding to the specified key.
+      *
+      * @note This method is not tail recursive, so it is necessary to be
+      * aware of potential stack overflow problems.
+      *
+      * @param key The key corresponding to the value to retrieve.
+      *
+      * @return A list of all matching nodes.
+      */
     def recget(key: String): ArrayNode = opt ->> key
-	}
+  }
 
   /** An implicit conversion from `Option[ValueNode]` to
     * an `Either[...]` to help have a type safe `^` object constructor
