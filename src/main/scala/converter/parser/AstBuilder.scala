@@ -14,7 +14,7 @@ trait AstBuilder {
     *
     * @return The root of the generated AST.
     */
-  def apply(input: String): ValueNode = apply(input.toCharArray)
+  def apply(input: String): ValueNode
 
   /** The main parsing method.
     *

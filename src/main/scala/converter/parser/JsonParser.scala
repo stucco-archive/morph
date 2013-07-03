@@ -3,7 +3,6 @@ package converter.parser
 import converter.ast._
 
 import org.parboiled.scala._
-import org.parboiled.errors.{ErrorUtils, ParsingException}
 import org.parboiled.Context
 
 import java.lang.StringBuilder
@@ -18,7 +17,7 @@ import java.lang.StringBuilder
   */
 object JsonParser extends BaseParser with WhiteSpaceExpansion {
 
-  override def RootRule = Json
+  def RootRule = Json
 
   lazy val Json = rule { WhiteSpace ~ Value ~ EOI }
 

@@ -3,7 +3,6 @@ package converter.parser
 import converter.ast._
 
 import org.parboiled.scala._
-import org.parboiled.errors.{ErrorUtils, ParsingException}
 
 /** Implements a CSV parser that constructs an AST.
   *
@@ -15,7 +14,7 @@ import org.parboiled.errors.{ErrorUtils, ParsingException}
   */
 object CsvParser extends BaseParser {
 
-  override def RootRule = Csv
+  def RootRule = Csv
 
   lazy val Csv = rule { File ~ optional(CRLF) ~ EOI }
 

@@ -1,6 +1,6 @@
 import org.scalatest.FunSuite
 
-import converter.parser.CsvParser
+import converter.parser.{CsvParser, ParsingException}
 import converter.ast._
 import converter.ast.Implicits._
 
@@ -52,5 +52,11 @@ class CsvParserSuite extends FunSuite {
       A(">\"<", " formatting")
     )
     assert(C(csv) === ast)
+  }
+
+  test("invalid csv throws exception") {
+    intercept[ParsingException] {
+      C("\"unclosed quote")
+    }
   }
 }

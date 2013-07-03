@@ -1,6 +1,6 @@
 import org.scalatest.FunSuite
 
-import converter.parser.JsonParser
+import converter.parser.{JsonParser, ParsingException}
 import converter.ast._
 import converter.ast.Implicits._
 
@@ -46,5 +46,11 @@ class JsonParserSuite extends FunSuite {
       "object" -> O("key" -> S("value")))
 
     assert(J(json) === obj)
+  }
+
+  test("invalid json throws exception") {
+    intercept[ParsingException] {
+      J("{\"key\": string without quotes")
+    }
   }
 }

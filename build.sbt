@@ -15,6 +15,5 @@ libraryDependencies ++= Seq(
   "org.scalaz" %% "scalaz-core" % "7.0.0",
   "org.scalatest" %% "scalatest" % "1.9.1" % "test",
   "org.parboiled" %% "parboiled-scala" % "1.1.5",
-  "net.sf.json-lib" % "json-lib" % "2.4" classifier "jdk15",
-  "xom" % "xom" % "1.2.5" // needed for json-lib
+  "com.github.asilvestre" % "jxmltojson" % "0.10"
 )
