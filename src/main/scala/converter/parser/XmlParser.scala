@@ -2,10 +2,12 @@ package converter.parser
 
 import converter.ast._
 
-import com.github.asilvestre.jxmltojson.JsonConverter
-import com.github.asilvestre.jpurexml.XmlParseException
+import org.json.{XML, JSONException}
 
 /** Implements an XML parser that constructs an AST.
+  *
+  * This parser follows the guidelines available at
+  * www.xml.com/pub/a/2006/05/31/converting-between-xml-and-json.html
   *
   * Instead of implementing an XML parser from scratch, this
   * parser uses an already existing implementation of an XML
@@ -13,10 +15,9 @@ import com.github.asilvestre.jpurexml.XmlParseException
   * converter.parser.JsonParser to convert that to a native AST.
   *
   * XML attributes are prepended with an `@`, and content can be found
-  * in `#content`.
+  * in `#text`.
   *
-  * Arrays will be transformed to JSON arrays, and the name of the original
-  * array tag will have an `s` appended to it.
+  * Arrays will be transformed to JSON arrays.
   *
   * @author Anish Athalye
   */
@@ -30,10 +31,10 @@ object XmlParser extends AstBuilder {
     */
   def apply(input: String) = {
     try {
-      val json = JsonConverter convertXml input.mkString
-      JsonParser(json)
+      val json = XML toJSONObject input toString 0
+      JsonParser(json) // to get the XML in native AST form
     } catch {
-      case ex: XmlParseException => throw ParsingException(ex.getMessage)
+      case ex: JSONException => throw ParsingException(ex.getMessage)
     }
   }
 

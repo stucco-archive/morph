@@ -14,28 +14,32 @@ class XmlParserSuite extends FunSuite {
   val X = XmlParser
 
   test("parse single element empty xml") {
-    assert(X("<a></a>") === O("a" -> O()))
+    assert(X("<a></a>") === O("a" -> NullNode))
+  }
+
+  test("parse self closing xml tag") {
+    assert(X("<tag/>") === O("tag" -> NullNode))
   }
 
   test("parse nested xml") {
     val xml = "<a><b></b></a>"
-    assert(X(xml) === O("a" -> O("b" -> O())))
+    assert(X(xml) === O("a" -> O("b" -> NullNode)))
   }
 
   test("parse xml with attributes") {
     val xml = "<test attr='with array'></test>"
     assert(X(xml) === O("test" -> O("@attr" -> "with array")))
-}
+  }
 
   test("parse xml with content") {
     val xml = "<test>Content here</test>"
-    assert(X(xml) === O("test" -> O("#content" -> "Content here")))
+    assert(X(xml) === O("test" -> "Content here"))
   }
 
   test("parse xml array") {
     val xml = "<test><array num='1'/><array num='2'/></test>"
     assert(X(xml) ===
-      O("test" -> O("arrays" -> A(O("@num" -> "1"), O("@num" -> "2")))))
+      O("test" -> O("array" -> A(O("@num" -> N(1)), O("@num" -> N(2))))))
   }
 
   test("invalid xml throws exception") {
