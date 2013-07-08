@@ -48,7 +48,7 @@ object DSL {
       *
       * @param key The key corresponding to the value to retrieve.
       */
-    def -> (key: String): ValueNode = node match {
+    def get(key: String): ValueNode = node match {
       case ObjectNode(fields) => fields(key)
       case _ => throw new
         IllegalArgumentException("field access of non-object node")
@@ -61,7 +61,7 @@ object DSL {
       *
       * @param key The key corresponding to the value to retrieve.
       */
-    def get(key: String): ValueNode = node -> key
+    def -> (key: String): ValueNode = node get key
 
 
     /** Returns the element with the specified index in an ArrayNode.
@@ -71,7 +71,7 @@ object DSL {
       *
       * @param index The index of the element to retrieve.
       */
-    def -> (index: Int): ValueNode = node match {
+    def get(index: Int): ValueNode = node match {
       case ArrayNode(elem) => elem(index)
       case _ => throw new
         IllegalArgumentException("element access of non-array node")
@@ -84,7 +84,7 @@ object DSL {
       *
       * @param index The index of the element to retrieve.
       */
-    def get(index: Int): ValueNode = node -> index
+    def -> (index: Int): ValueNode = node get index
 
     /** Returns the value corresponding to the specified key in an ObjectNode.
       *
@@ -94,7 +94,7 @@ object DSL {
       *
       * @return The value wrapped in an Option[ValueNode].
       */
-    def ~> (key: String): Option[ValueNode] = node match {
+    def optGet(key: String): Option[ValueNode] = node match {
       case ObjectNode(fields) => fields get key
       case _ => None
     }
@@ -107,7 +107,7 @@ object DSL {
       *
       * @return The value wrapped in an Option[ValueNode].
       */
-    def optGet(key: String): Option[ValueNode] = node ~> key
+    def ~> (key: String): Option[ValueNode] = node optGet key
 
     /** Recursively searches for a value corresponding to the specified key.
       *
@@ -118,10 +118,10 @@ object DSL {
       *
       * @return A list of all matching nodes.
       */
-    def ->> (key: String): ArrayNode = (node match {
+    def recGet(key: String): ArrayNode = (node match {
       case ObjectNode(fields) => {
         val sub = fields.toList map {
-          case (k, v) => (v ->> key).elements
+          case (k, v) => (v recGet key).elements
         }
         fields get key match {
           case Some(value) => value :: sub.flatten
@@ -129,7 +129,7 @@ object DSL {
         }
       }
       case ArrayNode(elem) => {
-        val sub = elem map { _ ->> key } map { _.elements }
+        val sub = elem map { _ recGet key } map { _.elements }
         sub.flatten
       }
       case _ => Nil
@@ -144,7 +144,7 @@ object DSL {
       *
       * @return A list of all matching nodes.
       */
-    def recGet(key: String): ArrayNode = node ->> key
+    def ->> (key: String): ArrayNode = node recGet key
 
     /** Recursively finds all nodes that match a given predicate.
       *
@@ -203,13 +203,26 @@ object DSL {
       case other => func(other)
     }
 
+    /** Apply a function to an value node or map the function over the
+      * elements of an array node.
+      */
+    def |+> (func: ValueNode => ValueNode) = node applyOrMap func
+
     /** Apply a function to a node.
       */
-    def |> (func: ValueNode => ValueNode) = func(node)
+    def applyFunc(func: ValueNode => ValueNode) = func(node)
+
+    /** Apply a function to a node.
+      */
+    def |> (func: ValueNode => ValueNode) = node applyFunc func
 
     /** Apply a function that returns an `Option` to a node.
       */
-    def |>~ (func: ValueNode => Option[ValueNode]) = Option(func(node))
+    def applyFuncOpt(func: ValueNode => Option[ValueNode]) = Option(func(node))
+
+    /** Apply a function that returns an `Option` to a node.
+      */
+    def |>~ (func: ValueNode => Option[ValueNode]) = node applyFuncOpt func
 
     /** Returns true if the node is empty.
       */
@@ -239,7 +252,7 @@ object DSL {
       *
       * @return The value wrapped in an Option[ValueNode].
       */
-    def ~> (key: String): Option[ValueNode] = opt flatMap { _ ~> key }
+    def optGet (key: String): Option[ValueNode] = opt flatMap { _ ~> key }
 
     /** Returns the value corresponding to the specified key in an ObjectNode.
       *
@@ -247,7 +260,7 @@ object DSL {
       *
       * @return The value wrapped in an Option[ValueNode].
       */
-    def optGet(key: String): Option[ValueNode] = opt ~> key
+    def ~> (key: String): Option[ValueNode] = opt optGet key
 
     /** Recursively searches for a value corresponding to the specified key.
       *
@@ -258,8 +271,8 @@ object DSL {
       *
       * @return A list of all matching nodes.
       */
-    def ->> (key: String): ArrayNode = opt match {
-      case Some(node) => node ->> key
+    def recGet(key: String): ArrayNode = opt match {
+      case Some(node) => node recGet key
       case None => ArrayNode()
     }
 
@@ -272,7 +285,7 @@ object DSL {
       *
       * @return A list of all matching nodes.
       */
-    def recGet(key: String): ArrayNode = opt ->> key
+    def ->> (key: String): ArrayNode = opt recGet key
 
     /** Map a function onto an array node.
       *
@@ -291,17 +304,34 @@ object DSL {
       case other => func(other)
     }
 
+    /** Apply a function to an value node or map the function over the
+      * elements of an array node.
+      */
+    def |+> (func: ValueNode => ValueNode) = opt applyOrMap func
+
     /** Apply a function to a node.
       *
       * In this case, this method is just an alias for `map`.
       */
-    def |> (func: ValueNode => ValueNode) = opt map func
+    def applyFunc(func: ValueNode => ValueNode) = opt map func
+
+    /** Apply a function to a node.
+      *
+      * In this case, this method is just an alias for `map`.
+      */
+    def |> (func: ValueNode => ValueNode) = opt applyFunc func
 
     /** Apply a function that returns an `Option` to a node.
       *
       * In this case, this method is just an alias for `flatMap`.
       */
-    def |>~ (func: ValueNode => Option[ValueNode]) = opt flatMap func
+    def applyFuncOpt(func: ValueNode => Option[ValueNode]) = opt flatMap func
+
+    /** Apply a function that returns an `Option` to a node.
+      *
+      * In this case, this method is just an alias for `flatMap`.
+      */
+    def |>~ (func: ValueNode => Option[ValueNode]) = opt applyFuncOpt func
 
     /** Returns true if the node is empty.
       */
