@@ -107,7 +107,7 @@ object DSL {
       *
       * @return The value wrapped in an Option[ValueNode].
       */
-    def optget(key: String): Option[ValueNode] = node ~> key
+    def optGet(key: String): Option[ValueNode] = node ~> key
 
     /** Recursively searches for a value corresponding to the specified key.
       *
@@ -144,7 +144,7 @@ object DSL {
       *
       * @return A list of all matching nodes.
       */
-    def recget(key: String): ArrayNode = node ->> key
+    def recGet(key: String): ArrayNode = node ->> key
 
     /** Recursively finds all nodes that match a given predicate.
       *
@@ -155,7 +155,7 @@ object DSL {
       *
       * @return A list of all nodes that satisfy the predicate.
       */
-    def find (predicate: ValueNode => Boolean): ArrayNode = (node match {
+    def find(predicate: ValueNode => Boolean): ArrayNode = (node match {
       case ObjectNode(fields) => {
         val submap = fields.toList map {
           case (k, v) => (v find predicate).elements
@@ -177,7 +177,7 @@ object DSL {
       *
       * @param func The function to map onto the array.
       */
-    def map (func: ValueNode => ValueNode): ArrayNode = node match {
+    def map(func: ValueNode => ValueNode): ArrayNode = node match {
       case ArrayNode(elem) => ArrayNode(elem map func)
       case _ => throw new
         IllegalArgumentException("element access of non-array node")
@@ -189,11 +189,41 @@ object DSL {
       *
       * @param predicate The predicate to filter by.
       */
-    def filter (predicate: ValueNode => Boolean): ArrayNode = node match {
+    def filter(predicate: ValueNode => Boolean): ArrayNode = node match {
       case ArrayNode(elem) => ArrayNode(elem filter predicate)
       case _ => throw new
         IllegalArgumentException("element access of non-array node")
     }
+
+    /** Apply a function to an value node or map the function over the
+      * elements of an array node.
+      */
+    def applyOrMap(func: ValueNode => ValueNode) = node match {
+      case arr: ArrayNode => arr map func
+      case other => func(other)
+    }
+
+    /** Apply a function to a node.
+      */
+    def |> (func: ValueNode => ValueNode) = func(node)
+
+    /** Apply a function that returns an `Option` to a node.
+      */
+    def |>~ (func: ValueNode => Option[ValueNode]) = Option(func(node))
+
+    /** Returns true if the node is empty.
+      */
+    def isEmpty: Boolean = node match {
+      case ObjectNode(fields) => fields.isEmpty
+      case ArrayNode(elem) => elem.isEmpty
+      case StringNode(s) => s.isEmpty
+      case NullNode => true
+      case _ => false
+    }
+
+    /** Returns true if the node is nonempty.
+      */
+    def nonEmpty: Boolean = !isEmpty
   }
   
   /** An implicit class that provides certain methods on `Option[ValueNode]`
@@ -217,7 +247,7 @@ object DSL {
       *
       * @return The value wrapped in an Option[ValueNode].
       */
-    def optget(key: String): Option[ValueNode] = opt ~> key
+    def optGet(key: String): Option[ValueNode] = opt ~> key
 
     /** Recursively searches for a value corresponding to the specified key.
       *
@@ -242,7 +272,50 @@ object DSL {
       *
       * @return A list of all matching nodes.
       */
-    def recget(key: String): ArrayNode = opt ->> key
+    def recGet(key: String): ArrayNode = opt ->> key
+
+    /** Map a function onto an array node.
+      *
+      * @throws IllegalArgumentException If the node is not an ArrayNode.
+      *
+      * @param func The function to map onto the array.
+      */
+    def map(func: ValueNode => ValueNode): ArrayNode =
+      opt map { _ map func } getOrElse ArrayNode()
+
+    /** Apply a function to an value node or map the function over the
+      * elements of an array node.
+      */
+    def applyOrMap(func: ValueNode => ValueNode) = opt map {
+      case arr: ArrayNode => arr map func
+      case other => func(other)
+    }
+
+    /** Apply a function to a node.
+      *
+      * In this case, this method is just an alias for `map`.
+      */
+    def |> (func: ValueNode => ValueNode) = opt map func
+
+    /** Apply a function that returns an `Option` to a node.
+      *
+      * In this case, this method is just an alias for `flatMap`.
+      */
+    def |>~ (func: ValueNode => Option[ValueNode]) = opt flatMap func
+
+    /** Returns true if the node is empty.
+      */
+    def isEmpty: Boolean = opt map {
+      case ObjectNode(fields) => fields.isEmpty
+      case ArrayNode(elem) => elem.isEmpty
+      case StringNode(s) => s.isEmpty
+      case NullNode => true
+      case _ => false
+    } getOrElse true
+
+    /** Returns true if the node is nonempty.
+      */
+    def nonEmpty: Boolean = !isEmpty
   }
 
   /** An implicit conversion from `Option[ValueNode]` to
@@ -258,8 +331,16 @@ object DSL {
     * and `*` array constructor.
     */
   implicit def ValueNodeToEither(
-      value: ValueNode): Either[Option[ValueNode], ValueNode] =
-    Right(value)
+      node: ValueNode): Either[Option[ValueNode], ValueNode] =
+    Right(node)
+
+  /** An implicit conversion from `String` to
+    * an `Either[...]` to help have a type safe `^` object constructor
+    * and `*` array constructor.
+    */
+  implicit def StringToEither(
+      str: String): Either[Option[ValueNode], ValueNode] =
+    Right(StringNode(str))
 
   /** ObjectNode with mixed `ValueNode` and `Option[ValueNode]` constructor.
     *
