@@ -198,7 +198,7 @@ object DSL {
     /** Apply a function to an value node or map the function over the
       * elements of an array node.
       */
-    def applyOrMap(func: ValueNode => ValueNode) = node match {
+    def applyOrMap(func: ValueNode => ValueNode): ValueNode = node match {
       case arr: ArrayNode => arr map func
       case other => func(other)
     }
@@ -206,23 +206,23 @@ object DSL {
     /** Apply a function to an value node or map the function over the
       * elements of an array node.
       */
-    def |+> (func: ValueNode => ValueNode) = node applyOrMap func
+    def |+> (func: ValueNode => ValueNode): ValueNode = node applyOrMap func
 
     /** Apply a function to a node.
       */
-    def applyFunc(func: ValueNode => ValueNode) = func(node)
+    def applyFunc(func: ValueNode => ValueNode): ValueNode = func(node)
 
     /** Apply a function to a node.
       */
-    def |> (func: ValueNode => ValueNode) = node applyFunc func
+    def |> (func: ValueNode => ValueNode): ValueNode = node applyFunc func
 
     /** Apply a function that returns a node wrapped in `Option`.
       */
-    def applyFuncOpt(func: ValueNode => Option[ValueNode]) = Option(func(node))
+    def applyFuncOpt(func: ValueNode => Option[ValueNode]): Option[ValueNode] = func(node)
 
     /** Apply a function that returns a node wrapped in `Option`.
       */
-    def |>~ (func: ValueNode => Option[ValueNode]) = node applyFuncOpt func
+    def |>~ (func: ValueNode => Option[ValueNode]): Option[ValueNode] = node applyFuncOpt func
 
     /** Returns true if the node is empty.
       */
@@ -293,13 +293,13 @@ object DSL {
       *
       * @param func The function to map onto the array.
       */
-    def map(func: ValueNode => ValueNode): ArrayNode =
-      opt map { _ map func } getOrElse ArrayNode()
+    def map(func: ValueNode => ValueNode): Option[ArrayNode] =
+      opt map { _ map func }
 
     /** Apply a function to an value node or map the function over the
       * elements of an array node.
       */
-    def applyOrMap(func: ValueNode => ValueNode) = opt map {
+    def applyOrMap(func: ValueNode => ValueNode): Option[ValueNode] = opt map {
       case arr: ArrayNode => arr map func
       case other => func(other)
     }
@@ -307,31 +307,31 @@ object DSL {
     /** Apply a function to an value node or map the function over the
       * elements of an array node.
       */
-    def |+> (func: ValueNode => ValueNode) = opt applyOrMap func
+    def |+> (func: ValueNode => ValueNode): Option[ValueNode] = opt applyOrMap func
 
     /** Apply a function to a node.
       *
       * In this case, this method is just an alias for `map`.
       */
-    def applyFunc(func: ValueNode => ValueNode) = opt map func
+    def applyFunc(func: ValueNode => ValueNode): Option[ValueNode] = opt map func
 
     /** Apply a function to a node.
       *
       * In this case, this method is just an alias for `map`.
       */
-    def |> (func: ValueNode => ValueNode) = opt applyFunc func
+    def |> (func: ValueNode => ValueNode): Option[ValueNode] = opt applyFunc func
 
     /** Apply a function that returns a node wrapped in `Option`.
       *
       * In this case, this method is just an alias for `flatMap`.
       */
-    def applyFuncOpt(func: ValueNode => Option[ValueNode]) = opt flatMap func
+    def applyFuncOpt(func: ValueNode => Option[ValueNode]): Option[ValueNode] = opt flatMap func
 
     /** Apply a function that returns a node wrapped in `Option`.
       *
       * In this case, this method is just an alias for `flatMap`.
       */
-    def |>~ (func: ValueNode => Option[ValueNode]) = opt applyFuncOpt func
+    def |>~ (func: ValueNode => Option[ValueNode]): Option[ValueNode] = opt applyFuncOpt func
 
     /** Returns true if the node is empty.
       */
@@ -381,7 +381,7 @@ object DSL {
     */
   object ^ {
 
-    def apply(members: (String, Either[Option[ValueNode], ValueNode])*) = {
+    def apply(members: (String, Either[Option[ValueNode], ValueNode])*): ObjectNode = {
       val filtered = members withFilter {
         case (k, Left(opt)) => opt.nonEmpty
         case _ => true
@@ -403,7 +403,7 @@ object DSL {
     */
   object * {
 
-    def apply(elements: Either[Option[ValueNode], ValueNode]*) = {
+    def apply(elements: Either[Option[ValueNode], ValueNode]*): ArrayNode = {
       val filtered = elements withFilter {
         case Left(opt) => opt.nonEmpty
         case _ => true
