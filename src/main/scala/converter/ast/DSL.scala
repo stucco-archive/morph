@@ -216,11 +216,11 @@ object DSL {
       */
     def |> (func: ValueNode => ValueNode) = node applyFunc func
 
-    /** Apply a function that returns an `Option` to a node.
+    /** Apply a function that returns a node wrapped in `Option`.
       */
     def applyFuncOpt(func: ValueNode => Option[ValueNode]) = Option(func(node))
 
-    /** Apply a function that returns an `Option` to a node.
+    /** Apply a function that returns a node wrapped in `Option`.
       */
     def |>~ (func: ValueNode => Option[ValueNode]) = node applyFuncOpt func
 
@@ -321,13 +321,13 @@ object DSL {
       */
     def |> (func: ValueNode => ValueNode) = opt applyFunc func
 
-    /** Apply a function that returns an `Option` to a node.
+    /** Apply a function that returns a node wrapped in `Option`.
       *
       * In this case, this method is just an alias for `flatMap`.
       */
     def applyFuncOpt(func: ValueNode => Option[ValueNode]) = opt flatMap func
 
-    /** Apply a function that returns an `Option` to a node.
+    /** Apply a function that returns a node wrapped in `Option`.
       *
       * In this case, this method is just an alias for `flatMap`.
       */
