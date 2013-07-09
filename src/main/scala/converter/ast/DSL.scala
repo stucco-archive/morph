@@ -137,7 +137,7 @@ object DSL {
 
     /** Map a function over an array node.
       */
-    def |+> (func: VN => VN): Option[VN] = opt mapFunc func
+    def %+> (func: VN => VN): Option[VN] = opt mapFunc func
 
     /** Map a partial function over an array node.
       */
@@ -147,7 +147,7 @@ object DSL {
 
     /** Map a partial function over an array node.
       */
-    def |-> (func: PF[VN, VN]): Option[VN] = opt mapPartial func
+    def %-> (func: PF[VN, VN]): Option[VN] = opt mapPartial func
 
     /** Map a function that returns option over an array node.
       */
@@ -156,7 +156,7 @@ object DSL {
 
     /** Map a function that returns option over an array node.
       */
-    def |~> (func: VN => Option[VN]): Option[VN] = opt mapOptional func
+    def %~> (func: VN => Option[VN]): Option[VN] = opt mapOptional func
 
     /** Apply a function to an value node or map the function over the
       * elements of an array node.
@@ -177,7 +177,7 @@ object DSL {
       * and an array of elements, as long as the inner element type is not
       * an array.
       */
-    def ||+> (func: VN => VN): Option[VN] = opt applyOrMapFunc func
+    def %%+> (func: VN => VN): Option[VN] = opt applyOrMapFunc func
 
     /** Apply a partial function to an value node or map the function over the
       * elements of an array node.
@@ -198,7 +198,7 @@ object DSL {
       * and an array of elements, as long as the inner element type is not
       * an array.
       */
-    def ||-> (func: PF[VN, VN]): Option[VN] =
+    def %%-> (func: PF[VN, VN]): Option[VN] =
       opt applyOrMapPartial func
 
     /** Apply a function that returns option to an value node or map the
@@ -218,7 +218,7 @@ object DSL {
       * and an array of elements, as long as the inner element type is not
       * an array.
       */
-    def ||~> (func: VN => Option[VN]): Option[VN] = opt applyOrMapOptional func
+    def %%~> (func: VN => Option[VN]): Option[VN] = opt applyOrMapOptional func
 
     /** Returns true if the node is empty.
       */

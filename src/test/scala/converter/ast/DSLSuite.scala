@@ -69,7 +69,7 @@ class DSLSuite extends FunSuite {
   }
 
   test("map function over array") {
-    val mapped = program ~> "menu" ~> "popup" ~> "menuitem" |~> { x =>
+    val mapped = program ~> "menu" ~> "popup" ~> "menuitem" %~> { x =>
       x ~> "value"
     }
     assert(mapped === Some(A("New", "Open", "Close")))
@@ -91,7 +91,7 @@ class DSLSuite extends FunSuite {
   }
 
   test("apply a partial function that may be mapped to transform a node") {
-    val trans = A(1, 2, 3, "hello") |-> {
+    val trans = A(1, 2, 3, "hello") %-> {
       case NumberNode(n) => n * 2
     }
     assert(trans === Some(A(2, 4, 6)))
@@ -107,7 +107,7 @@ class DSLSuite extends FunSuite {
   }
 
   test("complex manipulation involving applyOrMap and Options") {
-    val trans = program ~> "menu" ~> "popup" ~> "menuitem" ||~> { x =>
+    val trans = program ~> "menu" ~> "popup" ~> "menuitem" %%~> { x =>
       ^("val" -> { x ~> "value" })
     }
     assert(trans === Some(A(O("val" -> S("New")), O("val" -> S("Open")),
