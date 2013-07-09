@@ -162,18 +162,18 @@ case object NullNode extends ValueNode {
   */
 object Implicits {
 
-  implicit def StringToStringNode(s: String): StringNode = StringNode(s)
+  implicit def String2StringNode(s: String): StringNode = StringNode(s)
 
-  implicit def StringStringToStringStringNode(
+  implicit def StringString2StringStringNode(
     ss: (String, String)): (String, StringNode) = (ss._1, StringNode(ss._2))
 
-  implicit def BooleanToBooleanNode(b: Boolean): BooleanNode = BooleanNode(b)
+  implicit def Boolean2BooleanNode(b: Boolean): BooleanNode = BooleanNode(b)
 
-  implicit def IntToNumberNode(n: Int): NumberNode = NumberNode(n)
+  implicit def Int2NumberNode(n: Int): NumberNode = NumberNode(n)
 
-  implicit def LongToNumberNode(n: Long): NumberNode = NumberNode(n)
+  implicit def Long2NumberNode(n: Long): NumberNode = NumberNode(n)
 
-  implicit def DoubleToNumberNode(n: Double): NumberNode = NumberNode(n)
+  implicit def Double2NumberNode(n: Double): NumberNode = NumberNode(n)
 
-  implicit def BigDecimalToNumberNode(n: BigDecimal): NumberNode = NumberNode(n)
+  implicit def BigDecimal2NumberNode(n: BigDecimal): NumberNode = NumberNode(n)
 }

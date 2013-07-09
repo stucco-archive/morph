@@ -41,7 +41,7 @@ object DSL {
   implicit def ValueNodeViewable2RichOptionValueNode[T <% VN](
       nodeViewable: T): RichOptionValueNode =
     RichOptionValueNode(nodeViewable)
-  
+
   /** An implicit class that provides the majority of the methods in the DSL.
     *
     * These methods operate on `Option`s because methods may or may not return
@@ -72,7 +72,8 @@ object DSL {
       */
     def ~> (key: String): Option[VN] = opt get key
 
-    /** Returns the element corresponding to the specified index in an array node.
+    /** Returns the element corresponding to the specified index in an array
+      * node.
       *
       * @note This method uses 1-based indexing.
       */
@@ -81,7 +82,8 @@ object DSL {
       case _ => None
     }
 
-    /** Returns the element corresponding to the specified index in an array node.
+    /** Returns the element corresponding to the specified index in an array
+      * node.
       *
       * @note This method uses 1-based indexing.
       */
@@ -129,66 +131,32 @@ object DSL {
 
     /** Map a function over an array node.
       */
-    def mapFunc(func: FuncVN2VN): Option[VN] = opt collect {
-      case ArrayNode(elem) => ArrayNode(elem map func.inner)
+    def mapFunc(func: VN => VN): Option[VN] = opt collect {
+      case ArrayNode(elem) => ArrayNode(elem map func)
     }
 
     /** Map a function over an array node.
       */
-    def |-> (func: FuncVN2VN): Option[VN] = opt mapFunc func
+    def |=> (func: VN => VN): Option[VN] = opt mapFunc func
 
     /** Map a partial function over an array node.
       */
-    def mapFunc(func: PFuncVN2VN): Option[VN] = opt collect {
-      case ArrayNode(elem) => ArrayNode(elem collect func.inner)
+    def mapPartial(func: PF[VN, VN]): Option[VN] = opt collect {
+      case ArrayNode(elem) => ArrayNode(elem collect func)
     }
 
     /** Map a partial function over an array node.
       */
-    def |-> (func: PFuncVN2VN): Option[VN] = opt mapFunc func
+    def |-> (func: PF[VN, VN]): Option[VN] = opt mapPartial func
 
-    /** Map a function returning a mapping over an object node.
+    /** Map a function that returns option over an array node.
       */
-    def mapFunc(func: FuncStringVN2StringVN): Option[VN] = opt collect {
-      case ObjectNode(fields) => ObjectNode(fields map func.inner)
-    }
+    def mapOptional(func: VN => Option[VN]): Option[VN] =
+      opt mapPartial Function.unlift(func)
 
-    /** Map a function returning a mapping over an object node.
+    /** Map a function that returns option over an array node.
       */
-    def |-> (func: FuncStringVN2StringVN): Option[VN] = opt mapFunc func
-
-    /** Map a function returning a single element over an object node.
-      */
-    def mapFunc(func: FuncStringVN2VN): Option[VN] = opt collect {
-      case ObjectNode(fields) => ArrayNode((fields map func.inner).toList)
-    }
-
-    /** Map a function returning a single element over an object node.
-      */
-    def |-> (func: FuncStringVN2VN): Option[VN] = opt mapFunc func
-
-    /** Map a partial function returning a mapping over an object node.
-      */
-    def mapFunc(func: PFuncStringVN2StringVN): Option[VN] = {
-      opt collect {
-        case ObjectNode(fields) => ObjectNode(fields collect func.inner)
-      }
-    }
-
-    /** Map a partial function returning a mapping over an object node.
-      */
-    def |-> (func: PFuncStringVN2StringVN): Option[VN] =
-      opt mapFunc func
-
-    /** Map a partial function returning a single element over an object node.
-      */
-    def mapFunc(func: PFuncStringVN2VN): Option[VN] = opt collect {
-      case ObjectNode(fields) => ArrayNode((fields collect func.inner).toList)
-    }
-
-    /** Map a partial function returning a single element over an object node.
-      */
-    def |-> (func: PFuncStringVN2VN): Option[VN] = opt mapFunc func
+    def |~> (func: VN => Option[VN]): Option[VN] = opt mapOptional func
 
     /** Apply a function to an value node or map the function over the
       * elements of an array node.
@@ -197,16 +165,10 @@ object DSL {
       * and an array of elements, as long as the inner element type is not
       * an array.
       */
-    def applyOrMapFunc(func: FuncVN2VN): Option[VN] = opt flatMap {
+    def applyOrMapFunc(func: VN => VN): Option[VN] = opt flatMap {
       case arr: ArrayNode => arr mapFunc func
-      case other => Option(func.inner(other))
+      case other => Option(func(other))
     }
-
-    /** Apply a function to an value node or map the function over the
-      * elements of an array node.
-      */
-    def |+> (func: FuncVN2VN): Option[VN] =
-      opt applyOrMapFunc func
 
     /** Apply a function to an value node or map the function over the
       * elements of an array node.
@@ -215,16 +177,48 @@ object DSL {
       * and an array of elements, as long as the inner element type is not
       * an array.
       */
-    def applyOrMapFunc(func: PFuncVN2VN): Option[VN] = opt flatMap {
-      case arr: ArrayNode => arr mapFunc func
-      case other => func.inner.lift(other)
+    def ||=> (func: VN => VN): Option[VN] = opt applyOrMapFunc func
+
+    /** Apply a partial function to an value node or map the function over the
+      * elements of an array node.
+      *
+      * This is useful for dealing with ambiguities between a single element
+      * and an array of elements, as long as the inner element type is not
+      * an array.
+      */
+    def applyOrMapPartial(func: PF[VN, VN]): Option[VN] = opt flatMap {
+      case arr: ArrayNode => arr mapPartial func
+      case other => func.lift(other)
     }
 
-    /** Apply a function to an value node or map the function over the
+    /** Apply a partial function to an value node or map the function over the
       * elements of an array node.
+      *
+      * This is useful for dealing with ambiguities between a single element
+      * and an array of elements, as long as the inner element type is not
+      * an array.
       */
-    def |+> (func: PFuncVN2VN): Option[VN] =
-      opt applyOrMapFunc func
+    def ||-> (func: PF[VN, VN]): Option[VN] =
+      opt applyOrMapPartial func
+
+    /** Apply a function that returns option to an value node or map the
+      * function over the elements of an array node.
+      *
+      * This is useful for dealing with ambiguities between a single element
+      * and an array of elements, as long as the inner element type is not
+      * an array.
+      */
+    def applyOrMapOptional(func: VN => Option[VN]): Option[VN] =
+      opt applyOrMapPartial Function.unlift(func)
+
+    /** Apply a function that returns option to an value node or map the
+      * function over the elements of an array node.
+      *
+      * This is useful for dealing with ambiguities between a single element
+      * and an array of elements, as long as the inner element type is not
+      * an array.
+      */
+    def ||~> (func: VN => Option[VN]): Option[VN] = opt applyOrMapOptional func
 
     /** Returns true if the node is empty.
       */
@@ -268,18 +262,4 @@ object DSL {
     def apply(elements: Option[VN]*): ArrayNode =
       ArrayNode(elements.flatten: _*)
   }
-
-  // these constructs are needed for RichOptionValueNode.applyFunc
-  // because of type erasure
-  implicit class FuncVN2VN(val inner: VN => VN)
-
-  implicit class FuncStringVN2StringVN(val inner: ((String, VN)) => (String, VN))
-
-  implicit class FuncStringVN2VN(val inner: ((String, VN)) => VN)
-
-  implicit class PFuncVN2VN(val inner: PF[VN, VN])
-
-  implicit class PFuncStringVN2StringVN(val inner: PF[(String, VN), (String, VN)])
-
-  implicit class PFuncStringVN2VN(val inner: PF[(String, VN), VN])
 }
