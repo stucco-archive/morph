@@ -137,7 +137,7 @@ object DSL {
 
     /** Map a function over an array node.
       */
-    def |=> (func: VN => VN): Option[VN] = opt mapFunc func
+    def |+> (func: VN => VN): Option[VN] = opt mapFunc func
 
     /** Map a partial function over an array node.
       */
@@ -177,7 +177,7 @@ object DSL {
       * and an array of elements, as long as the inner element type is not
       * an array.
       */
-    def ||=> (func: VN => VN): Option[VN] = opt applyOrMapFunc func
+    def ||+> (func: VN => VN): Option[VN] = opt applyOrMapFunc func
 
     /** Apply a partial function to an value node or map the function over the
       * elements of an array node.
