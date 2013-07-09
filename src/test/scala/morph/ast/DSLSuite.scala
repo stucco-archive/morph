@@ -1,10 +1,10 @@
 import org.scalatest.FunSuite
 
-import converter.ast._
-import converter.ast.Implicits._
-import converter.ast.DSL._
+import morph.ast._
+import morph.ast.Implicits._
+import morph.ast.DSL._
 
-import converter.parser.JsonParser
+import morph.parser.JsonParser
 
 class DSLSuite extends FunSuite {
 

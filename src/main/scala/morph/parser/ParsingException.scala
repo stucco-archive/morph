@@ -1,4 +1,4 @@
-package converter.parser
+package morph.parser
 
 /** An exception that parsers throw if they encounter an error while parsing.
   *

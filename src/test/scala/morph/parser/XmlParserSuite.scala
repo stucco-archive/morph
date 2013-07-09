@@ -1,8 +1,8 @@
 import org.scalatest.FunSuite
 
-import converter.parser.{XmlParser, ParsingException}
-import converter.ast._
-import converter.ast.Implicits._
+import morph.parser.{XmlParser, ParsingException}
+import morph.ast._
+import morph.ast.Implicits._
 
 class XmlParserSuite extends FunSuite {
 

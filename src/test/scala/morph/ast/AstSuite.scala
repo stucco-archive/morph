@@ -1,6 +1,6 @@
 import org.scalatest.FunSuite
 
-import converter.ast._
+import morph.ast._
 
 class AstSuite extends FunSuite {
 
@@ -33,7 +33,7 @@ class AstSuite extends FunSuite {
   }
 
   test("implicit string, boolean, and number conversion in array to json") {
-    import converter.ast.Implicits._
+    import morph.ast.Implicits._
 
     val json = ArrayNode(1, true, "test", 3.1415).toJson
     assert(json ===
@@ -46,7 +46,7 @@ class AstSuite extends FunSuite {
   }
 
   test("implicit (string, string) pair conversion in object to json") {
-    import converter.ast.Implicits._
+    import morph.ast.Implicits._
 
     val json = ObjectNode("key" -> "value").toJson
     assert(json ===
@@ -56,7 +56,7 @@ class AstSuite extends FunSuite {
   }
 
   test("nested objects / arrays") {
-    import converter.ast.Implicits._
+    import morph.ast.Implicits._
 
     val A = ArrayNode
     val O = ObjectNode

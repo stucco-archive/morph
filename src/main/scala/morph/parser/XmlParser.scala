@@ -1,6 +1,6 @@
-package converter.parser
+package morph.parser
 
-import converter.ast._
+import morph.ast._
 
 import org.json.{XML, JSONException}
 
@@ -12,7 +12,7 @@ import org.json.{XML, JSONException}
   * Instead of implementing an XML parser from scratch, this
   * parser uses an already existing implementation of an XML
   * parser to convert XML to JSON, and then uses the
-  * converter.parser.JsonParser to convert that to a native AST.
+  * morph.parser.JsonParser to convert that to a native AST.
   *
   * XML attributes are prepended with an `@`, and content can be found
   * in `#text`.

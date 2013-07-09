@@ -1,6 +1,6 @@
-package converter.ast
+package morph.ast
 
-import converter.ast.{ValueNode => VN}
+import morph.ast.{ValueNode => VN}
 
 import scala.language.implicitConversions
 import scala.{PartialFunction => PF}
@@ -11,7 +11,7 @@ import Scalaz._
 /** An implementation of a DSL for manipulating and searching an AST.
   *
   * To be able to use the DSL, it is necessary to import the inner nested
-  * classes by doing `import converter.ast.DSL._`.
+  * classes by doing `import morph.ast.DSL._`.
   *
   * @author Anish Athalye
   */

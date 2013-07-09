@@ -1,6 +1,6 @@
 import org.scalatest.FunSuite
 
-import converter.utils.Utils._
+import morph.utils.Utils._
 
 class UtilsSuite extends FunSuite {
 

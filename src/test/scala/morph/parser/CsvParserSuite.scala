@@ -1,8 +1,8 @@
 import org.scalatest.FunSuite
 
-import converter.parser.{CsvParser, ParsingException}
-import converter.ast._
-import converter.ast.Implicits._
+import morph.parser.{CsvParser, ParsingException}
+import morph.ast._
+import morph.ast.Implicits._
 
 class CsvParserSuite extends FunSuite {
 
