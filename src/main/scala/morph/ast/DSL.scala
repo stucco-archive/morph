@@ -205,6 +205,80 @@ object DSL {
     /** Returns true if the node is nonempty.
       */
     def nodeNonEmpty: Boolean = !nodeEmpty
+
+    // Unsafe operations
+
+    def asObjectNode: ObjectNode = opt map {
+      case obj: ObjectNode => obj
+      case _ => throw NodeExtractionException("node is not an ObjectNode")
+    } getOrElse {
+      throw NodeExtractionException("node is empty")
+    }
+
+    def asMap: Map[String, VN] = opt map {
+      case ObjectNode(fields) => fields
+      case _ => throw NodeExtractionException("node is not an ObjectNode")
+    } getOrElse {
+      throw NodeExtractionException("node is empty")
+    }
+
+    def asArrayNode: ArrayNode = opt map {
+      case arr: ArrayNode => arr
+      case _ => throw NodeExtractionException("node is not an ArrayNode")
+    } getOrElse {
+      throw NodeExtractionException("node is empty")
+    }
+
+    def asList: List[VN] = opt map {
+      case ArrayNode(elem) => elem
+      case _ => throw NodeExtractionException("node is not an ArrayNode")
+    } getOrElse {
+      throw NodeExtractionException("node is empty")
+    }
+
+    def asStringNode: StringNode = opt map {
+      case sn: StringNode => sn
+      case _ => throw NodeExtractionException("node is not a StringNode")
+    } getOrElse {
+      throw NodeExtractionException("node is empty")
+    }
+
+    def asString: String = opt map {
+      case StringNode(str) => str
+      case _ => throw NodeExtractionException("node is not a StringNode")
+    } getOrElse {
+      throw NodeExtractionException("node is empty")
+    }
+
+    def asNumberNode: NumberNode = opt map {
+      case nn: NumberNode => nn
+      case _ => throw NodeExtractionException("node is not a NumberNode")
+    } getOrElse {
+      throw NodeExtractionException("node is empty")
+    }
+
+    def asNumber: BigDecimal = opt map {
+      case nn: NumberNode => nn.value
+      case _ => throw NodeExtractionException("node is not a NumberNode")
+    } getOrElse {
+      throw NodeExtractionException("node is empty")
+    }
+
+    def asBigDecimal: BigDecimal = opt.asNumber
+
+    def asBooleanNode: BooleanNode = opt map {
+      case bn: BooleanNode => bn
+      case _ => throw NodeExtractionException("node is not a BooleanNode")
+    } getOrElse {
+      throw new NodeExtractionException("node is empty")
+    }
+
+    def asBoolean: Boolean = opt map {
+      case bn: BooleanNode => bn.value
+      case _ => throw NodeExtractionException("node is not a BooleanNode")
+    } getOrElse {
+      throw new NodeExtractionException("node is empty")
+    }
   }
 
   /** ObjectNode constructor from `(String, Option[ValueNode])*`.
@@ -234,4 +308,36 @@ object DSL {
     def apply(elements: Option[VN]*): ArrayNode =
       ArrayNode(elements.flatten: _*)
   }
+
+  /** Safely compute by catching `NodeExtractionException`
+    * and returning None if that exception occurs.
+    */
+  def Safely[T](x: => T): Option[T] = {
+    try {
+      Option(x)
+    } catch {
+      case e: NodeExtractionException => None
+    }
+  }
+
+  /** An exception that is thrown when illegally trying to convert a `ValueNode`
+    * to one of its subclasses.
+    *
+    * @author Anish Athalye
+    */
+  class NodeExtractionException(message: String = null, cause: Throwable = null)
+    extends RuntimeException(message, cause)
+
+  object NodeExtractionException {
+
+    def apply() = new NodeExtractionException(null, null)
+
+    def apply(msg: String) = new NodeExtractionException(msg, null)
+
+    def apply(msg: String, cause: Throwable) =
+      new NodeExtractionException(msg, cause)
+
+    def apply(cause: Throwable) = new NodeExtractionException(null, cause)
+  }
+
 }
