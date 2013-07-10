@@ -129,15 +129,15 @@ object DSL {
       */
     def ~>> (key: String): Option[ArrayNode] = opt recGet key
 
-    /** Map a function over an array node.
+    /** Map a function over an array node. The function can return either a
+      * `ValueNode` or an `Option[ValueNode]`.
       */
-    def mapFunc(func: VN => VN): Option[VN] = opt collect {
-      case ArrayNode(elem) => ArrayNode(elem map func)
-    }
+    def mapFunc(func: VN => Option[VN]): Option[VN] =
+      opt mapPartial Function.unlift(func)
 
-    /** Map a function over an array node.
+    /** Map a function that returns option over an array node.
       */
-    def %+> (func: VN => VN): Option[VN] = opt mapFunc func
+    def %-> (func: VN => Option[VN]): Option[VN] = opt mapFunc func
 
     /** Map a partial function over an array node.
       */
@@ -147,16 +147,7 @@ object DSL {
 
     /** Map a partial function over an array node.
       */
-    def %-> (func: PF[VN, VN]): Option[VN] = opt mapPartial func
-
-    /** Map a function that returns option over an array node.
-      */
-    def mapOptional(func: VN => Option[VN]): Option[VN] =
-      opt mapPartial Function.unlift(func)
-
-    /** Map a function that returns option over an array node.
-      */
-    def %~> (func: VN => Option[VN]): Option[VN] = opt mapOptional func
+    def %~> (func: PF[VN, VN]): Option[VN] = opt mapPartial func
 
     /** Apply a function to an value node or map the function over the
       * elements of an array node.
@@ -165,9 +156,9 @@ object DSL {
       * and an array of elements, as long as the inner element type is not
       * an array.
       */
-    def applyOrMapFunc(func: VN => VN): Option[VN] = opt flatMap {
+    def applyOrMapFunc(func: VN => Option[VN]): Option[VN] = opt flatMap {
       case arr: ArrayNode => arr mapFunc func
-      case other => Option(func(other))
+      case other => func(other)
     }
 
     /** Apply a function to an value node or map the function over the
@@ -177,7 +168,7 @@ object DSL {
       * and an array of elements, as long as the inner element type is not
       * an array.
       */
-    def %%+> (func: VN => VN): Option[VN] = opt applyOrMapFunc func
+    def %%-> (func: VN => Option[VN]): Option[VN] = opt applyOrMapFunc func
 
     /** Apply a partial function to an value node or map the function over the
       * elements of an array node.
@@ -198,27 +189,8 @@ object DSL {
       * and an array of elements, as long as the inner element type is not
       * an array.
       */
-    def %%-> (func: PF[VN, VN]): Option[VN] =
+    def %%~> (func: PF[VN, VN]): Option[VN] =
       opt applyOrMapPartial func
-
-    /** Apply a function that returns option to an value node or map the
-      * function over the elements of an array node.
-      *
-      * This is useful for dealing with ambiguities between a single element
-      * and an array of elements, as long as the inner element type is not
-      * an array.
-      */
-    def applyOrMapOptional(func: VN => Option[VN]): Option[VN] =
-      opt applyOrMapPartial Function.unlift(func)
-
-    /** Apply a function that returns option to an value node or map the
-      * function over the elements of an array node.
-      *
-      * This is useful for dealing with ambiguities between a single element
-      * and an array of elements, as long as the inner element type is not
-      * an array.
-      */
-    def %%~> (func: VN => Option[VN]): Option[VN] = opt applyOrMapOptional func
 
     /** Returns true if the node is empty.
       */
