@@ -258,7 +258,7 @@ object DSL {
     }
 
     def asNumber: BigDecimal = opt map {
-      case nn: NumberNode => nn.value
+      case NumberNode(value) => value
       case _ => throw NodeExtractionException("node is not a NumberNode")
     } getOrElse {
       throw NodeExtractionException("node is empty")
@@ -274,7 +274,7 @@ object DSL {
     }
 
     def asBoolean: Boolean = opt map {
-      case bn: BooleanNode => bn.value
+      case BooleanNode(value) => value
       case _ => throw NodeExtractionException("node is not a BooleanNode")
     } getOrElse {
       throw new NodeExtractionException("node is empty")
