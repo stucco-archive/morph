@@ -13,6 +13,8 @@ import Scalaz._
   * To be able to use the DSL, it is necessary to import the inner nested
   * classes by doing `import morph.ast.DSL._`.
   *
+  * It is also handy to `import morph.ast.Implicits._`.
+  *
   * @author Anish Athalye
   */
 object DSL {

@@ -12,11 +12,11 @@ object Utils {
     */
   implicit class StringUtils(str: String) {
 
-    /** Indent every line in a string by one space.
+    /** Indent every line in a string by two spaces.
       *
       * @return The indented string.
       */
-    def indent: String = indent(2)
+    def indent: String = str indent 2
 
     /** Indent every line in a string by a specified number of spaces.
       *
