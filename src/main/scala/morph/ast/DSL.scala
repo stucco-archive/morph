@@ -312,7 +312,7 @@ object DSL {
   /** Safely compute by catching `NodeExtractionException`
     * and returning None if that exception occurs.
     */
-  def Safely[T](x: => T): Option[T] = {
+  def Safely[T <% Option[VN]](x: => T): Option[T] = {
     try {
       Option(x)
     } catch {

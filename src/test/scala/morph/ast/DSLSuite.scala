@@ -75,6 +75,20 @@ class DSLSuite extends FunSuite {
     assert(mapped === Some(A("New", "Open", "Close")))
   }
 
+  test("map partial function over array") {
+    val mapped = program ~>> "value" %~> {
+      case StringNode(str) if str.length == 3 => str.reverse
+    }
+    assert(mapped === Some(A("weN")))
+  }
+
+  test("apply or map function and partial") {
+    val mapped = *(1, 2, 3) %%-> { _ %%~> {
+      case NumberNode(value) if value < 3 => value * 2
+    } }
+    assert(mapped === Some(A(2, 4)))
+  }
+
   test("object constructor") {
     val obj = ^("a" -> Some(S("test")), "b" -> None, "c" -> TrueNode)
     assert(obj === O("a" -> "test", "c" -> TrueNode))
@@ -91,7 +105,7 @@ class DSLSuite extends FunSuite {
   }
 
   test("apply a partial function that may be mapped to transform a node") {
-    val trans = A(1, 2, 3, "hello") %~> {
+    val trans = A(1, 2, 3, "hello") %%~> {
       case NumberNode(n) => n * 2
     }
     assert(trans === Some(A(2, 4, 6)))
@@ -112,5 +126,12 @@ class DSLSuite extends FunSuite {
     }
     assert(trans === Some(A(O("val" -> S("New")), O("val" -> S("Open")),
       O("val" -> S("Close")))))
+  }
+
+  test("safely block") {
+    val mapped = A(1, 2, "str") mapFunc { node => Safely {
+      node.asNumber * 2
+    } }
+    assert(mapped === Some(A(2, 4)))
   }
 }
