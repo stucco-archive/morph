@@ -111,6 +111,11 @@ class DSLSuite extends FunSuite {
     assert(trans === Some(A(2, 4, 6)))
   }
 
+  test("apply a filter") {
+    val filtered = A(1, 2, "hello", true) applyFilter { _.isNumber }
+    assert(filtered == Some(A(1, 2)))
+  }
+
   test("nodeEmpty and nodeNonEmpty functionality") {
     assert(O().nodeEmpty)
     assert(O("a" -> "test").nodeNonEmpty)

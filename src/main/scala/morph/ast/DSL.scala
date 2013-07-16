@@ -213,6 +213,13 @@ trait DSL {
       opt applyOrMapPartial func
 
     /**
+     * Filter an array node by a predicate.
+     */
+    def applyFilter(pred: VN => Boolean): Option[VN] = opt collect {
+      case ArrayNode(elem) => ArrayNode(elem filter pred)
+    }
+
+    /**
      * Returns true if the node is empty.
      */
     def nodeEmpty: Boolean = opt map {
@@ -230,6 +237,9 @@ trait DSL {
 
     // Unsafe operations
 
+    def isObject: Boolean = opt map {
+      _.isInstanceOf[ObjectNode] } getOrElse false
+
     def asObjectNode: ObjectNode = opt map {
       case obj: ObjectNode => obj
       case _ => throw NodeExtractionException("node is not an ObjectNode")
@@ -243,6 +253,9 @@ trait DSL {
     } getOrElse {
       throw NodeExtractionException("node is empty")
     }
+
+    def isArray: Boolean = opt map {
+      _.isInstanceOf[ArrayNode] } getOrElse false
 
     def asArrayNode: ArrayNode = opt map {
       case arr: ArrayNode => arr
@@ -258,6 +271,9 @@ trait DSL {
       throw NodeExtractionException("node is empty")
     }
 
+    def isString: Boolean = opt map {
+      _.isInstanceOf[StringNode] } getOrElse false
+
     def asStringNode: StringNode = opt map {
       case sn: StringNode => sn
       case _ => throw NodeExtractionException("node is not a StringNode")
@@ -271,6 +287,9 @@ trait DSL {
     } getOrElse {
       throw NodeExtractionException("node is empty")
     }
+
+    def isNumber: Boolean = opt map {
+      _.isInstanceOf[NumberNode] } getOrElse false
 
     def asNumberNode: NumberNode = opt map {
       case nn: NumberNode => nn
@@ -287,6 +306,9 @@ trait DSL {
     }
 
     def asBigDecimal: BigDecimal = opt.asNumber
+
+    def isBoolean: Boolean = opt map {
+      _.isInstanceOf[BooleanNode] } getOrElse false
 
     def asBooleanNode: BooleanNode = opt map {
       case bn: BooleanNode => bn
