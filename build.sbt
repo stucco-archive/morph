@@ -22,3 +22,11 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "1.9.1" % "test",
   "org.parboiled" %% "parboiled-scala" % "1.1.5"
 )
+
+initialCommands in console := """
+  |import morph.ast._
+  |import morph.ast.Implicits._
+  |import morph.ast.DSL._
+  |import morph.parser._
+  |import morph.parser.Interface._
+  """.stripMargin
