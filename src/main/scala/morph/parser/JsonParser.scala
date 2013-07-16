@@ -7,14 +7,15 @@ import org.parboiled.Context
 
 import java.lang.StringBuilder
 
-/** Implements a JSON parser that constructs an AST.
-  *
-  * It can parse JSON files that conform to the specification at
-  * www.json.org. This implimentation almost directly follows the
-  * grammar there.
-  *
-  * @author Anish Athalye
-  */
+/**
+ * Implements a JSON parser that constructs an AST.
+ *
+ * It can parse JSON files that conform to the specification at
+ * www.json.org. This implimentation almost directly follows the
+ * grammar there.
+ *
+ * @author Anish Athalye
+ */
 object JsonParser extends BaseParser with WhiteSpaceExpansion {
 
   def RootRule = Json

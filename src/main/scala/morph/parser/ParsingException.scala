@@ -1,9 +1,10 @@
 package morph.parser
 
-/** An exception that parsers throw if they encounter an error while parsing.
-  *
-  * @author Anish Athalye
-  */
+/**
+ * An exception that parsers throw if they encounter an error while parsing.
+ *
+ * @author Anish Athalye
+ */
 class ParsingException(message: String = null, cause: Throwable = null)
   extends RuntimeException(message, cause)
 

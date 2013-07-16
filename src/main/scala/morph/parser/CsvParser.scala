@@ -4,14 +4,15 @@ import morph.ast._
 
 import org.parboiled.scala._
 
-/** Implements a CSV parser that constructs an AST.
-  *
-  * It can parse CSV files that conform to the RFC 4180 spec.
-  * This parser was implemented almost directly from the ABNF grammar
-  * found in the RFC.
-  *
-  * @author Anish Athalye
-  */
+/**
+ * Implements a CSV parser that constructs an AST.
+ *
+ * It can parse CSV files that conform to the RFC 4180 spec.
+ * This parser was implemented almost directly from the ABNF grammar
+ * found in the RFC.
+ *
+ * @author Anish Athalye
+ */
 object CsvParser extends BaseParser {
 
   def RootRule = Csv
