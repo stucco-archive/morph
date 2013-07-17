@@ -29,4 +29,5 @@ initialCommands in console := """
   |import morph.ast.DSL._
   |import morph.parser._
   |import morph.parser.Interface._
+  |import morph.utils.Utils._
   """.stripMargin
