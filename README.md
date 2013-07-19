@@ -1,5 +1,7 @@
 morph
 =========
+[![Build Status](https://travis-ci.org/anishathalye/morph.png)](https://travis-ci.org/anishathalye/morph)
+
 A framework and domain-specific language (DSL) that helps parse and transform
 (*morph*!) structured documents. It currently supports several file formats
 including XML, JSON, and CSV, and custom formats are usable as well.
