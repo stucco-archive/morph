@@ -13,7 +13,7 @@ object MorphBuild extends Build {
   lazy val jsonjava = GitHub("anishathalye", "JSON-java", "morph")
 
   def GitHub(user: String, project: String, tag: String = null) =
-      RootProject(
-            uri("https://github.com/%s/%s.git#%s".format(user, project, tag))
-          )
+    RootProject(
+      uri("https://github.com/%s/%s.git#%s".format(user, project, tag))
+    )
 }
