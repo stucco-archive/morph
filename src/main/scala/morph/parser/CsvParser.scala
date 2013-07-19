@@ -9,7 +9,7 @@ import org.parboiled.scala._
  *
  * This parser can parse CSV files that conform to the RFC 4180 spec.
  * This parser was implemented almost directly from the ABNF grammar
- * found in the RFC. Note that input to this parser  must be valid 
+ * found in the RFC. Note that input to this parser  must be valid
  * according to the spec to be able to be correctly parsed.
  *
  * @author Anish Athalye
@@ -32,9 +32,9 @@ object CsvParser extends BaseParser {
 
   def Escaped = rule {
     DQUOTE ~
-    zeroOrMore(TEXTDATA | COMMA | CR | LF | DDQUOTE) ~>
+      zeroOrMore(TEXTDATA | COMMA | CR | LF | DDQUOTE) ~>
       { s => StringNode(unDDQUOTE(s)) } ~
-    DQUOTE
+      DQUOTE
   }
 
   def NonEscaped = rule {

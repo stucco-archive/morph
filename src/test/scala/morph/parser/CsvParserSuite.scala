@@ -1,6 +1,6 @@
 import org.scalatest.FunSuite
 
-import morph.parser.{CsvParser, ParsingException}
+import morph.parser.{ CsvParser, ParsingException }
 import morph.ast._
 import morph.ast.Implicits._
 
@@ -44,7 +44,7 @@ class CsvParserSuite extends FunSuite {
     val csv = """|this is,a test
                  |"csv",file
                  |with complex,"and ugly"
-                 |">""<", formatting""".stripMargin.replace("\n","\r\n")
+                 |">""<", formatting""".stripMargin.replace("\n", "\r\n")
     val ast = A(
       A("this is", "a test"),
       A("csv", "file"),

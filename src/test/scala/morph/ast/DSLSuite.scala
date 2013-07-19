@@ -83,9 +83,11 @@ class DSLSuite extends FunSuite {
   }
 
   test("apply or map function and partial") {
-    val mapped = *(1, 2, 3) %%-> { _ %%~> {
-      case NumberNode(value) if value < 3 => value * 2
-    } }
+    val mapped = *(1, 2, 3) %%-> {
+      _ %%~> {
+        case NumberNode(value) if value < 3 => value * 2
+      }
+    }
     assert(mapped === Some(A(2, 4)))
   }
 
@@ -134,9 +136,11 @@ class DSLSuite extends FunSuite {
   }
 
   test("safely block") {
-    val mapped = A(1, 2, "str") mapFunc { node => Safely {
-      node.asNumber * 2
-    } }
+    val mapped = A(1, 2, "str") mapFunc { node =>
+      Safely {
+        node.asNumber * 2
+      }
+    }
     assert(mapped === Some(A(2, 4)))
   }
 }

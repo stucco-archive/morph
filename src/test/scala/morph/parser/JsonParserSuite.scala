@@ -1,6 +1,6 @@
 import org.scalatest.FunSuite
 
-import morph.parser.{JsonParser, ParsingException}
+import morph.parser.{ JsonParser, ParsingException }
 import morph.ast._
 import morph.ast.Implicits._
 

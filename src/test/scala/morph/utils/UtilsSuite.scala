@@ -12,9 +12,9 @@ class UtilsSuite extends FunSuite {
     assert(
       """|this is
          |a test""".stripMargin.indent
-         ===
-      """|  this is
-         |  a test""".stripMargin)
+        ===
+        "  this is\n  a test"
+    )
   }
 
   test("indent single line string by specified amount") {
@@ -25,17 +25,18 @@ class UtilsSuite extends FunSuite {
     assert(
       """|this is
          |a test""".stripMargin.indent(4)
-         ===
-      """|    this is
-         |    a test""".stripMargin)
+        ===
+        "    this is\n    a test"
+    )
   }
 
   test("escape a string with a newline") {
     assert(
       """|one
          |two""".stripMargin.escaped
-      ===
-      "one\\ntwo")
+        ===
+        "one\\ntwo"
+    )
   }
 
   test("escape a string with various escape sequences") {

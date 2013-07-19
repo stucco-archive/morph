@@ -38,7 +38,10 @@ trait WhiteSpaceExpansion {
    * after the string.
    */
   override implicit def toRule(string: String) = {
-    if (string.endsWith(" ")) str(string.trim) ~ WhiteSpace
-    else str(string)
+    if (string.endsWith(" ")) {
+      str(string.trim) ~ WhiteSpace
+    } else {
+      str(string)
+    }
   }
 }

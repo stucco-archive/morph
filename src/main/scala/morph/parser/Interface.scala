@@ -29,7 +29,7 @@ object Interface {
      * Parse a string.
      *
      * @param str The string to parse.
-     * 
+     *
      * @return A Parsable instance that can be parsed using an AstBuilder.
      */
     def string(str: String): Parsable = new Parsable(str)
@@ -40,7 +40,7 @@ object Interface {
      * @param path The path of the file to parse.
      *
      * @throws FileNotFoundException If the file cannot be accessed.
-     * 
+     *
      * @return A Parsable instance that can be parsed using an AstBuilder.
      */
     def file(path: String): Parsable = {
@@ -58,7 +58,7 @@ object Interface {
 
     /**
      * Parse data using a specific parser.
-     * 
+     *
      * @param parser The parser to use.
      *
      * @throws ParsingException If an error occurs during parsing.

@@ -30,17 +30,20 @@ object JsonParser extends BaseParser with WhiteSpaceExpansion {
 
   def Value: Rule1[ValueNode] = rule {
     JsonString | JsonNumber | JsonObject | JsonArray |
-    JsonTrue | JsonFalse | JsonNull
+      JsonTrue | JsonFalse | JsonNull
   }
 
   def JsonString = rule { JsonStringUnwrapped ~~> { StringNode(_) } }
 
-  def JsonStringUnwrapped = rule { "\"" ~ Characters ~ "\" " ~~> { _.toString } }
+  def JsonStringUnwrapped = rule {
+    "\"" ~ Characters ~ "\" " ~~> { _.toString }
+  }
 
   def JsonNumber = rule {
-    group(Integer ~ optional(Frac) ~ optional(Exp)) ~> { NumberNode(_) } ~ WhiteSpace
+    group(Integer ~ optional(Frac) ~ optional(Exp)) ~>
+      { NumberNode(_) } ~ WhiteSpace
   }
-  
+
   def JsonArray = rule {
     "[ " ~ zeroOrMore(Value, separator = ", ") ~ "] " ~~> { ArrayNode(_) }
   }
@@ -51,19 +54,23 @@ object JsonParser extends BaseParser with WhiteSpaceExpansion {
 
   def EscapedChar = rule {
     anyOf("\"\\/") ~:% withContext(appendToSb(_)(_)) |
-    "b" ~ appendToSb('\b') |
-    "f" ~ appendToSb('\f') |
-    "n" ~ appendToSb('\n') |
-    "r" ~ appendToSb('\r') |
-    "t" ~ appendToSb('\t') |
-    Unicode ~~% { withContext((code, ctx) => appendToSb(code.asInstanceOf[Char])(ctx)) }
+      "b" ~ appendToSb('\b') |
+      "f" ~ appendToSb('\f') |
+      "n" ~ appendToSb('\n') |
+      "r" ~ appendToSb('\r') |
+      "t" ~ appendToSb('\t') |
+      Unicode ~~% {
+        withContext((code, ctx) => appendToSb(code.asInstanceOf[Char])(ctx))
+      }
   }
 
-  def NormalChar = rule { !anyOf("\"\\") ~ ANY ~:% { withContext(appendToSb(_)(_)) } }
+  def NormalChar = rule {
+    !anyOf("\"\\") ~ ANY ~:% { withContext(appendToSb(_)(_)) }
+  }
 
   def Unicode = rule {
     "u" ~ group(HexDigit ~ HexDigit ~ HexDigit ~ HexDigit) ~>
-    { java.lang.Integer.parseInt(_, 16) }
+      { java.lang.Integer.parseInt(_, 16) }
   }
 
   def Integer = rule { optional("-") ~ (("1" - "9") ~ Digits | Digit) }

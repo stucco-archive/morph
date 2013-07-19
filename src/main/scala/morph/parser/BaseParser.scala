@@ -37,7 +37,7 @@ abstract class BaseParser extends Parser with AstBuilder {
    * @return The root of the generated AST.
    */
   def apply(input: String): ValueNode = apply(input.toCharArray)
-  
+
   /**
    * The main parsing method.
    *

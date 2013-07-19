@@ -67,8 +67,8 @@ object Utils {
       case '\r' => "\\r"
       case '\t' => "\\t"
       case '\\' => "\\\\"
-      case '"' => "\\\""
-      case c => c.toString
+      case '"'  => "\\\""
+      case c    => c.toString
     }
   }
 }

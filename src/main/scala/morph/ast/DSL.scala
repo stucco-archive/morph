@@ -1,9 +1,9 @@
 package morph.ast
 
-import morph.ast.{ValueNode => VN}
+import morph.ast.{ ValueNode => VN }
 
 import scala.language.implicitConversions
-import scala.{PartialFunction => PF}
+import scala.{ PartialFunction => PF }
 
 /**
  * A DSL for manipulating and transforming an AST.
@@ -17,8 +17,7 @@ trait DSL {
    * `Option[ValueNode]`.
    */
   implicit def ValueNodeViewable2OptionValueNode[T <% VN](
-      nodeViewable: T): Option[VN] =
-    Option(nodeViewable)
+    nodeViewable: T): Option[VN] = Option(nodeViewable)
 
   /**
    * An implicit conversion from any type that can be viewed as a `ValueNode`
@@ -36,8 +35,7 @@ trait DSL {
    * `ValueNode` solves this problem.
    */
   implicit def ValueNodeViewable2RichOptionValueNode[T <% VN](
-      nodeViewable: T): RichOptionValueNode =
-    RichOptionValueNode(nodeViewable)
+    nodeViewable: T): RichOptionValueNode = RichOptionValueNode(nodeViewable)
 
   /**
    * The implicit class that provides the majority of the methods in the DSL.
@@ -65,7 +63,7 @@ trait DSL {
      */
     def get(key: String): Option[VN] = opt flatMap {
       case ObjectNode(fields) => fields get key
-      case _ => None
+      case _                  => None
     }
 
     /**
@@ -82,7 +80,7 @@ trait DSL {
      *
      * @return The value.
      */
-    def ~> (key: String): Option[VN] = opt get key
+    def ~>(key: String): Option[VN] = opt get key
 
     /**
      * Returns the element corresponding to the specified index in an array
@@ -103,7 +101,7 @@ trait DSL {
      */
     def get(index: Int): Option[VN] = opt flatMap {
       case ArrayNode(elem) => elem lift (index - 1)
-      case _ => None
+      case _               => None
     }
 
     /**
@@ -123,7 +121,7 @@ trait DSL {
      *
      * @return The element.
      */
-    def ~> (index: Int): Option[VN] = opt get index
+    def ~>(index: Int): Option[VN] = opt get index
 
     /**
      * Recursively searches for a value corresponding to the specified key.
@@ -157,7 +155,7 @@ trait DSL {
           }
           fields get key match {
             case Some(value) => value :: sub.flatten
-            case None => sub.flatten
+            case None        => sub.flatten
           }
         }
         case ArrayNode(elem) => {
@@ -193,7 +191,7 @@ trait DSL {
      *
      * @return A list of all matching nodes.
      */
-    def ~>> (key: String): Option[ArrayNode] = opt recGet key
+    def ~>>(key: String): Option[ArrayNode] = opt recGet key
 
     /**
      * Maps a function over an array node.
@@ -203,7 +201,7 @@ trait DSL {
      * converted to an `Option[ValueNode]`.
      *
      * @param func The function to map.
-     * 
+     *
      * @return An array with the function applied to each element.
      */
     def mapFunc(func: VN => Option[VN]): Option[VN] =
@@ -217,10 +215,10 @@ trait DSL {
      * converted to an `Option[ValueNode]`.
      *
      * @param func The function to map.
-     * 
+     *
      * @return An array with the function applied to each element.
      */
-    def %-> (func: VN => Option[VN]): Option[VN] = opt mapFunc func
+    def %->(func: VN => Option[VN]): Option[VN] = opt mapFunc func
 
     /**
      * Maps a partial function over an array node.
@@ -242,7 +240,7 @@ trait DSL {
      * @return An array with the function applied (where applicable)
      * to each element.
      */
-    def %~> (func: PF[VN, VN]): Option[VN] = opt mapPartial func
+    def %~>(func: PF[VN, VN]): Option[VN] = opt mapPartial func
 
     /**
      * Applies a function to an value node or map the function over the
@@ -261,7 +259,7 @@ trait DSL {
      */
     def applyOrMapFunc(func: VN => Option[VN]): Option[VN] = opt flatMap {
       case arr: ArrayNode => arr mapFunc func
-      case other => func(other)
+      case other          => func(other)
     }
 
     /**
@@ -279,7 +277,7 @@ trait DSL {
      * @return Either an object with the function applied or an array
      * with the function applied to each element.
      */
-    def %%-> (func: VN => Option[VN]): Option[VN] = opt applyOrMapFunc func
+    def %%->(func: VN => Option[VN]): Option[VN] = opt applyOrMapFunc func
 
     /**
      * Applies a partial function to an value node or map the partial
@@ -298,7 +296,7 @@ trait DSL {
      */
     def applyOrMapPartial(func: PF[VN, VN]): Option[VN] = opt flatMap {
       case arr: ArrayNode => arr mapPartial func
-      case other => func.lift(other)
+      case other          => func.lift(other)
     }
 
     /**
@@ -316,7 +314,7 @@ trait DSL {
      * @return Either an object with the function applied (if applicable)
      * or an array with the function (where applicable) applied to each element.
      */
-    def %%~> (func: PF[VN, VN]): Option[VN] =
+    def %%~>(func: PF[VN, VN]): Option[VN] =
       opt applyOrMapPartial func
 
     /**
@@ -358,10 +356,10 @@ trait DSL {
      */
     def nodeEmpty: Boolean = opt map {
       case ObjectNode(fields) => fields.isEmpty
-      case ArrayNode(elem) => elem.isEmpty
-      case StringNode(s) => s.isEmpty
-      case NullNode => true
-      case _ => false
+      case ArrayNode(elem)    => elem.isEmpty
+      case StringNode(s)      => s.isEmpty
+      case NullNode           => true
+      case _                  => false
     } getOrElse true
 
     /**
@@ -385,7 +383,8 @@ trait DSL {
      * @return `true` if the node is an `ObjectNode`.
      */
     def isObject: Boolean = opt map {
-      _.isInstanceOf[ObjectNode] } getOrElse false
+      _.isInstanceOf[ObjectNode]
+    } getOrElse false
 
     /**
      * Converts the node to an `ObjectNode`.
@@ -397,7 +396,9 @@ trait DSL {
      */
     def asObjectNode: ObjectNode = opt map {
       case obj: ObjectNode => obj
-      case _ => throw NodeExtractionException("node is not an ObjectNode")
+      case _ => throw NodeExtractionException(
+        "node is not an ObjectNode"
+      )
     } getOrElse {
       throw NodeExtractionException("node is empty")
     }
@@ -412,7 +413,9 @@ trait DSL {
      */
     def asMap: Map[String, VN] = opt map {
       case ObjectNode(fields) => fields
-      case _ => throw NodeExtractionException("node is not an ObjectNode")
+      case _ => throw NodeExtractionException(
+        "node is not an ObjectNode"
+      )
     } getOrElse {
       throw NodeExtractionException("node is empty")
     }
@@ -423,7 +426,8 @@ trait DSL {
      * @return `true` if the node is an `ObjectNode`.
      */
     def isArray: Boolean = opt map {
-      _.isInstanceOf[ArrayNode] } getOrElse false
+      _.isInstanceOf[ArrayNode]
+    } getOrElse false
 
     /**
      * Converts the node to an `ArrayNode`.
@@ -435,7 +439,9 @@ trait DSL {
      */
     def asArrayNode: ArrayNode = opt map {
       case arr: ArrayNode => arr
-      case _ => throw NodeExtractionException("node is not an ArrayNode")
+      case _ => throw NodeExtractionException(
+        "node is not an ArrayNode"
+      )
     } getOrElse {
       throw NodeExtractionException("node is empty")
     }
@@ -450,7 +456,9 @@ trait DSL {
      */
     def asList: List[VN] = opt map {
       case ArrayNode(elem) => elem
-      case _ => throw NodeExtractionException("node is not an ArrayNode")
+      case _ => throw NodeExtractionException(
+        "node is not an ArrayNode"
+      )
     } getOrElse {
       throw NodeExtractionException("node is empty")
     }
@@ -461,7 +469,8 @@ trait DSL {
      * @return `true` if the node is a `StringNode`.
      */
     def isString: Boolean = opt map {
-      _.isInstanceOf[StringNode] } getOrElse false
+      _.isInstanceOf[StringNode]
+    } getOrElse false
 
     /**
      * Converts the node to a `StringNode`.
@@ -473,7 +482,9 @@ trait DSL {
      */
     def asStringNode: StringNode = opt map {
       case sn: StringNode => sn
-      case _ => throw NodeExtractionException("node is not a StringNode")
+      case _ => throw NodeExtractionException(
+        "node is not a StringNode"
+      )
     } getOrElse {
       throw NodeExtractionException("node is empty")
     }
@@ -488,7 +499,9 @@ trait DSL {
      */
     def asString: String = opt map {
       case StringNode(str) => str
-      case _ => throw NodeExtractionException("node is not a StringNode")
+      case _ => throw NodeExtractionException(
+        "node is not a StringNode"
+      )
     } getOrElse {
       throw NodeExtractionException("node is empty")
     }
@@ -499,7 +512,8 @@ trait DSL {
      * @return `true` if the node is a `NumberNode`.
      */
     def isNumber: Boolean = opt map {
-      _.isInstanceOf[NumberNode] } getOrElse false
+      _.isInstanceOf[NumberNode]
+    } getOrElse false
 
     /**
      * Converts the node to a `NumberNode`.
@@ -511,7 +525,9 @@ trait DSL {
      */
     def asNumberNode: NumberNode = opt map {
       case nn: NumberNode => nn
-      case _ => throw NodeExtractionException("node is not a NumberNode")
+      case _ => throw NodeExtractionException(
+        "node is not a NumberNode"
+      )
     } getOrElse {
       throw NodeExtractionException("node is empty")
     }
@@ -526,7 +542,9 @@ trait DSL {
      */
     def asNumber: BigDecimal = opt map {
       case NumberNode(value) => value
-      case _ => throw NodeExtractionException("node is not a NumberNode")
+      case _ => throw NodeExtractionException(
+        "node is not a NumberNode"
+      )
     } getOrElse {
       throw NodeExtractionException("node is empty")
     }
@@ -547,7 +565,8 @@ trait DSL {
      * @return `true` if the node is a `BooleanNode`.
      */
     def isBoolean: Boolean = opt map {
-      _.isInstanceOf[BooleanNode] } getOrElse false
+      _.isInstanceOf[BooleanNode]
+    } getOrElse false
 
     /**
      * Converts the node to a `BooleanNode`.
@@ -559,7 +578,9 @@ trait DSL {
      */
     def asBooleanNode: BooleanNode = opt map {
       case bn: BooleanNode => bn
-      case _ => throw NodeExtractionException("node is not a BooleanNode")
+      case _ => throw NodeExtractionException(
+        "node is not a BooleanNode"
+      )
     } getOrElse {
       throw new NodeExtractionException("node is empty")
     }
@@ -574,7 +595,9 @@ trait DSL {
      */
     def asBoolean: Boolean = opt map {
       case BooleanNode(value) => value
-      case _ => throw NodeExtractionException("node is not a BooleanNode")
+      case _ => throw NodeExtractionException(
+        "node is not a BooleanNode"
+      )
     } getOrElse {
       throw new NodeExtractionException("node is empty")
     }
@@ -704,14 +727,16 @@ trait DSL {
   /**
    * An exception that is thrown when there is an error extracting a node.
    *
-   * This may occur when attempting to get a `ValueNode` from an 
+   * This may occur when attempting to get a `ValueNode` from an
    * `Option[ValueNode]` when it is empty.
    *
    * This may also occur when illegally converting a `ValueNode` to one
    * of its subtypes.
    */
-  class NodeExtractionException(message: String = null, cause: Throwable = null)
-  extends RuntimeException(message, cause)
+  class NodeExtractionException(
+    message: String = null,
+    cause: Throwable = null)
+      extends RuntimeException(message, cause)
 
   object NodeExtractionException {
 

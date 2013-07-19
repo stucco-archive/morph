@@ -2,7 +2,7 @@ package morph.parser
 
 import morph.ast._
 
-import org.json.{XML, JSONException}
+import org.json.{ XML, JSONException }
 
 /**
  * An XML parser that constructs an AST.

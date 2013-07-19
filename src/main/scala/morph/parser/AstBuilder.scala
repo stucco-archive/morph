@@ -11,7 +11,7 @@ import morph.ast._
  * @author Anish Athalye
  */
 trait AstBuilder {
-  
+
   /**
    * The main parsing method.
    *

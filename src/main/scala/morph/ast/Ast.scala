@@ -18,10 +18,16 @@ sealed abstract class ValueNode
  * @author Anish Athalye
  */
 case class ObjectNode(fields: Map[String, ValueNode]) extends ValueNode {
-  
+
   override def toString = {
-    val mapStr = fields map { case (k, v) => "\"" + k + "\": " + v } mkString ",\n"
-    if (fields.isEmpty) "{}" else "{\n" + mapStr.indent + "\n}"
+    val mapStr = fields map {
+      case (k, v) => "\"" + k + "\": " + v
+    } mkString ",\n"
+    if (fields.isEmpty) {
+      "{}"
+    } else {
+      "{\n" + mapStr.indent + "\n}"
+    }
   }
 }
 
@@ -41,8 +47,11 @@ object ObjectNode {
  */
 case class ArrayNode(elements: List[ValueNode]) extends ValueNode {
 
-  override def toString = if (elements.isEmpty)
-    "[]" else "[\n" + elements.mkString(",\n").indent + "\n]"
+  override def toString = if (elements.isEmpty) {
+    "[]"
+  } else {
+    "[\n" + elements.mkString(",\n").indent + "\n]"
+  }
 }
 
 object ArrayNode {
@@ -61,7 +70,7 @@ case class StringNode(value: String) extends ValueNode {
 }
 
 object StringNode {
-  
+
   def apply(sym: Symbol) = new StringNode(sym.name)
 }
 
@@ -84,9 +93,9 @@ object NumberNode {
   def apply(n: Long) = new NumberNode(BigDecimal(n))
 
   def apply(n: Double) = n match {
-    case n if n.isNaN => NullNode
+    case n if n.isNaN      => NullNode
     case n if n.isInfinity => NullNode
-    case _ => new NumberNode(BigDecimal(n))
+    case _                 => new NumberNode(BigDecimal(n))
   }
 
   def apply(n: BigInt) = new NumberNode(BigDecimal(n))
@@ -107,17 +116,20 @@ sealed abstract class BooleanNode extends ValueNode {
  * @author Anish Athalye
  */
 object BooleanNode {
+
   def apply(x: Boolean): BooleanNode =
     if (x) TrueNode else FalseNode
-  
+
   def unapply(x: BooleanNode): Option[Boolean] = Some(x.value)
 }
 
 case object TrueNode extends BooleanNode {
+
   def value = true
 }
 
 case object FalseNode extends BooleanNode {
+
   def value = false
 }
 
