@@ -1,0 +1,96 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html>
+      <head>
+        <title>Morph — AST Node Creation</title>
+        <link type="text/css" media="screen, projection" rel="stylesheet" href="css/blueprint/screen.css"></link>
+        <link type="text/css" media="screen and (min-device-width: 800px), projection" rel="stylesheet" href="css/blueprint/grid.css"></link>
+        <link type="text/css" media="print" rel="stylesheet" href="css/blueprint/print.css"></link> 
+        <!--[if lt IE 8]>
+          <link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"/>
+        <![endif]-->
+        <link type="text/css" media="screen, projection" rel="stylesheet" href="css/pamflet.css"></link>
+        <link type="text/css" media="print" rel="stylesheet" href="css/pamflet-print.css"></link>
+        <link type="text/css" media="screen and (min-device-width: 800px), projection" rel="stylesheet" href="css/pamflet-grid.css"></link>
+        <link type="text/css" media="screen, projection" rel="stylesheet" href="css/custom.css"></link>
+        <script src="js/jquery-1.6.2.min.js"></script>
+        <script src="js/jquery.collapse.js"></script>
+        <script src="js/pamflet.js"></script>
+        <script type="text/javascript" src="js/prettify/prettify.js"></script><script type="text/javascript" src="js/prettify/lang-scala.js"></script><link type="text/css" rel="stylesheet" href="css/prettify.css"></link><script type="text/javascript"><!--
+        window.onload=function() { prettyPrint(); };
+      --></script>
+        <meta charset="utf-8"></meta>
+        <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+        
+      </head>
+      <body>
+        <a class="page prev nav" href="Pretty+Printing.html">
+            <span class="space">&nbsp;</span>
+            <span class="flip">❧</span>
+          </a><a class="page next nav" href="Option+Usage.html">
+            <span class="space">&nbsp;</span>
+            <span>❧</span>
+          </a>
+        <div class="container">
+          <div class="span-16 prepend-1 append-1">
+            <div class="top nav span-16 title">
+              <span>Morph</span> — AST Node Creation
+            </div>
+          </div>
+          <div class="span-16 prepend-1 append-1 contents">
+            <h2 id="AST+Node+Creation">AST Node Creation</h2><p>Morph includes companion objects for most data types and defines several
+implicit conversions that make manual AST node construction easy. This makes
+type ascription to AST node types work properly (through implicit conversion).
+</p><pre><code class="prettyprint lang-scala">scala&gt; val num: NumberNode= 3
+num: morph.ast.NumberNode = 3
+
+scala&gt; val cond: ValueNode = true
+cond: morph.ast.ValueNode = true
+</code></pre><p>Implicit conversions can be especially handy when creating nested nodes.
+</p><pre><code class="prettyprint lang-scala">scala&gt; val arr = ArrayNode(1, 2, &quot;test&quot;, true)
+arr: morph.ast.ArrayNode =
+[
+  1,
+  2,
+  &quot;test&quot;,
+  true
+]
+</code></pre><p>There is a shorthand syntax for creating an <code>ArrayNode</code> or <code>ObjectNode</code>.
+For example, an array can be created like <code>*(1, &quot;two&quot;, false)</code>, and an object
+can be created like <code>^(&quot;a&quot; -&gt; true, &quot;b&quot; -&gt; &quot;c&quot;, &quot;d&quot; -&gt; *(true, false))</code>.
+</p><p>Using this syntax has an additional benefit - you can mix normal <code>ValueNode</code>
+types and <code>Option[ValueNode]</code> types, and the <code>Option[ValueNode]</code> data that
+have the value <code>None</code> are automatically filtered out.
+</p><pre><code class="prettyprint lang-scala">scala&gt; val person = ^(
+     |   &quot;name&quot; -&gt; &quot;John Smith&quot;,
+     |   &quot;pets&quot; -&gt; None,
+     |   &quot;age&quot; -&gt; 35,
+     |   &quot;children&quot; -&gt; Some(*(&quot;Jane&quot;, &quot;Robert&quot;))
+     | )
+person: morph.ast.ObjectNode =
+{
+  &quot;name&quot;: &quot;John Smith&quot;,
+  &quot;age&quot;: 35,
+  &quot;children&quot;: [
+    &quot;Jane&quot;,
+    &quot;Robert&quot;
+  ]
+}
+</code></pre><p>Thanks to implicit conversions, programs written in the Morph DSL can be made
+extremely concise, and they usually don’t need type annotations at all. Programs
+can look like they are written in a dynamic language, but are still statically
+typed (with full type-safety).
+</p><div class="bottom nav">
+                        <em>Next Page</em>
+                        <span class="arrow">❧</span>
+                        <a href="Option+Usage.html"> Option Usage </a>
+                      </div><div class="tocwrapper show">
+      <a class="tochead nav" style="display: none" href="#toc">❦</a>
+      <a name="toc"></a>
+      <h4 class="toctitle">Contents</h4>
+      <div class="tocbody">
+      <div><a href="Morph.html">Morph</a></div><ol class="toc"> <li><div><a href="Getting+Morph.html">Getting Morph</a></div><ol class="toc"> <li><div><a href="Getting+the+Source+Code.html">Getting the Source Code</a></div></li><li><div><a href="Build+Dependency.html">Build Dependency</a></div></li> </ol></li><li><div><a href="Using+Morph.html">Using Morph</a></div></li><li><div><a href="The+Model.html">The Model</a></div><ol class="toc"> <li><div><a href="Functional+Paradigm.html">Functional Paradigm</a></div></li> </ol></li><li><div><a href="Parsing.html">Parsing</a></div><ol class="toc"> <li><div><a href="Parser+Usage.html">Parser Usage</a></div></li><li><div><a href="Custom+Parsers.html">Custom Parsers</a></div></li> </ol></li><li><div><a href="DSL+Basics.html">DSL Basics</a></div><ol class="toc"> <li><div><a href="AST+Definition.html">AST Definition</a></div></li><li><div><a href="Pretty+Printing.html">Pretty Printing</a></div></li><li><div class="current">AST Node Creation</div></li><li><div><a href="Option+Usage.html">Option Usage</a></div></li> </ol></li><li><div><a href="Data+Extraction.html">Data Extraction</a></div><ol class="toc"> <li><div><a href="Element+Access.html">Element Access</a></div></li><li><div><a href="Value+Access.html">Value Access</a></div></li><li><div><a href="Query+Chaining.html">Query Chaining</a></div></li> </ol></li><li><div><a href="Data+Manipulation.html">Data Manipulation</a></div><ol class="toc"> <li><div><a href="Function+Mapping.html">Function Mapping</a></div></li><li><div><a href="Partial+Function+Mapping.html">Partial Function Mapping</a></div></li><li><div><a href="Type+Conversion.html">Type Conversion</a></div></li><li><div><a href="Auto+Collapsing.html">Auto Collapsing</a></div></li> </ol></li><li><div><a href="DSL+Quick+Reference.html">DSL Quick Reference</a></div></li><li class="generated"><div><a href="Contents+in+Depth.html">Contents in Depth</a></div></li><li class="generated"><div><a href="Combined+Pages.html">Combined Pages</a></div></li> </ol></div></div>
+          </div>
+        </div>
+        <a class="fork nav" href="http://github.com/anishathalye/morph"><img alt="Fork me on GitHub" src="img/fork.png"></img></a>
+      </body>
+    </html>

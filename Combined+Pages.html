@@ -1,0 +1,581 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html>
+      <head>
+        <title>Morph — Combined Pages</title>
+        <link type="text/css" media="screen, projection" rel="stylesheet" href="css/blueprint/screen.css"></link>
+        <link type="text/css" media="screen and (min-device-width: 800px), projection" rel="stylesheet" href="css/blueprint/grid.css"></link>
+        <link type="text/css" media="print" rel="stylesheet" href="css/blueprint/print.css"></link> 
+        <!--[if lt IE 8]>
+          <link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"/>
+        <![endif]-->
+        <link type="text/css" media="screen, projection" rel="stylesheet" href="css/pamflet.css"></link>
+        <link type="text/css" media="print" rel="stylesheet" href="css/pamflet-print.css"></link>
+        <link type="text/css" media="screen and (min-device-width: 800px), projection" rel="stylesheet" href="css/pamflet-grid.css"></link>
+        <link type="text/css" media="screen, projection" rel="stylesheet" href="css/custom.css"></link>
+        <script src="js/jquery-1.6.2.min.js"></script>
+        <script src="js/jquery.collapse.js"></script>
+        <script src="js/pamflet.js"></script>
+        <script type="text/javascript" src="js/prettify/prettify.js"></script><script type="text/javascript" src="js/prettify/lang-scala.js"></script><link type="text/css" rel="stylesheet" href="css/prettify.css"></link><script type="text/javascript"><!--
+        window.onload=function() { prettyPrint(); };
+      --></script>
+        <meta charset="utf-8"></meta>
+        <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+        
+      </head>
+      <body>
+        <a class="page prev nav" href="Contents+in+Depth.html">
+            <span class="space">&nbsp;</span>
+            <span class="flip">❧</span>
+          </a>
+        <div class="container">
+          <div class="span-16 prepend-1 append-1">
+            <div class="top nav span-16 title">
+              <span>Morph</span> — Combined Pages
+            </div>
+          </div>
+          <div class="span-16 prepend-1 append-1 contents">
+            <div class="tocwrapper show">
+      <a class="tochead nav" style="display: none" href="#toc">❦</a>
+      <a name="toc"></a>
+      <h4 class="toctitle">Contents</h4>
+      <div class="tocbody">
+      <div><a href="#Morph">Morph</a></div><ol class="toc"> <li><div><a href="#Getting+Morph">Getting Morph</a></div><ol class="toc"> <li><div><a href="#Getting+the+Source+Code">Getting the Source Code</a></div></li><li><div><a href="#Build+Dependency">Build Dependency</a></div></li> </ol></li><li><div><a href="#Using+Morph">Using Morph</a></div></li><li><div><a href="#The+Model">The Model</a></div><ol class="toc"> <li><div><a href="#Functional+Paradigm">Functional Paradigm</a></div></li> </ol></li><li><div><a href="#Parsing">Parsing</a></div><ol class="toc"> <li><div><a href="#Parser+Usage">Parser Usage</a></div></li><li><div><a href="#Custom+Parsers">Custom Parsers</a></div></li> </ol></li><li><div><a href="#DSL+Basics">DSL Basics</a></div><ol class="toc"> <li><div><a href="#AST+Definition">AST Definition</a></div></li><li><div><a href="#Pretty+Printing">Pretty Printing</a></div></li><li><div><a href="#AST+Node+Creation">AST Node Creation</a></div></li><li><div><a href="#Option+Usage">Option Usage</a></div></li> </ol></li><li><div><a href="#Data+Extraction">Data Extraction</a></div><ol class="toc"> <li><div><a href="#Element+Access">Element Access</a></div></li><li><div><a href="#Value+Access">Value Access</a></div></li><li><div><a href="#Query+Chaining">Query Chaining</a></div></li> </ol></li><li><div><a href="#Data+Manipulation">Data Manipulation</a></div><ol class="toc"> <li><div><a href="#Function+Mapping">Function Mapping</a></div></li><li><div><a href="#Partial+Function+Mapping">Partial Function Mapping</a></div></li><li><div><a href="#Type+Conversion">Type Conversion</a></div></li><li><div><a href="#Auto+Collapsing">Auto Collapsing</a></div></li> </ol></li><li><div><a href="#DSL+Quick+Reference">DSL Quick Reference</a></div></li> </ol></div></div><h1 id="Morph">Morph</h1><p><em>Morph</em> is a framework and domain-specific language (DSL) that helps parse and
+transform structured documents. Morph currently supports several file formats
+including XML, JSON, and CSV out of the box, and custom formats are usable
+as well.
+</p><blockquote><p>Morph is hosted on <a  href="https://github.com/anishathalye/morph">GitHub</a>.
+Morph is currently at version 0.0.1. Morph uses Scala 2.10.2.
+</p></blockquote><hr></hr><p>This resource is intended to be a user guide to help you learn the basics
+of <em>using</em> Morph. It is <strong>not</strong> an API reference, and it is <strong>not</strong> a
+tutorial on programming in Scala. For complete coverage of the API, please see
+the Morph <a  href="latest/api">Scaladoc</a>. For an excellent Scala
+tutorial, see <a  href="http://twitter.github.io/scala_school/">Twitter Scala School</a>.
+</p><h2 id="Getting+Morph">Getting Morph</h2><p>Morph has not been submitted to a maven repository, at least not yet (this may
+change in the future). For now, you have two ways to get Morph:
+</p><pre><code>* Directly include Morph source code in your project
+* Add Morph as a GitHub build dependency
+</code></pre><h2 id="Getting+the+Source+Code">Getting the Source Code</h2><p>Morph is hosted on GitHub, so you can use git to download the Morph source
+code.
+</p><pre><code class="prettyprint lang-sh">git clone https://github.com/anishathalye/morph
+</code></pre><h2 id="Build+Dependency">Build Dependency</h2><p>Configuring Morph as a build dependency is really simple if you’re using
+<a  href="http://www.scala-sbt.org/">sbt</a>.
+</p><p>To add a GitHub build dependency, you need to use a .scala build
+definition. This type of build definitions is more powerful than the simpler
+.sbt build definition, and the two types of files can be used together to
+easily create a clean project definition.
+</p><p>.scala build definitions are saved in the <code>project</code> folder within your project
+root directory. Build definition files are named with the convention
+<code>{ProjectName}Build.scala</code>.
+</p><p>Here is an example .scala build definition for a project named MyProject. The
+tag used in the example is <code>master</code> (which is actually a branch name), but you
+should use a tagged release version to fix Morph at a specific build. The
+rest of the settings can remain in the <code>build.sbt</code> file in the project root
+directory - those settings are included when sbt is run.
+</p><pre><code class="prettyprint lang-scala">import sbt._
+import Keys._
+
+object MyProjectBuild extends Build {
+  lazy val root = Project(&quot;MyProject&quot;, file(&quot;.&quot;))
+    .dependsOn(morph)
+
+  lazy val morph = GitHub(&quot;anishathalye&quot;, &quot;morph&quot;, &quot;master&quot;)
+
+  def GitHub(user: String, project: String, tag: String) =
+    RootProject(
+      uri(&quot;https://github.com/%s/%s.git#%s&quot;.format(user, project, tag))
+    )
+}
+</code></pre><h2 id="Using+Morph">Using Morph</h2><p>Morph is split up into several modules. Generally, it is a good practice to
+import only the classes and traits that you need.
+</p><p>When learning Morph, it is incredibly helpful to test things out using the
+Scala REPL, which can be started using <code>sbt console</code>. When using the REPL, it
+is a good idea to import all Morph modules for ease of use. This can be
+accomplished by running the following code.
+</p><pre><code class="prettyprint lang-scala">import morph.ast._
+import morph.ast.Implicits._
+import morph.ast.DSL._
+import morph.parser._
+import morph.parser.Interface._
+</code></pre><p>This process can be automated by adding the following to <code>build.sbt</code>.
+</p><pre><code class="prettyprint lang-scala">initialCommands in console := &quot;&quot;&quot;
+  |import morph.ast._
+  |import morph.ast.Implicits._
+  |import morph.ast.DSL._
+  |import morph.parser._
+  |import morph.parser.Interface._
+  |import morph.utils.Utils._
+  &quot;&quot;&quot;.stripMargin
+</code></pre><h2 id="The+Model">The Model</h2><p>Morph uses a two step process to transform structured documents. First, a
+structured document (in a format such as XML or JSON) is parsed and turned
+into an abstract syntax tree. Then, the syntax tree is transformed using
+an extractor written in the Morph DSL.
+</p><p>Separating parsing from extraction allows for greater flexibility and makes
+it easier to perform transformations. This is because parsing and extraction
+are logically two separate tasks that have different functions.
+</p><p>Using parsers to homogenize data in different formats allows users of Morph to
+focus on the task of extracting data from various sources without being
+concerned with the specifics of parsing and dealing with specific file formats.
+</p><p>This way, Morph users can focus on the overall structure of documents rather
+than the specifics of a particular syntax. Homogenizing data and turning
+it into a Morph abstract syntax tree makes it easy to express transformations
+using the Morph DSL.
+</p><h2 id="Functional+Paradigm">Functional Paradigm</h2><p>Morph adopts several principles from functional programming. Morph avoids state
+and mutable data - all Morph data structures are immutable.
+</p><p>All Morph data and expressions are referentially transparent. This means that
+an expression can be replaced with its value without changing the behavior of a
+program. This makes it easier to reason about program behavior. Referential
+transparency makes it easy to write correct programs.
+</p><p>Morph can also be treated as if it uses the substitution model for evaluation
+(even though it does not internally).
+</p><h2 id="Parsing">Parsing</h2><p>Morph parsers transform data in formats such as JSON or XML to a Morph abstract
+syntax tree. Morph currently includes parsers for several data types, and it
+is possible to use custom parsers as well.
+</p><h2 id="Parser+Usage">Parser Usage</h2><p>Using a Morph parser to parse data is easy. For example, to parse a JSON file
+called <code>data.json</code>, you can do:
+</p><pre><code class="prettyprint lang-scala">val data = parse file &quot;data.json&quot; using JsonParser
+</code></pre><p>Parsing a string is equally easy. For example, to parse the XML string
+<code>&lt;test&gt;lorem impsum...&lt;/test&gt;</code>, you can do:
+</p><pre><code class="prettyprint lang-scala">val data = parse string &quot;&lt;test&gt;lorem ipsum...&lt;/test&gt;&quot;
+  using XmlParser
+</code></pre><p>Parsers can also be called directly (instead of using the DSL that
+is used in the examples above). All parsers have <code>apply</code> methods that take
+either a string or an array of characters and return the root of the generated
+abstract syntax tree. The second example from above can be rewritten as follows:
+</p><pre><code class="prettyprint lang-scala">val data = XmlParser(&quot;&lt;test&gt;lorem ipsum...&lt;/test&gt;&quot;)
+</code></pre><p>Morph currently has built in parsers for the following data types:
+</p><pre><code>* JSON (JsonParser)
+* XML (XmlParser)
+* CSV (CsvParser)
+</code></pre><h2 id="Custom+Parsers">Custom Parsers</h2><p>Morph supports the use of custom parsers. Parsers should throw a
+<code>morph.parser.ParsingException</code> if they encounter an error while
+parsing. All custom parsers must implement the <code>AstBuilder</code> trait:
+</p><pre><code class="prettyprint lang-scala">trait AstBuilder {
+  def apply(input: String): ValueNode
+  def apply(input: Array[Char]): ValueNode
+}
+</code></pre><p>If using <a  href="http://parboiled.org/">parboiled</a>, it is easier to
+subclass <code>morph.parser.BaseParser</code> and implement the root rule:
+</p><pre><code class="prettyprint lang-scala">def RootRule: Rule1[ValueNode]
+</code></pre><p>It is recommended that custom parsers are written in Scala (it’s much easier),
+but it is also possible to write parsers in Java. These parsers must implement
+<code>AstBuilder</code> as well:
+</p><pre><code class="prettyprint lang-java">interface AstBuilder {
+    ValueNode apply(String input);
+    ValueNode apply(char[] input);
+}
+</code></pre><h2 id="DSL+Basics">DSL Basics</h2><p>The Morph DSL is a concise but robust way of describing transformations on
+structured data.
+</p><p>The DSL can be used in two different ways. You can import the necessary objects
+and use them as you please, but this is usually unnecessarily complex. The
+easier way is to subclass <code>morph.extractor.Extractor</code> and implement the one
+required method that performs a transformation on a node.
+</p><pre><code class="prettyprint lang-scala">def extract(node: ValueNode): ValueNode
+</code></pre><p>For example, here is an extractor that recursively extracts values with the
+name “data”.
+</p><pre><code class="prettyprint lang-scala">import morph.extractor.Extractor
+
+object ExampleExtractor extends Extractor {
+  def extract(node: ValueNode): ValueNode = {
+    node recGet &quot;data&quot;
+  }
+}
+</code></pre><h2 id="AST+Definition">AST Definition</h2><p>Morph uses an abstract syntax tree structure that maps almost one-to-one with
+JSON for simplicity. Below is a diagram of the class hierarchy for AST node
+types.
+</p><!-- scala syntax highlighting seems to work well here -->
+<pre><code class="prettyprint lang-scala">ValueNode         [sealed abstract class]
+|
++-&gt; ObjectNode    [case class + object]
+|
++-&gt; ArrayNode     [case class + object]
+|
++-&gt; StringNode    [case class + object]
+|
++-&gt; NumberNode    [case class + object]
+|
++-&gt; BooleanNode   [sealed abstract class + object]
+|   |
+|   +-&gt; TrueNode  [case object]
+|   |
+|   +-&gt; FalseNode [case object]
+|
++-&gt; NullNode      [case object]
+</code></pre><h2 id="Pretty+Printing">Pretty Printing</h2><p>All AST node types’ <code>toString</code> methods are overloaded so that nodes can be
+pretty printed as JSON. The string representation is 100% compliant with the
+JSON spec (special characters in strings are escaped properly, and so on).
+</p><p>This easy-to-read visual representation can be especially handy when debugging
+Morph DSL code.
+</p><pre><code class="prettyprint lang-scala">scala&gt; val obj = ObjectNode(
+     |   &quot;pretty_printing_enabled&quot; -&gt; TrueNode,
+     |   &quot;mode&quot; -&gt; StringNode(&quot;JSON&quot;),
+     |   &quot;settings&quot; -&gt; ArrayNode(
+     |     StringNode(&quot;spaces_over_tabs&quot;),
+     |     StringNode(&quot;vim_over_emacs&quot;)
+     |   )
+     | )
+obj: morph.ast.ObjectNode =
+{
+  &quot;pretty_printing_enabled&quot;: true,
+  &quot;mode&quot;: &quot;JSON&quot;,
+  &quot;settings&quot;: [
+    &quot;spaces_over_tabs&quot;,
+    &quot;vim_over_emacs&quot;
+  ]
+}
+</code></pre><h2 id="AST+Node+Creation">AST Node Creation</h2><p>Morph includes companion objects for most data types and defines several
+implicit conversions that make manual AST node construction easy. This makes
+type ascription to AST node types work properly (through implicit conversion).
+</p><pre><code class="prettyprint lang-scala">scala&gt; val num: NumberNode= 3
+num: morph.ast.NumberNode = 3
+
+scala&gt; val cond: ValueNode = true
+cond: morph.ast.ValueNode = true
+</code></pre><p>Implicit conversions can be especially handy when creating nested nodes.
+</p><pre><code class="prettyprint lang-scala">scala&gt; val arr = ArrayNode(1, 2, &quot;test&quot;, true)
+arr: morph.ast.ArrayNode =
+[
+  1,
+  2,
+  &quot;test&quot;,
+  true
+]
+</code></pre><p>There is a shorthand syntax for creating an <code>ArrayNode</code> or <code>ObjectNode</code>.
+For example, an array can be created like <code>*(1, &quot;two&quot;, false)</code>, and an object
+can be created like <code>^(&quot;a&quot; -&gt; true, &quot;b&quot; -&gt; &quot;c&quot;, &quot;d&quot; -&gt; *(true, false))</code>.
+</p><p>Using this syntax has an additional benefit - you can mix normal <code>ValueNode</code>
+types and <code>Option[ValueNode]</code> types, and the <code>Option[ValueNode]</code> data that
+have the value <code>None</code> are automatically filtered out.
+</p><pre><code class="prettyprint lang-scala">scala&gt; val person = ^(
+     |   &quot;name&quot; -&gt; &quot;John Smith&quot;,
+     |   &quot;pets&quot; -&gt; None,
+     |   &quot;age&quot; -&gt; 35,
+     |   &quot;children&quot; -&gt; Some(*(&quot;Jane&quot;, &quot;Robert&quot;))
+     | )
+person: morph.ast.ObjectNode =
+{
+  &quot;name&quot;: &quot;John Smith&quot;,
+  &quot;age&quot;: 35,
+  &quot;children&quot;: [
+    &quot;Jane&quot;,
+    &quot;Robert&quot;
+  ]
+}
+</code></pre><p>Thanks to implicit conversions, programs written in the Morph DSL can be made
+extremely concise, and they usually don’t need type annotations at all. Programs
+can look like they are written in a dynamic language, but are still statically
+typed (with full type-safety).
+</p><h2 id="Option+Usage">Option Usage</h2><p>DSL operations use Scala’s <code>Option</code> types, which are containers for values that
+may or may not exist (they can be thought of as a type-safe alternative to
+using <code>null</code>). An option may be either a <code>Some</code> or a <code>None</code>, and inner values
+can be extracted using pattern matching.
+</p><pre><code class="prettyprint lang-scala">scala&gt; val x: Option[ValueNode] = &quot;options are useful&quot;
+x: Option[morph.ast.ValueNode] = Some(&quot;options are useful&quot;)
+
+scala&gt; x match {
+     |   case Some(str) =&gt; println(str)
+     |   case None      =&gt; // do nothing
+     | }
+&quot;options are useful&quot;
+</code></pre><p>Options make it really easy to chain computations that may or may not be
+successful, which results in a very clean DSL. For most transformations,
+methods on <code>Option</code> are not necessary - just using DSL methods will suffice.
+For more complex transformations, it may be especially useful to use the <code>map</code>,
+<code>flatMap</code>, and <code>collect</code> methods, which are much more concise than using
+pattern matching.
+</p><pre><code class="prettyprint lang-scala">scala&gt; val x: Option[Int] = None
+x: Option[Int] = None
+
+scala&gt; x map { num =&gt; num + 1 }
+res0: Option[Int] = None
+
+scala&gt; val y = Some(3)
+y: Option[Int] = Some(3)
+
+scala&gt; y map { num =&gt; num + 1 }
+res1: Option[Int] = Some(4)
+
+scala&gt; val z = Some(4)
+z: Some[Int] = Some(4)
+
+scala&gt; z flatMap {
+     |   case n if n % 2 == 0 =&gt; Some(n / 2)
+     |   case _ =&gt; None
+     | } map { n =&gt; n + 5 }
+res2: Option[Int] = Some(7)
+
+scala&gt; val w = Some(6)
+w: Some[Int] = Some(6)
+
+scala&gt; w collect {
+     |   case n if n &gt; 5 =&gt; n
+     | }
+res3: Option[Int] = Some(6)
+</code></pre><p>As shown above, transformations on <code>None</code> simply result in <code>None</code>. This can
+make expressing a series of computations very concise. The <code>*(...)</code> array
+constructor and <code>^(...)</code> object constructor automatically filter out elements
+and values that are <code>None</code>.
+</p><blockquote><p>For more information on <code>Option</code>, see the
+<a  href="http://www.scala-lang.org/api/current/index.html#scala.Option">Scaladoc</a> or a
+<a  href="http://blog.tmorris.net/posts/scalaoption-cheat-sheet/">quick reference</a>.
+</p></blockquote><h2 id="Data+Extraction">Data Extraction</h2><p>Data extraction is perhaps the most fundamental transformation on structured
+data.
+</p><p>All operations are defined on option types, and all operations return option
+types. There is an implicit conversion from AST node types to their
+corresponding option types defined by the DSL.
+</p><h2 id="Element+Access">Element Access</h2><p>Accessing elements in arrays is done using the <code>get</code> method. Morph uses zero
+based indexing.
+</p><pre><code class="prettyprint lang-scala">scala&gt; val arr = *(&quot;zero&quot;, &quot;one&quot;, &quot;two&quot;)
+arr: morph.ast.ArrayNode =
+[
+  &quot;zero&quot;,
+  &quot;one&quot;,
+  &quot;two&quot;
+]
+
+scala&gt; val second = arr get 1
+second: Option[morph.ast.ValueNode] = Some(&quot;one&quot;)
+
+scala&gt; val tenth = arr get 9
+tenth: Option[morph.ast.ValueNode] = None
+</code></pre><p>Attempting to get an element by index on a non-array node will always return <code>None</code>.
+</p><h2 id="Value+Access">Value Access</h2><p>Accessing fields in objects is done using the <code>get</code> method.
+</p><pre><code class="prettyprint lang-scala">scala&gt; val obj = ^(&quot;bool&quot; -&gt; true,
+     |             &quot;str&quot; -&gt; &quot;test string&quot;
+     |            )
+obj: morph.ast.ObjectNode =
+{
+  &quot;bool&quot;: true,
+  &quot;str&quot;: &quot;test string&quot;
+}
+
+scala&gt; val bool = obj get &quot;bool&quot;
+bool: Option[morph.ast.ValueNode] = Some(true)
+
+scala&gt; val nonexistant = obj get &quot;nonexistant&quot;
+nonexistant: Option[morph.ast.ValueNode] = None
+</code></pre><p>Attempting to get a value by key on a non-object node will always return <code>None</code>.
+</p><h2 id="Query+Chaining">Query Chaining</h2><p>Queries on AST node types can be chained in arbitrarily complex ways.
+</p><p>For example, consider the following <code>data.xml</code> file.
+</p><pre><code class="prettyprint lang-xml">&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;item type=&quot;CVE&quot; name=&quot;CVE-1999-0002&quot; seq=&quot;1999-0002&quot;&gt;
+  &lt;status&gt;Entry&lt;/status&gt;
+  &lt;desc&gt;Buffer overflow in NFS mountd...&lt;/desc&gt;
+  &lt;refs&gt;
+    &lt;ref source=&quot;CERT&quot;&gt;CA-98.12.mountd&lt;/ref&gt;
+    &lt;ref source=&quot;CIAC&quot; url=&quot;www.ciac.org/...&quot;&gt;J-006&lt;/ref&gt;
+    &lt;ref source=&quot;XF&quot;&gt;linux-mountd-bo&lt;/ref&gt;
+  &lt;/refs&gt;
+&lt;/item&gt;
+</code></pre><p>First, the file must be parsed.
+</p><pre><code class="prettyprint lang-scala">scala&gt; val data = parse file &quot;data.xml&quot; using XmlParser
+data: morph.ast.ValueNode =
+{
+  &quot;item&quot;: {
+    &quot;@name&quot;: &quot;CVE-1999-0002&quot;,
+    &quot;desc&quot;: &quot;Buffer overflow in NFS mountd...&quot;,
+    &quot;refs&quot;: {
+      &quot;ref&quot;: [
+        {
+          &quot;@source&quot;: &quot;CERT&quot;,
+          &quot;#text&quot;: &quot;CA-98.12.mountd&quot;
+        },
+        {
+          &quot;@source&quot;: &quot;CIAC&quot;,
+          &quot;@url&quot;: &quot;www.ciac.org/...&quot;,
+          &quot;#text&quot;: &quot;J-006&quot;
+        },
+        {
+          &quot;@source&quot;: &quot;XF&quot;,
+          &quot;#text&quot;: &quot;linux-mountd-bo&quot;
+        }
+      ]
+    },
+    &quot;status&quot;: &quot;Entry&quot;,
+    &quot;@type&quot;: &quot;CVE&quot;,
+    &quot;@seq&quot;: &quot;1999-0002&quot;
+  }
+}
+</code></pre><p>Elements can easily be extracted from the data by chaining operations.
+</p><pre><code class="prettyprint lang-scala">scala&gt; val name = data get &quot;item&quot; get &quot;@name&quot;
+name: Option[morph.ast.ValueNode] = Some(&quot;CVE-1999-0002&quot;)
+
+scala&gt; val nonexistant = data get &quot;nonexistant&quot; get &quot;morenonexistant&quot; get 3
+nonexistant: Option[morph.ast.ValueNode] = None
+
+scala&gt; val ref1 = data get &quot;item&quot; get &quot;refs&quot; get &quot;ref&quot; get 1
+ref1: Option[morph.ast.ValueNode] =
+Some({
+  &quot;@source&quot;: &quot;CERT&quot;,
+  &quot;#text&quot;: &quot;CA-98.12.mountd&quot;
+})
+</code></pre><h2 id="Data+Manipulation">Data Manipulation</h2><p>Data manipulation is an important technique that is necessary for performing
+most advanced transformations.
+</p><p>The DSL offers methods to transform data in quite complex ways. When the DSL
+isn’t enough, it is always possible to write regular Scala code and operate on
+built-in Scala types.
+</p><h2 id="Function+Mapping">Function Mapping</h2><p>One common way to transform data is mapping functions over arrays.
+</p><p>For example, consider the following data:
+</p><pre><code class="prettyprint lang-scala">scala&gt; val refs = *(
+     |   ^(&quot;@source&quot; -&gt; &quot;CERT&quot;, &quot;#text&quot; -&gt; &quot;CA-98.12.mountd&quot;),
+     |   ^(&quot;@source&quot; -&gt; &quot;CIAC&quot;, &quot;@url&quot; -&gt; &quot;www.ciac.org/...&quot;, &quot;#text&quot; -&gt; &quot;J-006&quot;),
+     |   ^(&quot;@source&quot; -&gt; &quot;XF&quot;, &quot;#text&quot; -&gt; &quot;linux-mountd-bo&quot;)
+     | )
+refs: morph.ast.ArrayNode =
+[
+  {
+    &quot;@source&quot;: &quot;CERT&quot;,
+    &quot;#text&quot;: &quot;CA-98.12.mountd&quot;
+  },
+  {
+    &quot;@source&quot;: &quot;CIAC&quot;,
+    &quot;@url&quot;: &quot;www.ciac.org/...&quot;,
+    &quot;#text&quot;: &quot;J-006&quot;
+  },
+  {
+    &quot;@source&quot;: &quot;XF&quot;,
+    &quot;#text&quot;: &quot;linux-mountd-bo&quot;
+  }
+]
+</code></pre><p>We can extract the sources as follows:
+</p><pre><code class="prettyprint lang-scala">scala&gt; val sources = refs mapFunc {
+     |   ref =&gt; ref get &quot;@source&quot;
+     | }
+sources: Option[morph.ast.ValueNode] =
+Some([
+  &quot;CERT&quot;,
+  &quot;CIAC&quot;,
+  &quot;XF&quot;
+])
+</code></pre><p>We can extract URLs in an identical manner. Queries to extract URLs that are unsuccessful are automatically filtered out.
+</p><pre><code class="prettyprint lang-scala">scala&gt; val urls = refs mapFunc {
+     |   ref =&gt; ref get &quot;@url&quot;
+     | }
+urls: Option[morph.ast.ValueNode] =
+Some([
+  &quot;www.ciac.org/...&quot;
+])
+</code></pre><h2 id="Partial+Function+Mapping">Partial Function Mapping</h2><p>It is possible to map partial functions (functions that aren’t defined for all
+possible inputs, usually constructed in Scala using pattern matching) over
+arrays.
+</p><p>Consider the following data:
+</p><pre><code class="prettyprint lang-scala">scala&gt; val data = *(&quot;text&quot;, 22, 400, true, NullNode, -5.3, false, 1.2e4)
+data: morph.ast.ArrayNode =
+[
+  &quot;text&quot;,
+  22,
+  400,
+  true,
+  null,
+  -5.3,
+  false,
+  12000.0
+]
+</code></pre><p>Suppose we want to extract the numbers that are greater than 100, and then
+return those numbers doubled. Here is one way we can do it:
+</p><pre><code class="prettyprint lang-scala">scala&gt; val doubled = data applyFilter { node =&gt;
+     |   node.isNumber &amp;&amp; node.asNumber &gt; 100
+     | } mapFunc {
+     |   _.asNumber * 2
+     | }
+doubled: Option[morph.ast.ValueNode] =
+Some([
+  800,
+  24000.0
+])
+</code></pre><p>This is easier (and clearer) to do using a partial function defined on numbers
+greater than 100:
+</p><pre><code class="prettyprint lang-scala">scala&gt; val doubled = data mapPartial {
+     |   case NumberNode(value) if value &gt; 100 =&gt; value * 2
+     | }
+doubled: Option[morph.ast.ValueNode] =
+Some([
+  800,
+  24000.0
+])
+</code></pre><h2 id="Type+Conversion">Type Conversion</h2><p>Usually, Morph DSL methods are enough to perform transformations on data. When
+you need to perform very complex transformations, it may be necessary to access
+Scala’s built-in data types to take advantage of all the methods defined on
+them. Fortunately, it is easy to access these underlying data structures.
+</p><p>Morph defines a family of methods, <code>is{something}</code> and <code>as{something}</code>.
+However, when performing an improper conversion (e.g. <code>&quot;hello&quot;.asNumber</code>), an
+exception may be thrown. One easy way of dealing with this is wrapping all
+operations of this kind in a <code>Safely { ... }</code> block, which will return <code>None</code>
+if an operation cannot be performed.
+</p><p>Consider the following data:
+</p><pre><code class="prettyprint lang-scala">scala&gt; val refs = *(
+     |   ^(&quot;@source&quot; -&gt; &quot;CERT&quot;, &quot;#text&quot; -&gt; &quot;CA-98.12.mountd&quot;),
+     |   ^(&quot;@source&quot; -&gt; &quot;CIAC&quot;, &quot;@url&quot; -&gt; &quot;www.ciac.org/...&quot;, &quot;#text&quot; -&gt; &quot;J-006&quot;),
+     |   ^(&quot;@source&quot; -&gt; &quot;XF&quot;, &quot;#text&quot; -&gt; &quot;linux-mountd-bo&quot;)
+     | )
+refs: morph.ast.ArrayNode =
+[
+  {
+    &quot;@source&quot;: &quot;CERT&quot;,
+    &quot;#text&quot;: &quot;CA-98.12.mountd&quot;
+  },
+  {
+    &quot;@source&quot;: &quot;CIAC&quot;,
+    &quot;@url&quot;: &quot;www.ciac.org/...&quot;,
+    &quot;#text&quot;: &quot;J-006&quot;
+  },
+  {
+    &quot;@source&quot;: &quot;XF&quot;,
+    &quot;#text&quot;: &quot;linux-mountd-bo&quot;
+  }
+]
+</code></pre><p>Suppose we want to extract data from these references in the following way. If
+a URL is available, extract the URL, otherwise concatenate the source and text.
+</p><pre><code class="prettyprint lang-scala">scala&gt; val extracted = refs mapFunc { ref =&gt;
+     |   ref get &quot;@url&quot; orElse Safely {
+     |     (ref get &quot;@source&quot;).asString + &quot;: &quot; +
+     |     (ref get &quot;#text&quot;).asString
+     |   }
+     | }
+extracted: Option[morph.ast.ValueNode] =
+Some([
+  &quot;CERT: CA-98.12.mountd&quot;,
+  &quot;www.ciac.org/...&quot;,
+  &quot;XF: linux-mountd-bo&quot;
+])
+</code></pre><h2 id="Auto+Collapsing">Auto Collapsing</h2><p>When performing complex queries, some may or may not be successful. This is
+indicated by the return type of methods (<code>Option[ValueNode]</code>). When
+constructing a final object or array (that is meant to be used for further
+processing or output), unsuccessful queries should be filtered out. This is
+done automatically by the <code>*(...)</code> array constructor and the <code>^(...)</code> object
+constructor.
+</p><pre><code class="prettyprint lang-scala">scala&gt; val arr = *(1, 2, None, 3)
+arr: morph.ast.ArrayNode =
+[
+  1,
+  2,
+  3
+]
+
+scala&gt; val obj = ^(
+     |   &quot;test&quot; -&gt; true,
+     |   &quot;unsuccessful&quot; -&gt; None
+     | )
+obj: morph.ast.ObjectNode =
+{
+  &quot;test&quot;: true
+}
+</code></pre><h2 id="DSL+Quick+Reference">DSL Quick Reference</h2><p>Here is a list of all DSL methods, their symbolic aliases, and short
+descriptions.
+</p><hr></hr><h6><code>get  ==  ~&gt;</code></h6><p>Gets an element in an <code>ArrayNode</code> by index or a value in an <code>ObjectNode</code> by key.
+</p><hr></hr><h6><code>recGet  ==  ~&gt;&gt;</code></h6><p>Recursively searches for a value corresponding to the specified key.
+</p><hr></hr><h6><code>mapFunc == %-&gt;</code></h6><p>Maps a function over an array node.
+</p><hr></hr><h6><code>mapPartial == %~&gt;</code></h6><p>Maps a partial function over an array node.
+</p><hr></hr><h6><code>applyOrMapFunc == %%-&gt;</code></h6><p>Applies a function to a value node or maps the function over the elements of an
+array node.
+</p><hr></hr><h6><code>applyOrMapPartial == %%~&gt;</code></h6><p>Applies a partial function to a value node or maps the partial function over
+the elements of an array node.
+</p><hr></hr><h6><code>applyFilter</code></h6><p>Filters an array node by a predicate.
+</p><hr></hr><p>This list is only a quick reference. Certain methods in particular, the
+<code>is{something}</code> and <code>as{something}</code> family of methods as well as <code>Safely</code> are
+not covered. Please refer to the <a  href="latest/api">Scaladoc</a> for more details.
+</p>
+          </div>
+        </div>
+        <a class="fork nav" href="http://github.com/anishathalye/morph"><img alt="Fork me on GitHub" src="img/fork.png"></img></a>
+      </body>
+    </html>

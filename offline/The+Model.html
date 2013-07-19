@@ -1,0 +1,66 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html manifest="pamflet.manifest">
+      <head>
+        <title>Morph — The Model</title>
+        <link type="text/css" media="screen, projection" rel="stylesheet" href="css/blueprint/screen.css"></link>
+        <link type="text/css" media="screen and (min-device-width: 800px), projection" rel="stylesheet" href="css/blueprint/grid.css"></link>
+        <link type="text/css" media="print" rel="stylesheet" href="css/blueprint/print.css"></link> 
+        <!--[if lt IE 8]>
+          <link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"/>
+        <![endif]-->
+        <link type="text/css" media="screen, projection" rel="stylesheet" href="css/pamflet.css"></link>
+        <link type="text/css" media="print" rel="stylesheet" href="css/pamflet-print.css"></link>
+        <link type="text/css" media="screen and (min-device-width: 800px), projection" rel="stylesheet" href="css/pamflet-grid.css"></link>
+        <link type="text/css" media="screen, projection" rel="stylesheet" href="css/custom.css"></link>
+        <script src="js/jquery-1.6.2.min.js"></script>
+        <script src="js/jquery.collapse.js"></script>
+        <script src="js/pamflet.js"></script>
+        
+        <meta charset="utf-8"></meta>
+        <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+        
+      </head>
+      <body>
+        <a class="page prev nav" href="Using+Morph.html">
+            <span class="space">&nbsp;</span>
+            <span class="flip">❧</span>
+          </a><a class="page next nav" href="Functional+Paradigm.html">
+            <span class="space">&nbsp;</span>
+            <span>❧</span>
+          </a>
+        <div class="container">
+          <div class="span-16 prepend-1 append-1">
+            <div class="top nav span-16 title">
+              <span>Morph</span> — The Model
+            </div>
+          </div>
+          <div class="span-16 prepend-1 append-1 contents">
+            <h2 id="The+Model">The Model</h2><p>Morph uses a two step process to transform structured documents. First, a
+structured document (in a format such as XML or JSON) is parsed and turned
+into an abstract syntax tree. Then, the syntax tree is transformed using
+an extractor written in the Morph DSL.
+</p><p>Separating parsing from extraction allows for greater flexibility and makes
+it easier to perform transformations. This is because parsing and extraction
+are logically two separate tasks that have different functions.
+</p><p>Using parsers to homogenize data in different formats allows users of Morph to
+focus on the task of extracting data from various sources without being
+concerned with the specifics of parsing and dealing with specific file formats.
+</p><p>This way, Morph users can focus on the overall structure of documents rather
+than the specifics of a particular syntax. Homogenizing data and turning
+it into a Morph abstract syntax tree makes it easy to express transformations
+using the Morph DSL.
+</p><div class="bottom nav">
+                        <em>Next Page</em>
+                        <span class="arrow">❧</span>
+                        <a href="Functional+Paradigm.html"> Functional Paradigm </a>
+                      </div><div class="tocwrapper show">
+      <a class="tochead nav" style="display: none" href="#toc">❦</a>
+      <a name="toc"></a>
+      <h4 class="toctitle">Contents</h4>
+      <div class="tocbody">
+      <div><a href="Morph.html">Morph</a></div><ol class="toc"> <li><div><a href="Getting+Morph.html">Getting Morph</a></div><ol class="toc"> <li><div><a href="Getting+the+Source+Code.html">Getting the Source Code</a></div></li><li><div><a href="Build+Dependency.html">Build Dependency</a></div></li> </ol></li><li><div><a href="Using+Morph.html">Using Morph</a></div></li><li><div class="current">The Model</div><ol class="toc"> <li><div><a href="Functional+Paradigm.html">Functional Paradigm</a></div></li> </ol></li><li><div><a href="Parsing.html">Parsing</a></div><ol class="toc"> <li><div><a href="Parser+Usage.html">Parser Usage</a></div></li><li><div><a href="Custom+Parsers.html">Custom Parsers</a></div></li> </ol></li><li><div><a href="DSL+Basics.html">DSL Basics</a></div><ol class="toc"> <li><div><a href="AST+Definition.html">AST Definition</a></div></li><li><div><a href="Pretty+Printing.html">Pretty Printing</a></div></li><li><div><a href="AST+Node+Creation.html">AST Node Creation</a></div></li><li><div><a href="Option+Usage.html">Option Usage</a></div></li> </ol></li><li><div><a href="Data+Extraction.html">Data Extraction</a></div><ol class="toc"> <li><div><a href="Element+Access.html">Element Access</a></div></li><li><div><a href="Value+Access.html">Value Access</a></div></li><li><div><a href="Query+Chaining.html">Query Chaining</a></div></li> </ol></li><li><div><a href="Data+Manipulation.html">Data Manipulation</a></div><ol class="toc"> <li><div><a href="Function+Mapping.html">Function Mapping</a></div></li><li><div><a href="Partial+Function+Mapping.html">Partial Function Mapping</a></div></li><li><div><a href="Type+Conversion.html">Type Conversion</a></div></li><li><div><a href="Auto+Collapsing.html">Auto Collapsing</a></div></li> </ol></li><li><div><a href="DSL+Quick+Reference.html">DSL Quick Reference</a></div></li><li class="generated"><div><a href="Contents+in+Depth.html">Contents in Depth</a></div></li><li class="generated"><div><a href="Combined+Pages.html">Combined Pages</a></div></li> </ol></div></div>
+          </div>
+        </div>
+        <a class="fork nav" href="http://github.com/anishathalye/morph"><img alt="Fork me on GitHub" src="img/fork.png"></img></a>
+      </body>
+    </html>
