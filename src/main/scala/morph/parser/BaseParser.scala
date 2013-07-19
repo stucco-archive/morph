@@ -6,7 +6,11 @@ import org.parboiled.scala._
 import org.parboiled.errors.ErrorUtils
 
 /**
- * The base class of all parsers.
+ * A base class for parsers.
+ *
+ * This class provides the boilerplate code that all Parboiled
+ * parsers will need. Subclasses only need to provide the
+ * parboiled rules for transforming input into an AST.
  *
  * @author Anish Athalye
  */
@@ -14,16 +18,21 @@ abstract class BaseParser extends Parser with AstBuilder {
 
   /**
    * The root parsing rule.
+   *
+   * This is the rule that will be run when there is input
+   * to be parsed. It should return the root of the generated AST.
    */
   def RootRule: Rule1[ValueNode]
 
   /**
    * The main parsing method.
    *
-   * Uses a ReportingParseRunner (which only reports the first error)
-   * for simplicity.
+   * If an error is encountered when parsing, this method does not
+   * make any attempt to continue.
    *
    * @param input The content to parse.
+   *
+   * @throws ParsingException If the parser encounters an error while parsing.
    *
    * @return The root of the generated AST.
    */
@@ -32,10 +41,12 @@ abstract class BaseParser extends Parser with AstBuilder {
   /**
    * The main parsing method.
    *
-   * Uses a ReportingParseRunner (which only reports the first error)
-   * for simplicity.
+   * If an error is encountered when parsing, this method does not
+   * make any attempt to continue.
    *
    * @param input The content to parse.
+   *
+   * @throws ParsingException If the parser encounters an error while parsing.
    *
    * @return The root of the generated AST.
    */

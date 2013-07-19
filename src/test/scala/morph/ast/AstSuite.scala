@@ -5,17 +5,17 @@ import morph.ast._
 class AstSuite extends FunSuite {
 
   test("convert empty object node to json") {
-    val json = ObjectNode().toJson
+    val json = ObjectNode().toString
     assert(json === "{}")
   }
 
   test("convert empty array node to json") {
-    val json = ArrayNode().toJson
+    val json = ArrayNode().toString
     assert(json === "[]")
   }
 
   test("convert object node to json") {
-    val json = ObjectNode("test" -> TrueNode, "nullvalue" -> NullNode).toJson
+    val json = ObjectNode("test" -> TrueNode, "nullvalue" -> NullNode).toString
     assert(json ===
       """|{
          |  "test": true,
@@ -24,7 +24,7 @@ class AstSuite extends FunSuite {
   }
 
   test("convert array node to json") {
-    val json = ArrayNode(StringNode("a"), StringNode("test")).toJson
+    val json = ArrayNode(StringNode("a"), StringNode("test")).toString
     assert(json ===
       """|[
          |  "a",
@@ -35,7 +35,7 @@ class AstSuite extends FunSuite {
   test("implicit string, boolean, and number conversion in array to json") {
     import morph.ast.Implicits._
 
-    val json = ArrayNode(1, true, "test", 3.1415).toJson
+    val json = ArrayNode(1, true, "test", 3.1415).toString
     assert(json ===
       """|[
          |  1,
@@ -48,7 +48,7 @@ class AstSuite extends FunSuite {
   test("implicit (string, string) pair conversion in object to json") {
     import morph.ast.Implicits._
 
-    val json = ObjectNode("key" -> "value").toJson
+    val json = ObjectNode("key" -> "value").toString
     assert(json ===
       """|{
          |  "key": "value"
@@ -60,7 +60,7 @@ class AstSuite extends FunSuite {
 
     val A = ArrayNode
     val O = ObjectNode
-    val json = O("array" -> A(1, 2), "nested" -> A(A(true, A()))).toJson
+    val json = O("array" -> A(1, 2), "nested" -> A(A(true, A()))).toString
     assert(json ===
       """|{
          |  "array": [
@@ -75,23 +75,5 @@ class AstSuite extends FunSuite {
          |  ]
          |}""".stripMargin)
 
-  }
-
-  test("invalid json conversion throws exception") {
-    intercept[UnsupportedOperationException] {
-      NullNode.toJson
-    }
-
-    intercept[UnsupportedOperationException] {
-      TrueNode.toJson
-    }
-
-    intercept[UnsupportedOperationException] {
-      FalseNode.toJson
-    }
-
-    intercept[UnsupportedOperationException] {
-      StringNode("test").toJson
-    }
   }
 }

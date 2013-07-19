@@ -8,11 +8,11 @@ import org.parboiled.Context
 import java.lang.StringBuilder
 
 /**
- * Implements a JSON parser that constructs an AST.
+ * A JSON parser that constructs an AST.
  *
- * It can parse JSON files that conform to the specification at
- * www.json.org. This implimentation almost directly follows the
- * grammar there.
+ * It can parse JSON files that conform to the specification available
+ * at www.json.org. This implimentation almost directly follows the
+ * grammar specified there.
  *
  * @author Anish Athalye
  */

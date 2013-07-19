@@ -5,11 +5,12 @@ import morph.ast._
 import org.parboiled.scala._
 
 /**
- * Implements a CSV parser that constructs an AST.
+ * A CSV parser that constructs an AST.
  *
- * It can parse CSV files that conform to the RFC 4180 spec.
+ * This parser can parse CSV files that conform to the RFC 4180 spec.
  * This parser was implemented almost directly from the ABNF grammar
- * found in the RFC.
+ * found in the RFC. Note that input to this parser  must be valid 
+ * according to the spec to be able to be correctly parsed.
  *
  * @author Anish Athalye
  */

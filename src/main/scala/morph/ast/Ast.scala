@@ -6,32 +6,11 @@ import collection.immutable.ListMap
 import scala.language.implicitConversions
 
 /**
- * General type of an AST node.
- *
- * For human readability, the `.toString` form of AST nodes looks just like
- * JSON (and in fact, it is valid JSON).
+ * The abstract superclass for all AST node types.
  *
  * @author Anish Athalye
  */
-sealed abstract class ValueNode {
-
-  /**
-   * Convert to a JSON string.
-   *
-   * @throws UnsupportedOperationException If the node type is not
-   * an object or an array (in which case it would not be valid JSON).
-   *
-   * @return The JSON representation of the node.
-   */
-  def toJson = this match {
-    case node: ObjectNode => toString
-    case node: ArrayNode => toString
-    case _ => {
-      val msg = "can't convert a " + this.getClass.getSimpleName + " to JSON"
-      throw new UnsupportedOperationException(msg)
-    }
-  }
-}
+sealed abstract class ValueNode
 
 /**
  * An object.
@@ -44,18 +23,6 @@ case class ObjectNode(fields: Map[String, ValueNode]) extends ValueNode {
     val mapStr = fields map { case (k, v) => "\"" + k + "\": " + v } mkString ",\n"
     if (fields.isEmpty) "{}" else "{\n" + mapStr.indent + "\n}"
   }
-
-  /**
-   * Get a list of the contents corresponding to the specified field names.
-   *
-   * If certain fields do not exist, their entries will be removed from the
-   * resulting list, which will collapse the list.
-   *
-   * @param names The names of the fields to retrieve.
-   *
-   * @return The fields corresponding to the given names.
-   */
-  def getFields(names: String*): Seq[ValueNode] = names flatMap fields.get
 }
 
 object ObjectNode {
@@ -101,7 +68,7 @@ object StringNode {
 /**
  * A number.
  *
- * A generic number type represented as a BigDecimal.
+ * A generic number type internally represented as a BigDecimal.
  *
  * @author Anish Athalye
  */
@@ -174,9 +141,6 @@ trait Implicits {
 
   implicit def String2StringNode(s: String): StringNode = StringNode(s)
 
-  implicit def StringString2StringStringNode(
-    ss: (String, String)): (String, StringNode) = (ss._1, StringNode(ss._2))
-
   implicit def Boolean2BooleanNode(b: Boolean): BooleanNode = BooleanNode(b)
 
   implicit def Int2NumberNode(n: Int): NumberNode = NumberNode(n)
@@ -186,10 +150,13 @@ trait Implicits {
   implicit def Double2NumberNode(n: Double): NumberNode = NumberNode(n)
 
   implicit def BigDecimal2NumberNode(n: BigDecimal): NumberNode = NumberNode(n)
+
+  implicit def StringValueNodeViewable2StringValueNode[T <% ValueNode](
+    ss: (String, T)): (String, ValueNode) = (ss._1, ss._2)
 }
 
 /**
- * Define a companion object to make it possible to either
+ * A companion object to make it possible to either
  * mix in the trait or import the companion object's methods.
  */
 object Implicits extends Implicits
