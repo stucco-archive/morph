@@ -30,3 +30,13 @@ initialCommands in console := """
   |import morph.parser.Interface._
   |import morph.utils.Utils._
   """.stripMargin
+
+site.settings
+
+site.includeScaladoc()
+
+site.pamfletSupport()
+
+ghpages.settings
+
+git.remoteRepo := "https://github.com/stucco/morph.git"
