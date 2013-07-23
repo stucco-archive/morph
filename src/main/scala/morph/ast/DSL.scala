@@ -88,19 +88,19 @@ trait DSL {
      *
      * @example
      * {{{
-     * scala> val arr = ArrayNode("one", "two", "three")
+     * scala> val arr = ArrayNode("zero", "one", "two", "three")
      * scala> val first = arr get 1
      * first: Option[morph.ast.ValueNode] = Some("one")
      * }}}
      *
-     * @note This method uses 1-based indexing.
+     * @note This method uses 0-based indexing.
      *
      * @param index The index of the element to retrieve.
      *
      * @return The element.
      */
     def get(index: Int): Option[VN] = opt flatMap {
-      case ArrayNode(elem) => elem lift (index - 1)
+      case ArrayNode(elem) => elem lift index
       case _               => None
     }
 

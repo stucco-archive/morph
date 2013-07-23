@@ -52,7 +52,7 @@ class DSLSuite extends FunSuite {
   }
 
   test("get element by index in array") {
-    assert(A("one", "two", "three", "four") ~> 2 === Some(S("two")))
+    assert(A("one", "two", "three", "four") ~> 1 === Some(S("two")))
   }
 
   test("search for nonexistant key in object returns none") {
