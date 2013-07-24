@@ -6,11 +6,10 @@ object MorphBuild extends Build {
     .dependsOn(jsonjava)
 
   // This has to be the customized JSON-java that is hosted
-  // on GitHub at anishathalye/JSON-java
-  // and mirrored at stucco/JSON-java
+  // on GitHub at stucco/JSON-java
   //
   // The required version is tagged 'morph'
-  lazy val jsonjava = GitHub("anishathalye", "JSON-java", "morph")
+  lazy val jsonjava = GitHub("stucco", "JSON-java", "morph")
 
   def GitHub(user: String, project: String, tag: String) =
     RootProject(
