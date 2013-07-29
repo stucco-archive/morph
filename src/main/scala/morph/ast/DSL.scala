@@ -243,7 +243,7 @@ trait DSL {
     def %~>(func: PF[VN, VN]): Option[VN] = opt mapPartial func
 
     /**
-     * Applies a function to an value node or map the function over the
+     * Applies a function to a value node or maps the function over the
      * elements of an array node.
      *
      * This is useful for dealing with ambiguities between a single element
@@ -263,7 +263,7 @@ trait DSL {
     }
 
     /**
-     * Applies a function to an value node or map the function over the
+     * Applies a function to a value node or maps the function over the
      * elements of an array node.
      *
      * This is useful for dealing with ambiguities between a single element
@@ -280,7 +280,7 @@ trait DSL {
     def %%->(func: VN => Option[VN]): Option[VN] = opt applyOrMapFunc func
 
     /**
-     * Applies a partial function to an value node or map the partial
+     * Applies a partial function to a value node or maps the partial
      * function over the elements of an array node.
      *
      * This is useful for dealing with ambiguities between a single element
@@ -300,7 +300,7 @@ trait DSL {
     }
 
     /**
-     * Applies a partial function to an value node or map the partial
+     * Applies a partial function to a value node or maps the partial
      * function over the elements of an array node.
      *
      * This is useful for dealing with ambiguities between a single element
