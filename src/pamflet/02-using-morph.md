@@ -15,6 +15,8 @@ import morph.ast.Implicits._
 import morph.ast.DSL._
 import morph.parser._
 import morph.parser.Interface._
+import morph.extractor.Interface._
+import morph.extractor.utils.Utils._
 ```
 
 This process can be automated by adding the following to `build.sbt`.
@@ -26,6 +28,7 @@ initialCommands in console := """
   |import morph.ast.DSL._
   |import morph.parser._
   |import morph.parser.Interface._
+  |import morph.extractor.Interface._
   |import morph.utils.Utils._
   """.stripMargin
 ```

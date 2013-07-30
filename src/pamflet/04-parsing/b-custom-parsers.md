@@ -2,8 +2,8 @@ Custom Parsers
 --------------
 
 Morph supports the use of custom parsers. Parsers should throw a
-`morph.parser.ParsingException` if they encounter an error while
-parsing. All custom parsers must implement the `AstBuilder` trait:
+`ParsingException` if they encounter an error while parsing. All custom parsers
+must implement the `AstBuilder` trait:
 
 ```scala
 trait AstBuilder {
@@ -12,8 +12,8 @@ trait AstBuilder {
 }
 ```
 
-If using [parboiled](http://parboiled.org/), it is easier to
-subclass `morph.parser.BaseParser` and implement the root rule:
+If using [parboiled](http://parboiled.org/), it is easier to subclass
+`BaseParser` and implement the root rule:
 
 ```scala
 def RootRule: Rule1[ValueNode]
