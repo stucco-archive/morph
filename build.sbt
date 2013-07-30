@@ -4,17 +4,8 @@ version := "0.0.1-SNAPSHOT"
 
 scalaVersion := "2.10.2"
 
-javacOptions := Seq(
-  "-Xlint:unchecked"
-)
-
 scalacOptions := Seq(
   "-unchecked", "-deprecation", "-feature", "-Xfatal-warnings"
-)
-
-resolvers ++= Seq(
-  "clojars" at "http://clojars.org/repo",
-  "clojure-releases" at "http://build.clojure.org/releases"
 )
 
 libraryDependencies ++= Seq(
