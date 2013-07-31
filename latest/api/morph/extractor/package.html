@@ -58,8 +58,21 @@
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="morph.extractor.Extractor" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="ExtractorextendsDSLwithImplicits"></a>
+              <ol><li name="morph.extractor.AstTransformer" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="AstTransformerextendsAnyRef"></a>
+      <a id="AstTransformer:AstTransformer"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="AstTransformer.html"><span class="name">AstTransformer</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">A trait describing methods that extractors must implement.</p>
+    </li><li name="morph.extractor.Extractor" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ExtractorextendsAstTransformerwithDSLwithImplicits"></a>
       <a id="Extractor:Extractor"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -67,7 +80,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a href="Extractor.html"><span class="name">Extractor</span></a><span class="result"> extends <a href="../ast/DSL.html" class="extype" name="morph.ast.DSL">DSL</a> with <a href="../ast/Implicits.html" class="extype" name="morph.ast.Implicits">Implicits</a></span>
+        <a href="Extractor.html"><span class="name">Extractor</span></a><span class="result"> extends <a href="AstTransformer.html" class="extype" name="morph.extractor.AstTransformer">AstTransformer</a> with <a href="../ast/DSL.html" class="extype" name="morph.ast.DSL">DSL</a> with <a href="../ast/Implicits.html" class="extype" name="morph.ast.Implicits">Implicits</a></span>
       </span>
       </h4>
       <p class="comment cmt">The base class that all extractors should extend.</p>
@@ -76,7 +89,23 @@
 
         
 
-        
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="morph.extractor.Interface" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Interface"></a>
+      <a id="Interface:Interface"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Interface$.html"><span class="name">Interface</span></a>
+      </span>
+      </h4>
+      <p class="comment cmt">An interface to make using extractors easy.</p>
+    </li></ol>
+            </div>
 
         
 

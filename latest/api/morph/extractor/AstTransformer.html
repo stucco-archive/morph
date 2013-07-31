@@ -2,9 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
         <head>
-          <title>Extractor - morph.extractor.Extractor</title>
-          <meta name="description" content="Extractor - morph.extractor.Extractor" />
-          <meta name="keywords" content="Extractor morph.extractor.Extractor" />
+          <title>AstTransformer - morph.extractor.AstTransformer</title>
+          <meta name="description" content="AstTransformer - morph.extractor.AstTransformer" />
+          <meta name="keywords" content="AstTransformer morph.extractor.AstTransformer" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -12,7 +12,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../../index.html';
-            var hash = 'morph.extractor.Extractor';
+            var hash = 'morph.extractor.AstTransformer';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -24,27 +24,28 @@
         </head>
         <body class="type">
       <div id="definition">
-        <img src="../../lib/class_big.png" />
+        <img src="../../lib/trait_big.png" />
         <p id="owner"><a href="../package.html" class="extype" name="morph">morph</a>.<a href="package.html" class="extype" name="morph.extractor">extractor</a></p>
-        <h1>Extractor</h1>
+        <h1>AstTransformer</h1>
       </div>
 
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">class</span>
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <span class="name">Extractor</span><span class="result"> extends <a href="AstTransformer.html" class="extype" name="morph.extractor.AstTransformer">AstTransformer</a> with <a href="../ast/DSL.html" class="extype" name="morph.ast.DSL">DSL</a> with <a href="../ast/Implicits.html" class="extype" name="morph.ast.Implicits">Implicits</a></span>
+        <span class="name">AstTransformer</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>The base class that all extractors should extend.</p><p>This class mixes in the DSL and AST-related implicit conversions
-so that subclasses can omit those imports.</p><p>Subclasses must define the extract method (inherited from AstTransformer),
-which takes a ValueNode and performs extractions / transformations on it.
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>A trait describing methods that extractors must implement.</p><p>The rest of the framework expects extractors to implement this trait.
 </p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="../ast/Implicits.html" class="extype" name="morph.ast.Implicits">Implicits</a>, <a href="../ast/DSL.html" class="extype" name="morph.ast.DSL">DSL</a>, <a href="AstTransformer.html" class="extype" name="morph.extractor.AstTransformer">AstTransformer</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div><div class="toggleContainer block">
+          <span class="toggle">Known Subclasses</span>
+          <div class="subClasses hiddenContent"><a href="Extractor.html" class="extype" name="morph.extractor.Extractor">Extractor</a></div>
         </div></div>
         
 
@@ -62,7 +63,7 @@ which takes a ValueNode and performs extractions / transformations on it.
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="morph.extractor.Extractor"><span>Extractor</span></li><li class="in" name="morph.ast.Implicits"><span>Implicits</span></li><li class="in" name="morph.ast.DSL"><span>DSL</span></li><li class="in" name="morph.extractor.AstTransformer"><span>AstTransformer</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="morph.extractor.AstTransformer"><span>AstTransformer</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -80,54 +81,9 @@ which takes a ValueNode and performs extractions / transformations on it.
 
       <div id="template">
         <div id="allMembers">
-        <div id="constructors" class="members">
-              <h3>Instance Constructors</h3>
-              <ol><li name="morph.extractor.Extractor#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;():morph.extractor.Extractor"></a>
-      <a id="&lt;init&gt;:Extractor"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">new</span>
-      </span>
-      <span class="symbol">
-        <span class="name">Extractor</span><span class="params">()</span>
-      </span>
-      </h4>
-      
-    </li></ol>
-            </div>
+        
 
-        <div id="types" class="types members">
-              <h3>Type Members</h3>
-              <ol><li name="morph.ast.DSL.NodeExtractionException" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="NodeExtractionExceptionextendsRuntimeException"></a>
-      <a id="NodeExtractionException:NodeExtractionException"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">class</span>
-      </span>
-      <span class="symbol">
-        <a href="../ast/DSL$NodeExtractionException.html"><span class="name">NodeExtractionException</span></a><span class="result"> extends <span class="extype" name="scala.RuntimeException">RuntimeException</span></span>
-      </span>
-      </h4>
-      <p class="comment cmt">An exception that is thrown when there is an error extracting a node.</p>
-    </li><li name="morph.ast.DSL.RichOptionValueNode" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="RichOptionValueNodeextendsAnyRef"></a>
-      <a id="RichOptionValueNode:RichOptionValueNode"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">class</span>
-      </span>
-      <span class="symbol">
-        <a href="../ast/DSL$RichOptionValueNode.html"><span class="name">RichOptionValueNode</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
-      </span>
-      </h4>
-      <p class="comment cmt">The implicit class that provides the majority of the methods in the DSL.</p>
-    </li></ol>
-            </div>
+        
 
         <div id="values" class="values members">
               <h3>Abstract Value Members</h3>
@@ -146,7 +102,7 @@ which takes a ValueNode and performs extractions / transformations on it.
       <p class="shortcomment cmt">The main extraction / transformation method.</p><div class="fullcomment"><div class="comment cmt"><p>The main extraction / transformation method.
 </p></div><dl class="paramcmts block"><dt class="param">node</dt><dd class="cmt"><p>The node to transform.
 </p></dd><dt>returns</dt><dd class="cmt"><p>A transformed node.
-</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="AstTransformer.html" class="extype" name="morph.extractor.AstTransformer">AstTransformer</a></dd></dl></div>
+</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -191,19 +147,6 @@ which takes a ValueNode and performs extractions / transformations on it.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="morph.ast.DSL.*" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="*"></a>
-      <a id="*:*"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">object</span>
-      </span>
-      <span class="symbol">
-        <a href="../ast/DSL$$times$.html"><span title="gt4s: $times" class="name">*</span></a>
-      </span>
-      </h4>
-      <p class="comment cmt">An object that easily constructs <code>ArrayNode</code>s.</p>
     </li><li name="scala.AnyRef#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="==(x$1:AnyRef):Boolean"></a>
       <a id="==(AnyRef):Boolean"></a>
@@ -230,198 +173,6 @@ which takes a ValueNode and performs extractions / transformations on it.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="morph.ast.Implicits#BigDecimal2NumberNode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="BigDecimal2NumberNode(n:BigDecimal):morph.ast.NumberNode"></a>
-      <a id="BigDecimal2NumberNode(BigDecimal):NumberNode"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">BigDecimal2NumberNode</span><span class="params">(<span name="n">n: <span class="extype" name="scala.BigDecimal">BigDecimal</span></span>)</span><span class="result">: <a href="../ast/NumberNode.html" class="extype" name="morph.ast.NumberNode">NumberNode</a></span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../ast/Implicits.html" class="extype" name="morph.ast.Implicits">Implicits</a></dd></dl></div>
-    </li><li name="morph.ast.Implicits#Boolean2BooleanNode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="Boolean2BooleanNode(b:Boolean):morph.ast.BooleanNode"></a>
-      <a id="Boolean2BooleanNode(Boolean):BooleanNode"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">Boolean2BooleanNode</span><span class="params">(<span name="b">b: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="../ast/BooleanNode.html" class="extype" name="morph.ast.BooleanNode">BooleanNode</a></span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../ast/Implicits.html" class="extype" name="morph.ast.Implicits">Implicits</a></dd></dl></div>
-    </li><li name="morph.ast.Implicits#Double2NumberNode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="Double2NumberNode(n:Double):morph.ast.NumberNode"></a>
-      <a id="Double2NumberNode(Double):NumberNode"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">Double2NumberNode</span><span class="params">(<span name="n">n: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <a href="../ast/NumberNode.html" class="extype" name="morph.ast.NumberNode">NumberNode</a></span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../ast/Implicits.html" class="extype" name="morph.ast.Implicits">Implicits</a></dd></dl></div>
-    </li><li name="morph.ast.Implicits#Int2NumberNode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="Int2NumberNode(n:Int):morph.ast.NumberNode"></a>
-      <a id="Int2NumberNode(Int):NumberNode"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">Int2NumberNode</span><span class="params">(<span name="n">n: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="../ast/NumberNode.html" class="extype" name="morph.ast.NumberNode">NumberNode</a></span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../ast/Implicits.html" class="extype" name="morph.ast.Implicits">Implicits</a></dd></dl></div>
-    </li><li name="morph.ast.Implicits#Long2NumberNode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="Long2NumberNode(n:Long):morph.ast.NumberNode"></a>
-      <a id="Long2NumberNode(Long):NumberNode"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">Long2NumberNode</span><span class="params">(<span name="n">n: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <a href="../ast/NumberNode.html" class="extype" name="morph.ast.NumberNode">NumberNode</a></span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../ast/Implicits.html" class="extype" name="morph.ast.Implicits">Implicits</a></dd></dl></div>
-    </li><li name="morph.ast.DSL.NodeExtractionException" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="NodeExtractionException"></a>
-      <a id="NodeExtractionException:NodeExtractionException"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">object</span>
-      </span>
-      <span class="symbol">
-        <a href="../ast/DSL$NodeExtractionException$.html"><span class="name">NodeExtractionException</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../ast/DSL.html" class="extype" name="morph.ast.DSL">DSL</a></dd></dl></div>
-    </li><li name="morph.ast.DSL#Safely" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="Safely[T](computation:=&gt;T)(implicitevidence$3:T=&gt;Option[morph.ast.ValueNode]):Option[morph.ast.ValueNode]"></a>
-      <a id="Safely[T](⇒T)((T)⇒Option[ValueNode]):Option[ValueNode]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">Safely</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="computation">computation: ⇒ <span class="extype" name="morph.ast.DSL.Safely.T">T</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (<span class="extype" name="morph.ast.DSL.Safely.T">T</span>) ⇒ <span class="extype" name="scala.Option">Option</span>[<a href="../ast/ValueNode.html" class="extype" name="morph.ast.ValueNode">ValueNode</a>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../ast/ValueNode.html" class="extype" name="morph.ast.ValueNode">ValueNode</a>]</span>
-      </span>
-      </h4>
-      <p class="shortcomment cmt">Safely compute by catching <code>NodeExtractionException</code>
-and returning None if that exception occurs.</p><div class="fullcomment"><div class="comment cmt"><p>Safely compute by catching <code>NodeExtractionException</code>
-and returning None if that exception occurs.</p><p>This method can be used like a block to safely perform computations
-on values contained within <code>Option[ValueNode]</code>s. This method catches
-<code>NodeExtractionException</code>s caused by the <code>as[type]</code> methods and returns
-<code>None</code> if an exception is thrown. If a computation is successful, the
-method returns the result wrapped in an <code>Option</code>.
-</p></div><dl class="paramcmts block"><dt class="param">computation</dt><dd class="cmt"><p>The computation to perform.
-</p></dd><dt>returns</dt><dd class="cmt"><p>The result of the computation wrapped in an <code>Option</code>
-(if successful, otherwise <code>None</code>).
-</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../ast/DSL.html" class="extype" name="morph.ast.DSL">DSL</a></dd><div class="block">Example:
-               <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> arr = *(<span class="num">1</span>, <span class="lit">"two"</span>, <span class="num">3</span>, <span class="lit">"four"</span>, <span class="num">5</span>, <span class="kw">true</span>)
-scala&gt; <span class="kw">val</span> doubled = arr mapFunc { elem <span class="kw">=&gt;</span>
-     |   Safely {
-     |     (elem.asNumber * <span class="num">2</span>).toString + <span class="lit">"!"</span>
-     |   }
-     | }
-doubled: <span class="std">Option</span>[morph.ast.ValueNode] =
-<span class="std">Some</span>([
-  <span class="lit">"2!"</span>,
-  <span class="lit">"6!"</span>,
-  <span class="lit">"10!"</span>
-])</pre></li></ol>
-            </div></dl></div>
-    </li><li name="morph.ast.Implicits#String2StringNode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="String2StringNode(s:String):morph.ast.StringNode"></a>
-      <a id="String2StringNode(String):StringNode"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">String2StringNode</span><span class="params">(<span name="s">s: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="../ast/StringNode.html" class="extype" name="morph.ast.StringNode">StringNode</a></span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../ast/Implicits.html" class="extype" name="morph.ast.Implicits">Implicits</a></dd></dl></div>
-    </li><li name="morph.ast.Implicits#StringValueNodeViewable2StringValueNode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="StringValueNodeViewable2StringValueNode[T](ss:(String,T))(implicitevidence$1:T=&gt;morph.ast.ValueNode):(String,morph.ast.ValueNode)"></a>
-      <a id="StringValueNodeViewable2StringValueNode[T]((String,T))((T)⇒ValueNode):(String,ValueNode)"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">StringValueNodeViewable2StringValueNode</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="ss">ss: (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="morph.ast.Implicits.StringValueNodeViewable2StringValueNode.T">T</span>)</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (<span class="extype" name="morph.ast.Implicits.StringValueNodeViewable2StringValueNode.T">T</span>) ⇒ <a href="../ast/ValueNode.html" class="extype" name="morph.ast.ValueNode">ValueNode</a></span>)</span><span class="result">: (<span class="extype" name="scala.Predef.String">String</span>, <a href="../ast/ValueNode.html" class="extype" name="morph.ast.ValueNode">ValueNode</a>)</span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../ast/Implicits.html" class="extype" name="morph.ast.Implicits">Implicits</a></dd></dl></div>
-    </li><li name="morph.ast.DSL#ValueNodeViewable2OptionValueNode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="ValueNodeViewable2OptionValueNode[T](nodeViewable:T)(implicitevidence$1:T=&gt;morph.ast.ValueNode):Option[morph.ast.ValueNode]"></a>
-      <a id="ValueNodeViewable2OptionValueNode[T](T)((T)⇒ValueNode):Option[ValueNode]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">ValueNodeViewable2OptionValueNode</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="nodeViewable">nodeViewable: <span class="extype" name="morph.ast.DSL.ValueNodeViewable2OptionValueNode.T">T</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (<span class="extype" name="morph.ast.DSL.ValueNodeViewable2OptionValueNode.T">T</span>) ⇒ <a href="../ast/ValueNode.html" class="extype" name="morph.ast.ValueNode">ValueNode</a></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../ast/ValueNode.html" class="extype" name="morph.ast.ValueNode">ValueNode</a>]</span>
-      </span>
-      </h4>
-      <p class="shortcomment cmt">An implicit conversion from a type viewable as a <code>ValueNode</code> to
-<code>Option[ValueNode]</code>.</p><div class="fullcomment"><div class="comment cmt"><p>An implicit conversion from a type viewable as a <code>ValueNode</code> to
-<code>Option[ValueNode]</code>.
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../ast/DSL.html" class="extype" name="morph.ast.DSL">DSL</a></dd></dl></div>
-    </li><li name="morph.ast.DSL#ValueNodeViewable2RichOptionValueNode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="ValueNodeViewable2RichOptionValueNode[T](nodeViewable:T)(implicitevidence$2:T=&gt;morph.ast.ValueNode):DSL.this.RichOptionValueNode"></a>
-      <a id="ValueNodeViewable2RichOptionValueNode[T](T)((T)⇒ValueNode):RichOptionValueNode"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">ValueNodeViewable2RichOptionValueNode</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="nodeViewable">nodeViewable: <span class="extype" name="morph.ast.DSL.ValueNodeViewable2RichOptionValueNode.T">T</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (<span class="extype" name="morph.ast.DSL.ValueNodeViewable2RichOptionValueNode.T">T</span>) ⇒ <a href="../ast/ValueNode.html" class="extype" name="morph.ast.ValueNode">ValueNode</a></span>)</span><span class="result">: <a href="#RichOptionValueNodeextendsAnyRef" class="extmbr" name="morph.ast.DSL.RichOptionValueNode">RichOptionValueNode</a></span>
-      </span>
-      </h4>
-      <p class="shortcomment cmt">An implicit conversion from any type that can be viewed as a <code>ValueNode</code>
-to an <code>RichOptionValueNode.</code></p><div class="fullcomment"><div class="comment cmt"><p>An implicit conversion from any type that can be viewed as a <code>ValueNode</code>
-to an <code>RichOptionValueNode.</code></p><p>This is necessary because Scala will never perform multiple implicit
-conversions in a row. Without this, doing something like *(1) would not
-work to construct an array containing a <code>NumberNode</code> because that would
-require three implicit conversions <code>Int</code> to <code>ValueNode</code> to
-<code>Option[ValueNode]</code> to <code>RichOptionValueNode</code>.</p><p>Introducing another implicit conversion that can convert any type that is
-viewable as a <code>ValueNode</code> into a <code>RichOptionValueNode</code> solves this
-problem. This is done using a type parameter <code>T</code> that is viewable as a
-<code>ValueNode</code> solves this problem.
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../ast/DSL.html" class="extype" name="morph.ast.DSL">DSL</a></dd></dl></div>
-    </li><li name="morph.ast.DSL.^" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="^"></a>
-      <a id="^:^"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">object</span>
-      </span>
-      <span class="symbol">
-        <a href="../ast/DSL$$up$.html"><span title="gt4s: $up" class="name">^</span></a>
-      </span>
-      </h4>
-      <p class="comment cmt">An object that easily constructs <code>ObjectNode</code>s.</p>
     </li><li name="morph.extractor.AstTransformer#apply" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="apply(node:morph.ast.ValueNode):morph.ast.ValueNode"></a>
       <a id="apply(ValueNode):ValueNode"></a>
@@ -437,7 +188,7 @@ problem. This is done using a type parameter <code>T</code> that is viewable as 
       <p class="shortcomment cmt">The main extraction / transformation method.</p><div class="fullcomment"><div class="comment cmt"><p>The main extraction / transformation method.
 </p></div><dl class="paramcmts block"><dt class="param">node</dt><dd class="cmt"><p>The node to transform.
 </p></dd><dt>returns</dt><dd class="cmt"><p>A transformed node.
-</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="AstTransformer.html" class="extype" name="morph.extractor.AstTransformer">AstTransformer</a></dd></dl></div>
+</p></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -685,13 +436,7 @@ problem. This is done using a type parameter <code>T</code> that is viewable as 
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="morph.ast.Implicits">
-              <h3>Inherited from <a href="../ast/Implicits.html" class="extype" name="morph.ast.Implicits">Implicits</a></h3>
-            </div><div class="parent" name="morph.ast.DSL">
-              <h3>Inherited from <a href="../ast/DSL.html" class="extype" name="morph.ast.DSL">DSL</a></h3>
-            </div><div class="parent" name="morph.extractor.AstTransformer">
-              <h3>Inherited from <a href="AstTransformer.html" class="extype" name="morph.extractor.AstTransformer">AstTransformer</a></h3>
-            </div><div class="parent" name="scala.AnyRef">
+        <div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">
               <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>

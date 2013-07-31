@@ -43,7 +43,7 @@
 transform structured documents. Morph currently supports several file formats
 including XML, JSON, and CSV out of the box, and custom formats are usable
 as well.
-</p><blockquote><p>Morph is hosted on <a  href="https://github.com/anishathalye/morph">GitHub</a>.
+</p><blockquote><p>Morph is hosted on <a  href="https://github.com/stucco/morph">GitHub</a>.
 Morph is currently at version 0.0.1. Morph uses Scala 2.10.2.
 </p></blockquote><hr></hr><p>This resource is intended to be a user guide to help you learn the basics
 of <em>using</em> Morph. It is <strong>not</strong> an API reference, and it is <strong>not</strong> a
@@ -56,7 +56,7 @@ change in the future). For now, you have two ways to get Morph:
 * Add Morph as a GitHub build dependency
 </code></pre><h2 id="Getting+the+Source+Code">Getting the Source Code</h2><p>Morph is hosted on GitHub, so you can use git to download the Morph source
 code.
-</p><pre><code class="prettyprint lang-sh">git clone https://github.com/anishathalye/morph
+</p><pre><code class="prettyprint lang-sh">git clone https://github.com/stucco/morph
 </code></pre><h2 id="Build+Dependency">Build Dependency</h2><p>Configuring Morph as a build dependency is really simple if you’re using
 <a  href="http://www.scala-sbt.org/">sbt</a>.
 </p><p>To add a GitHub build dependency, you need to use a .scala build
@@ -78,7 +78,7 @@ object MyProjectBuild extends Build {
   lazy val root = Project(&quot;MyProject&quot;, file(&quot;.&quot;))
     .dependsOn(morph)
 
-  lazy val morph = GitHub(&quot;anishathalye&quot;, &quot;morph&quot;, &quot;master&quot;)
+  lazy val morph = GitHub(&quot;stucco&quot;, &quot;morph&quot;, &quot;master&quot;)
 
   def GitHub(user: String, project: String, tag: String) =
     RootProject(
@@ -96,6 +96,8 @@ import morph.ast.Implicits._
 import morph.ast.DSL._
 import morph.parser._
 import morph.parser.Interface._
+import morph.extractor.Interface._
+import morph.extractor.utils.Utils._
 </code></pre><p>This process can be automated by adding the following to <code>build.sbt</code>.
 </p><pre><code class="prettyprint lang-scala">initialCommands in console := &quot;&quot;&quot;
   |import morph.ast._
@@ -103,6 +105,7 @@ import morph.parser.Interface._
   |import morph.ast.DSL._
   |import morph.parser._
   |import morph.parser.Interface._
+  |import morph.extractor.Interface._
   |import morph.utils.Utils._
   &quot;&quot;&quot;.stripMargin
 </code></pre><h2 id="The+Model">The Model</h2><p>Morph uses a two step process to transform structured documents. First, a
@@ -147,14 +150,14 @@ abstract syntax tree. The second example from above can be rewritten as follows:
 * XML (XmlParser)
 * CSV (CsvParser)
 </code></pre><h2 id="Custom+Parsers">Custom Parsers</h2><p>Morph supports the use of custom parsers. Parsers should throw a
-<code>morph.parser.ParsingException</code> if they encounter an error while
-parsing. All custom parsers must implement the <code>AstBuilder</code> trait:
+<code>ParsingException</code> if they encounter an error while parsing. All custom parsers
+must implement the <code>AstBuilder</code> trait:
 </p><pre><code class="prettyprint lang-scala">trait AstBuilder {
   def apply(input: String): ValueNode
   def apply(input: Array[Char]): ValueNode
 }
-</code></pre><p>If using <a  href="http://parboiled.org/">parboiled</a>, it is easier to
-subclass <code>morph.parser.BaseParser</code> and implement the root rule:
+</code></pre><p>If using <a  href="http://parboiled.org/">parboiled</a>, it is easier to subclass
+<code>BaseParser</code> and implement the root rule:
 </p><pre><code class="prettyprint lang-scala">def RootRule: Rule1[ValueNode]
 </code></pre><p>It is recommended that custom parsers are written in Scala (it’s much easier),
 but it is also possible to write parsers in Java. These parsers must implement
@@ -166,9 +169,10 @@ but it is also possible to write parsers in Java. These parsers must implement
 </code></pre><h2 id="DSL+Basics">DSL Basics</h2><p>The Morph DSL is a concise but robust way of describing transformations on
 structured data.
 </p><p>The DSL can be used in two different ways. You can import the necessary objects
-and use them as you please, but this is usually unnecessarily complex. The
-easier way is to subclass <code>morph.extractor.Extractor</code> and implement the one
-required method that performs a transformation on a node.
+and use them as you please (making sure you implement the <code>AstTransformer</code>
+trait), but this is usually unnecessarily complex. The easier way is to
+subclass <code>Extractor</code> and implement the one required method that
+performs a transformation on a node.
 </p><pre><code class="prettyprint lang-scala">def extract(node: ValueNode): ValueNode
 </code></pre><p>For example, here is an extractor that recursively extracts values with the
 name “data”.
@@ -179,6 +183,10 @@ object ExampleExtractor extends Extractor {
     node recGet &quot;data&quot;
   }
 }
+</code></pre><p>Using extractors is easy. In the following example, <code>dataNode</code> is a <code>ValueNode</code>
+that is the root of an AST node, and <code>MyExtractor</code> is an extractor implementing
+<code>AstTransformer</code>.
+</p><pre><code class="prettyprint lang-scala">val transformed = transform node dataNode using MyExtractor
 </code></pre><h2 id="AST+Definition">AST Definition</h2><p>Morph uses an abstract syntax tree structure that maps almost one-to-one with
 JSON for simplicity. Below is a diagram of the class hierarchy for AST node
 types.
@@ -576,6 +584,6 @@ not covered. Please refer to the <a  href="latest/api">Scaladoc</a> for more det
 </p>
           </div>
         </div>
-        <a class="fork nav" href="http://github.com/anishathalye/morph"><img alt="Fork me on GitHub" src="img/fork.png"></img></a>
+        <a class="fork nav" href="http://github.com/stucco/morph"><img alt="Fork me on GitHub" src="img/fork.png"></img></a>
       </body>
     </html>

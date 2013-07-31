@@ -40,9 +40,10 @@
             <h2 id="DSL+Basics">DSL Basics</h2><p>The Morph DSL is a concise but robust way of describing transformations on
 structured data.
 </p><p>The DSL can be used in two different ways. You can import the necessary objects
-and use them as you please, but this is usually unnecessarily complex. The
-easier way is to subclass <code>morph.extractor.Extractor</code> and implement the one
-required method that performs a transformation on a node.
+and use them as you please (making sure you implement the <code>AstTransformer</code>
+trait), but this is usually unnecessarily complex. The easier way is to
+subclass <code>Extractor</code> and implement the one required method that
+performs a transformation on a node.
 </p><pre><code class="prettyprint lang-scala">def extract(node: ValueNode): ValueNode
 </code></pre><p>For example, here is an extractor that recursively extracts values with the
 name “data”.
@@ -53,6 +54,10 @@ object ExampleExtractor extends Extractor {
     node recGet &quot;data&quot;
   }
 }
+</code></pre><p>Using extractors is easy. In the following example, <code>dataNode</code> is a <code>ValueNode</code>
+that is the root of an AST node, and <code>MyExtractor</code> is an extractor implementing
+<code>AstTransformer</code>.
+</p><pre><code class="prettyprint lang-scala">val transformed = transform node dataNode using MyExtractor
 </code></pre><div class="bottom nav">
                         <em>Next Page</em>
                         <span class="arrow">❧</span>
@@ -65,6 +70,6 @@ object ExampleExtractor extends Extractor {
       <div><a href="Morph.html">Morph</a></div><ol class="toc"> <li><div><a href="Getting+Morph.html">Getting Morph</a></div><ol class="toc"> <li><div><a href="Getting+the+Source+Code.html">Getting the Source Code</a></div></li><li><div><a href="Build+Dependency.html">Build Dependency</a></div></li> </ol></li><li><div><a href="Using+Morph.html">Using Morph</a></div></li><li><div><a href="The+Model.html">The Model</a></div><ol class="toc"> <li><div><a href="Functional+Paradigm.html">Functional Paradigm</a></div></li> </ol></li><li><div><a href="Parsing.html">Parsing</a></div><ol class="toc"> <li><div><a href="Parser+Usage.html">Parser Usage</a></div></li><li><div><a href="Custom+Parsers.html">Custom Parsers</a></div></li> </ol></li><li><div class="current">DSL Basics</div><ol class="toc"> <li><div><a href="AST+Definition.html">AST Definition</a></div></li><li><div><a href="Pretty+Printing.html">Pretty Printing</a></div></li><li><div><a href="AST+Node+Creation.html">AST Node Creation</a></div></li><li><div><a href="Option+Usage.html">Option Usage</a></div></li> </ol></li><li><div><a href="Data+Extraction.html">Data Extraction</a></div><ol class="toc"> <li><div><a href="Element+Access.html">Element Access</a></div></li><li><div><a href="Value+Access.html">Value Access</a></div></li><li><div><a href="Query+Chaining.html">Query Chaining</a></div></li> </ol></li><li><div><a href="Data+Manipulation.html">Data Manipulation</a></div><ol class="toc"> <li><div><a href="Function+Mapping.html">Function Mapping</a></div></li><li><div><a href="Partial+Function+Mapping.html">Partial Function Mapping</a></div></li><li><div><a href="Type+Conversion.html">Type Conversion</a></div></li><li><div><a href="Auto+Collapsing.html">Auto Collapsing</a></div></li> </ol></li><li><div><a href="DSL+Quick+Reference.html">DSL Quick Reference</a></div></li><li class="generated"><div><a href="Contents+in+Depth.html">Contents in Depth</a></div></li><li class="generated"><div><a href="Combined+Pages.html">Combined Pages</a></div></li> </ol></div></div>
           </div>
         </div>
-        <a class="fork nav" href="http://github.com/anishathalye/morph"><img alt="Fork me on GitHub" src="img/fork.png"></img></a>
+        <a class="fork nav" href="http://github.com/stucco/morph"><img alt="Fork me on GitHub" src="img/fork.png"></img></a>
       </body>
     </html>
