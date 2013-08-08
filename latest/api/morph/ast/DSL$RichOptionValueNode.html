@@ -277,6 +277,31 @@ even: <span class="std">Option</span>[morph.ast.ValueNode] =
   <span class="num">6</span>
 ])</pre></li></ol>
             </div></dl></div>
+    </li><li name="morph.ast.DSL.RichOptionValueNode#applyFlatten" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="applyFlatten:Option[morph.ast.ValueNode]"></a>
+      <a id="applyFlatten:Option[ValueNode]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">applyFlatten</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="ValueNode.html" class="extype" name="morph.ast.ValueNode">ValueNode</a>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Flattens an array of arrays.</p><div class="fullcomment"><div class="comment cmt"><p>Flattens an array of arrays.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>An array that contains all the elements contained within inner
+arrays.
+</p></dd></dl><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> arr = ArrayNode(ArrayNode(<span class="num">1</span>, <span class="num">2</span>), ArrayNode(<span class="num">3</span>), ArrayNode())
+scala&gt; <span class="kw">val</span> flattened = arr.applyFlatten
+flattened: <span class="std">Option</span>[morph.ast.ValueNode] =
+<span class="std">Some</span>([
+  <span class="num">1</span>,
+  <span class="num">2</span>,
+  <span class="num">3</span>
+])</pre></li></ol>
+            </div></dl></div>
     </li><li name="morph.ast.DSL.RichOptionValueNode#applyOrMapFunc" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="applyOrMapFunc(func:morph.ast.ValueNode=&gt;Option[morph.ast.ValueNode]):Option[morph.ast.ValueNode]"></a>
       <a id="applyOrMapFunc((ValueNode)⇒Option[ValueNode]):Option[ValueNode]"></a>
