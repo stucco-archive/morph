@@ -344,6 +344,28 @@ trait DSL {
     }
 
     /**
+     * Flattens an array of arrays.
+     *
+     * @example
+     * {{{
+     * scala> val arr = ArrayNode(ArrayNode(1, 2), ArrayNode(3), ArrayNode())
+     * scala> val flattened = arr.applyFlatten
+     * flattened: Option[morph.ast.ValueNode] =
+     * Some([
+     *   1,
+     *   2,
+     *   3
+     * ])
+     * }}}
+     *
+     * @return An array that contains all the elements contained within inner
+     * arrays.
+     */
+    def applyFlatten: Option[VN] = Safely {
+      ArrayNode(opt.asList flatMap { inner => inner.asList })
+    }
+
+    /**
      * Returns true if and only if the node is empty.
      *
      * This is defined differently for the different node types. An `Option`

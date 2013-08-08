@@ -115,7 +115,12 @@ class DSLSuite extends FunSuite {
 
   test("apply a filter") {
     val filtered = A(1, 2, "hello", true) applyFilter { _.isNumber }
-    assert(filtered == Some(A(1, 2)))
+    assert(filtered === Some(A(1, 2)))
+  }
+
+  test("flatten an array") {
+    val flattened = A(A(1, 2), A(3), A(), A(4, 5, 6)).applyFlatten
+    assert(flattened === Some(A(1, 2, 3, 4, 5, 6)))
   }
 
   test("nodeEmpty and nodeNonEmpty functionality") {
