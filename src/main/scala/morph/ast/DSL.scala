@@ -361,8 +361,69 @@ trait DSL {
      * @return An array that contains all the elements contained within inner
      * arrays.
      */
-    def applyFlatten: Option[VN] = Safely {
-      ArrayNode(opt.asList flatMap { inner => inner.asList })
+    def applyFlatten: Option[VN] = opt collect {
+      case ArrayNode(elem) => ArrayNode(elem flatMap {
+        case ArrayNode(inner) => inner
+        case _                => List()
+      })
+    }
+
+    /**
+     * Flattens an array of elements that may or may not be arrays.
+     *
+     * If the node is a single element (that is not an array), the node
+     * is returned as is.
+     *
+     * @example
+     * {{{
+     * scala> val arr = ArrayNode(ArrayNode(1, 2), 3)
+     * scala> val flattened = arr.autoFlatten
+     * flattened: Option[morph.ast.ValueNode] =
+     * Some([
+     *   1,
+     *   2,
+     *   3
+     * ])
+     * }}}
+     *
+     * @return An array that contains all the elements contained within inner
+     * arrays (flattened if the inner element is an array).
+     */
+    def autoFlatten: Option[VN] = opt map {
+      case ArrayNode(elem) => ArrayNode(elem flatMap {
+        case ArrayNode(inner) => inner
+        case other            => List(other)
+      })
+      case other => other
+    }
+
+    /**
+     * Recursively flattens arrays (without recursively examining objects).
+     *
+     * If the node is a single element (that is not an array), the node
+     * is returned as is.
+     *
+     * @example
+     * {{{
+     * scala> val arr = ArrayNode(ArrayNode(1, ArrayNode(2)), ArrayNode(3))
+     * scala> val flattened = arr.autoFlatten
+     * flattened: Option[morph.ast.ValueNode] =
+     * Some([
+     *   1,
+     *   2,
+     *   3
+     * ])
+     * }}}
+     *
+     * @return An array that contains all the elements contained within inner
+     * elements (that are possibly arrays).
+     */
+    def recFlatten: Option[VN] = opt map {
+      case ArrayNode(elem) => ArrayNode(elem flatMap {
+        case arr: ArrayNode => arr.recFlatten.asList
+        case other          => List(other)
+      })
+      case other => other
     }
 
     /**

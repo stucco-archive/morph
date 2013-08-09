@@ -123,6 +123,16 @@ class DSLSuite extends FunSuite {
     assert(flattened === Some(A(1, 2, 3, 4, 5, 6)))
   }
 
+  test("automatically flatten an array of elements and arrays") {
+    val flattened = A(A(1, 2), 3, A(4), A()).autoFlatten
+    assert(flattened === Some(A(1, 2, 3, 4)))
+  }
+
+  test("recursively flatten an array") {
+    val flattened = A(1, A(2, A(3)), A(A(4)), A(5), A(A())).recFlatten
+    assert(flattened === Some(A(1, 2, 3, 4, 5)))
+  }
+
   test("nodeEmpty and nodeNonEmpty functionality") {
     assert(O().nodeEmpty)
     assert(O("a" -> "test").nodeNonEmpty)
