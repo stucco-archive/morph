@@ -18,9 +18,3 @@ Documentation
 You can read the [user guide](http://stucco.github.io/morph) or go
 through the [Scaladoc](http://stucco.github.io/morph/latest/api). I
 suggest going through the user guide. The Scaladoc can get a little scary.
-
-A Word of Warning
------------------
-
-The DSL and the rest of the framework is still in development! The API
-may change dramatically before the final release.
