@@ -344,6 +344,26 @@ trait DSL {
     }
 
     /**
+     * Encapsulates a node in an array if the node is not already an array.
+     *
+     * @example
+     * {{{
+     * scala> val arr = (1).encapsulate
+     * arr: Option[morph.ast.ValueNode] =
+     * Some([
+     *   1
+     * ])
+     * }}}
+     *
+     * @return An array containing the single node, or the node itself if it
+     * was already an array.
+     */
+    def encapsulate: Option[VN] = opt map {
+      case arr: ArrayNode => arr
+      case other => ArrayNode(other)
+    }
+
+    /**
      * Flattens an array of arrays.
      *
      * @example

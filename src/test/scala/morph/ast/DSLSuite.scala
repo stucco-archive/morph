@@ -118,6 +118,13 @@ class DSLSuite extends FunSuite {
     assert(filtered === Some(A(1, 2)))
   }
 
+  test("encapsulate in an array") {
+    val enc = (1).encapsulate
+    assert(enc === Some(A(1)))
+    val arr = A(1, 2, 3).encapsulate
+    assert(arr === Some(A(1, 2, 3)))
+  }
+
   test("flatten an array") {
     val flattened = A(A(1, 2), A(3), A(), A(4, 5, 6)).applyFlatten
     assert(flattened === Some(A(1, 2, 3, 4, 5, 6)))
