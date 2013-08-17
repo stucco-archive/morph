@@ -20,6 +20,13 @@ trait DSL {
     nodeViewable: T): Option[VN] = Option(nodeViewable)
 
   /**
+   * An implicit conversion from an option type with inner type viewable as
+   * a `ValueNode` to `Option[ValueNode]`.
+   */
+  implicit def OptionValueNodeViewable2OptionValueNode[T <% VN](
+    optNodeViewable: Option[T]): Option[VN] = optNodeViewable map { c => c: VN }
+
+  /**
    * An implicit conversion from any type that can be viewed as a `ValueNode`
    * to an `RichOptionValueNode.
    *
@@ -360,7 +367,7 @@ trait DSL {
      */
     def encapsulate: Option[VN] = opt map {
       case arr: ArrayNode => arr
-      case other => ArrayNode(other)
+      case other          => ArrayNode(other)
     }
 
     /**
