@@ -49,7 +49,7 @@ object CsvParser extends BaseParser {
 
   def LF = "\n"
 
-  def CRLF = CR + LF
+  def CRLF = rule { LF | CR + LF }
 
   def DQUOTE = "\""
 
