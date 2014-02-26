@@ -32,7 +32,25 @@
   </dependencies>
   <build>
      <plugins>
-  	   <plugin>
+       <plugin>
+           <groupId>org.apache.maven.plugins</groupId>
+           <artifactId>maven-scm-plugin</artifactId>
+           <version>1.9</version>
+           <configuration>
+               <connectionUrl>scm:git:https://github.com/stucco/JSON-java.git</connectionUrl>
+               <checkoutDirectory>JSON-java</checkoutDirectory>
+           </configuration>
+           <executions>
+               <execution>
+                   <id>checkout-dependency</id>
+                   <phase>generate-sources</phase>
+                   <goals>
+                       <goal>checkout</goal>
+                   </goals>
+                </execution>
+           </executions>
+       </plugin>
+       <plugin>
 			<groupId>org.scala-tools</groupId>
 			<artifactId>maven-scala-plugin</artifactId>
             <version>2.9.1</version>
