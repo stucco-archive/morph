@@ -40,15 +40,6 @@
                <connectionUrl>scm:git:https://github.com/stucco/JSON-java.git</connectionUrl>
                <checkoutDirectory>JSON-java</checkoutDirectory>
            </configuration>
-           <executions>
-               <execution>
-                   <id>checkout-dependency</id>
-                   <phase>generate-sources</phase>
-                   <goals>
-                       <goal>checkout</goal>
-                   </goals>
-                </execution>
-           </executions>
        </plugin>
        <plugin>
 			<groupId>org.scala-tools</groupId>
