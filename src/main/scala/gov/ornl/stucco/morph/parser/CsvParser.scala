@@ -3,6 +3,9 @@ package gov.ornl.stucco.morph.parser
 import gov.ornl.stucco.morph.ast._
 
 import org.parboiled.scala._
+import org.parboiled.Context
+
+import collection.mutable.ListBuffer
 
 /**
  * A CSV parser that constructs an AST.
@@ -20,12 +23,24 @@ object CsvParser extends BaseParser {
 
   lazy val Csv = rule { File ~ optional(CRLF) ~ EOI }
 
-  def File = rule {
-    oneOrMore(Record, separator = CRLF) ~~> { ArrayNode(_) }
+  def File = rule { FileUnwrapped ~~> { ArrayNode(_) } }
+
+  def FileUnwrapped = rule { Records ~~> { _.toList } }
+
+  def Records = rule {
+    push(new ListBuffer[ArrayNode]) ~ oneOrMore(rule {
+      Record ~~% { withContext((e: ArrayNode, ctx) => appendToLb(e)(ctx)) }
+    }, separator = CRLF)
   }
 
-  def Record = rule {
-    oneOrMore(Field, separator = COMMA) ~~> { ArrayNode(_) }
+  def Record = rule { RecordUnwrapped ~~> { ArrayNode(_) } }
+
+  def RecordUnwrapped = rule { Fields ~~> { _.toList } }
+
+  def Fields = rule {
+    push(new ListBuffer[StringNode]) ~ oneOrMore(rule {
+      Field ~~% { withContext((e: StringNode, ctx) => appendToLb(e)(ctx)) }
+    }, separator = COMMA)
   }
 
   def Field = rule { Escaped | NonEscaped }
@@ -56,4 +71,8 @@ object CsvParser extends BaseParser {
   def DDQUOTE = "\"\""
 
   def TEXTDATA = rule { " " - "!" | "#" - "+" | "-" - "~" }
+
+  def appendToLb[T](e: T): Context[_] => Unit = { ctx =>
+    ctx.getValueStack.peek.asInstanceOf[ListBuffer[T]].append(e)
+  }
 }

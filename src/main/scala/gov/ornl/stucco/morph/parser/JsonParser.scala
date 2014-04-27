@@ -91,7 +91,7 @@ object JsonParser extends BaseParser with WhiteSpaceExpansion {
 
   def JsonNull = rule { "null " ~ push(NullNode) }
 
-  def appendToSb(c: Char): Context[Any] => Unit = { ctx =>
+  def appendToSb(c: Char): Context[_] => Unit = { ctx =>
     ctx.getValueStack.peek.asInstanceOf[StringBuilder].append(c)
   }
 }
