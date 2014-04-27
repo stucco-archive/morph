@@ -45,7 +45,7 @@ object JsonParser extends BaseParser with WhiteSpaceExpansion {
   }
 
   def JsonArray = rule {
-    "[ " ~ zeroOrMore(Value, separator = ", ") ~ "] " ~~> { ArrayNode(_) }
+    "[ " ~ zeroOrMore(Value, separator = ", ") ~ "] " ~~> { ArrayNode(_: _*) }
   }
 
   def Characters = rule {

@@ -33,11 +33,11 @@ case class ObjectNode(fields: Map[String, ValueNode]) extends ValueNode {
 
 object ObjectNode {
 
-  def apply(members: (String, ValueNode)*) =
-    new ObjectNode(ListMap(members: _*))
+  def apply(fields: (String, ValueNode)*) =
+    new ObjectNode(ListMap(fields: _*))
 
-  def apply(members: List[(String, ValueNode)]) =
-    new ObjectNode(ListMap(members: _*))
+  def apply(fields: List[(String, ValueNode)]) =
+    new ObjectNode(ListMap(fields: _*))
 }
 
 /**
@@ -45,7 +45,7 @@ object ObjectNode {
  *
  * @author Anish Athalye
  */
-case class ArrayNode(elements: List[ValueNode]) extends ValueNode {
+case class ArrayNode(elements: IndexedSeq[ValueNode]) extends ValueNode {
 
   override def toString = if (elements.isEmpty) {
     "[]"
@@ -56,7 +56,9 @@ case class ArrayNode(elements: List[ValueNode]) extends ValueNode {
 
 object ArrayNode {
 
-  def apply(elements: ValueNode*) = new ArrayNode(elements.toList)
+  def apply(elements: List[ValueNode]) = new ArrayNode(elements.toVector)
+
+  def apply(elements: ValueNode*) = new ArrayNode(elements.toVector)
 }
 
 /**

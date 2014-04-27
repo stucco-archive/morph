@@ -155,13 +155,13 @@ trait DSL {
      * @return A list of all matching nodes.
      */
     def recGet(key: String): Option[ArrayNode] = {
-      def iter(node: VN, key: String): List[VN] = node match {
+      def iter(node: VN, key: String): IndexedSeq[VN] = node match {
         case ObjectNode(fields) => {
-          val sub = fields.toList map {
+          val sub = fields.toVector map {
             case (k, v) => iter(v, key)
           }
           fields get key match {
-            case Some(value) => value :: sub.flatten
+            case Some(value) => value +: sub.flatten
             case None        => sub.flatten
           }
         }
@@ -169,7 +169,7 @@ trait DSL {
           val sub = elem map { iter(_, key) }
           sub.flatten
         }
-        case _ => Nil
+        case _ => Vector()
       }
       opt map { node => ArrayNode(iter(node, key)) }
     }
@@ -447,7 +447,7 @@ trait DSL {
      */
     def recFlatten: Option[VN] = opt map {
       case ArrayNode(elem) => ArrayNode(elem flatMap {
-        case arr: ArrayNode => arr.recFlatten.asList
+        case arr: ArrayNode => arr.recFlatten.asVector
         case other          => List(other)
       })
       case other => other
@@ -521,15 +521,7 @@ trait DSL {
      *
      * @return The node as a `Map[String, ValueNode]`.
      */
-    def asMap: Map[String, VN] = opt map {
-      case ObjectNode(fields) => fields
-      case _ => throw NodeExtractionException(
-        "node is not an ObjectNode"
-      )
-    } getOrElse {
-      throw NodeExtractionException("node is empty")
-    }
-
+    def asMap: Map[String, VN] = asObjectNode.fields
     /**
      * Returns true if the node is an `ArrayNode`.
      *
@@ -562,17 +554,27 @@ trait DSL {
      * @throws NodeExtractionException If the node is empty or the node
      * is not an `ArrayNode`.
      *
+     * @return The node as a `IndexedSeq[ValueNode]`.
+     */
+    def asIndexedSeq: IndexedSeq[VN] = asArrayNode.elements
+    /**
+     * Converts the node to an `ArrayNode` and extracts its elements.
+     *
+     * @throws NodeExtractionException If the node is empty or the node
+     * is not an `ArrayNode`.
+     *
+     * @return The node as a `Vector[ValueNode]`.
+     */
+    def asVector: Vector[VN] = asIndexedSeq.toVector
+    /**
+     * Converts the node to an `ArrayNode` and extracts its elements.
+     *
+     * @throws NodeExtractionException If the node is empty or the node
+     * is not an `ArrayNode`.
+     *
      * @return The node as a `List[ValueNode]`.
      */
-    def asList: List[VN] = opt map {
-      case ArrayNode(elem) => elem
-      case _ => throw NodeExtractionException(
-        "node is not an ArrayNode"
-      )
-    } getOrElse {
-      throw NodeExtractionException("node is empty")
-    }
-
+    def asList: List[VN] = asVector.toList
     /**
      * Returns true if the node is a `StringNode`.
      *
@@ -650,14 +652,7 @@ trait DSL {
      *
      * @return The node as a `BigDecimal`.
      */
-    def asNumber: BigDecimal = opt map {
-      case NumberNode(value) => value
-      case _ => throw NodeExtractionException(
-        "node is not a NumberNode"
-      )
-    } getOrElse {
-      throw NodeExtractionException("node is empty")
-    }
+    def asNumber: BigDecimal = asNumberNode.value
 
     /**
      * Converts the node to a `NumberNode` and extracts its value.
@@ -703,14 +698,7 @@ trait DSL {
      *
      * @return The node as a `Boolean`.
      */
-    def asBoolean: Boolean = opt map {
-      case BooleanNode(value) => value
-      case _ => throw NodeExtractionException(
-        "node is not a BooleanNode"
-      )
-    } getOrElse {
-      throw new NodeExtractionException("node is empty")
-    }
+    def asBoolean: Boolean = asBooleanNode.value
   }
 
   /**
@@ -746,12 +734,12 @@ trait DSL {
     /**
      * Constructs an `ObjectNode`.
      *
-     * @param members The mappings to use to create an `ObjectNode`.
+     * @param fields The mappings to use to create an `ObjectNode`.
      *
      * @return An `ObjectNode` with the given mappings.
      */
-    def apply(members: (String, Option[VN])*): ObjectNode = {
-      val flattened = members collect { case (k, Some(v)) => k -> v }
+    def apply(fields: (String, Option[VN])*): ObjectNode = {
+      val flattened = fields collect { case (k, Some(v)) => k -> v }
       ObjectNode(flattened: _*)
     }
   }

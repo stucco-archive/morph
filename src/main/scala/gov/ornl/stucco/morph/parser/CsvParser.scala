@@ -5,7 +5,7 @@ import gov.ornl.stucco.morph.ast._
 import org.parboiled.scala._
 import org.parboiled.Context
 
-import collection.mutable.ListBuffer
+import scala.collection.mutable.Builder
 
 /**
  * A CSV parser that constructs an AST.
@@ -25,20 +25,20 @@ object CsvParser extends BaseParser {
 
   def File = rule { FileUnwrapped ~~> { ArrayNode(_) } }
 
-  def FileUnwrapped = rule { Records ~~> { _.toList } }
+  def FileUnwrapped = rule { Records ~~> { _.result } }
 
   def Records = rule {
-    push(new ListBuffer[ArrayNode]) ~ oneOrMore(rule {
+    push(Vector.newBuilder[ArrayNode]) ~ oneOrMore(rule {
       Record ~~% { withContext((e: ArrayNode, ctx) => appendToLb(e)(ctx)) }
     }, separator = CRLF)
   }
 
   def Record = rule { RecordUnwrapped ~~> { ArrayNode(_) } }
 
-  def RecordUnwrapped = rule { Fields ~~> { _.toList } }
+  def RecordUnwrapped = rule { Fields ~~> { _.result } }
 
   def Fields = rule {
-    push(new ListBuffer[StringNode]) ~ oneOrMore(rule {
+    push(Vector.newBuilder[StringNode]) ~ oneOrMore(rule {
       Field ~~% { withContext((e: StringNode, ctx) => appendToLb(e)(ctx)) }
     }, separator = COMMA)
   }
@@ -73,6 +73,6 @@ object CsvParser extends BaseParser {
   def TEXTDATA = rule { " " - "!" | "#" - "+" | "-" - "~" }
 
   def appendToLb[T](e: T): Context[_] => Unit = { ctx =>
-    ctx.getValueStack.peek.asInstanceOf[ListBuffer[T]].append(e)
+    ctx.getValueStack.peek.asInstanceOf[Builder[T, Vector[T]]] += e
   }
 }
