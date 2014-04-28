@@ -52,20 +52,25 @@ object JsonParser extends BaseParser with WhiteSpaceExpansion {
     push(new StringBuilder) ~ zeroOrMore("\\" ~ EscapedChar | NormalChar)
   }
 
-  def EscapedChar = rule {
-    anyOf("\"\\/") ~:% withContext(appendToSb(_)(_)) |
-      "b" ~ appendToSb('\b') |
-      "f" ~ appendToSb('\f') |
-      "n" ~ appendToSb('\n') |
-      "r" ~ appendToSb('\r') |
-      "t" ~ appendToSb('\t') |
-      Unicode ~~% {
-        withContext((code, ctx) => appendToSb(code.asInstanceOf[Char])(ctx))
-      }
+  def EscapedChar = {
+    def unicode(code: Int, ctx: Context[_]) {
+      appendToSb(code.asInstanceOf[Char], ctx)
+    }
+    def escaped(c: Char, ctx: Context[_]) {
+      appendToSb('\\', ctx)
+      appendToSb(c, ctx)
+    }
+    rule {
+      anyOf("\"\\/") ~:% withContext(appendToSb) |
+        anyOf("bfnrt") ~:% withContext(escaped) |
+        Unicode ~~% {
+          withContext(unicode)
+        }
+    }
   }
 
   def NormalChar = rule {
-    !anyOf("\"\\") ~ ANY ~:% { withContext(appendToSb(_)(_)) }
+    !anyOf("\"\\") ~ ANY ~:% { withContext(appendToSb) }
   }
 
   def Unicode = rule {
@@ -91,7 +96,7 @@ object JsonParser extends BaseParser with WhiteSpaceExpansion {
 
   def JsonNull = rule { "null " ~ push(NullNode) }
 
-  def appendToSb(c: Char): Context[_] => Unit = { ctx =>
+  def appendToSb(c: Char, ctx: Context[_]) {
     ctx.getValueStack.peek.asInstanceOf[StringBuilder].append(c)
   }
 }

@@ -29,7 +29,7 @@ object CsvParser extends BaseParser {
 
   def Records = rule {
     push(Vector.newBuilder[ArrayNode]) ~ oneOrMore(rule {
-      Record ~~% { withContext((e: ArrayNode, ctx) => appendToLb(e)(ctx)) }
+      Record ~~% { withContext(appendToVb(_: ArrayNode, _)) }
     }, separator = CRLF)
   }
 
@@ -39,7 +39,7 @@ object CsvParser extends BaseParser {
 
   def Fields = rule {
     push(Vector.newBuilder[StringNode]) ~ oneOrMore(rule {
-      Field ~~% { withContext((e: StringNode, ctx) => appendToLb(e)(ctx)) }
+      Field ~~% { withContext(appendToVb(_: StringNode, _)) }
     }, separator = COMMA)
   }
 
@@ -72,7 +72,7 @@ object CsvParser extends BaseParser {
 
   def TEXTDATA = rule { " " - "!" | "#" - "+" | "-" - "~" }
 
-  def appendToLb[T](e: T): Context[_] => Unit = { ctx =>
+  def appendToVb[T](e: T, ctx: Context[_]) {
     ctx.getValueStack.peek.asInstanceOf[Builder[T, Vector[T]]] += e
   }
 }
