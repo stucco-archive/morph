@@ -5,6 +5,7 @@ import gov.ornl.stucco.morph.ast._
 import org.parboiled.scala._
 import org.parboiled.Context
 
+import scala.collection.mutable.Builder
 import java.lang.StringBuilder
 
 /**
@@ -23,10 +24,18 @@ object JsonParser extends BaseParser with WhiteSpaceExpansion {
   lazy val Json = rule { WhiteSpace ~ Value ~ EOI }
 
   def JsonObject = rule {
-    "{ " ~ zeroOrMore(Pair, separator = ", ") ~ "} " ~~> { ObjectNode(_: _*) }
+    "{ " ~ JsonObjectUnwrapped ~ "} " ~~> { ObjectNode(_) }
   }
 
-  def Pair = rule { JsonStringUnwrapped ~ ": " ~ Value ~~> { (_, _) } }
+  def JsonObjectUnwrapped = rule { Pairs ~~> { _.result } }
+
+  def Pairs = rule {
+    push(Map.newBuilder[String, ValueNode]) ~ zeroOrMore(rule {
+      Pair ~~% { withContext[String, ValueNode, Unit](appendToMb) }
+    }, separator = ", ")
+  }
+
+  def Pair = rule { JsonStringUnwrapped ~ ": " ~ Value }
 
   def Value: Rule1[ValueNode] = rule {
     JsonString | JsonNumber | JsonObject | JsonArray |
@@ -98,5 +107,9 @@ object JsonParser extends BaseParser with WhiteSpaceExpansion {
 
   def appendToSb(c: Char, ctx: Context[_]) {
     ctx.getValueStack.peek.asInstanceOf[StringBuilder].append(c)
+  }
+
+  def appendToMb(k: String, v: ValueNode, ctx: Context[_]) {
+    ctx.getValueStack.peek.asInstanceOf[Builder[(String, ValueNode), Map[String, ValueNode]]] += ((k, v))
   }
 }
