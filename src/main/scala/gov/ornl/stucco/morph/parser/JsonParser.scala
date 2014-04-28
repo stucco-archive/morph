@@ -54,7 +54,15 @@ object JsonParser extends BaseParser with WhiteSpaceExpansion {
   }
 
   def JsonArray = rule {
-    "[ " ~ zeroOrMore(Value, separator = ", ") ~ "] " ~~> { ArrayNode(_: _*) }
+    "[ " ~ JsonArrayUnwrapped ~ "] " ~~> { ArrayNode(_) }
+  }
+
+  def JsonArrayUnwrapped = rule { Values ~~> { _.result } }
+
+  def Values = rule {
+    push(Vector.newBuilder[ValueNode]) ~ zeroOrMore(rule {
+      Value ~~% { withContext(appendToVb(_: ValueNode, _)) }
+    }, separator = ", ")
   }
 
   def Characters = rule {
@@ -111,5 +119,9 @@ object JsonParser extends BaseParser with WhiteSpaceExpansion {
 
   def appendToMb(k: String, v: ValueNode, ctx: Context[_]) {
     ctx.getValueStack.peek.asInstanceOf[Builder[(String, ValueNode), Map[String, ValueNode]]] += ((k, v))
+  }
+
+  def appendToVb[T](e: T, ctx: Context[_]) {
+    ctx.getValueStack.peek.asInstanceOf[Builder[T, Vector[T]]] += e
   }
 }
