@@ -5,6 +5,7 @@ import gov.ornl.stucco.morph.ast._
 import org.parboiled.scala._
 import org.parboiled.Context
 
+import scala.collection.mutable.Builder
 import java.lang.StringBuilder
 
 /**
@@ -23,10 +24,18 @@ object JsonParser extends BaseParser with WhiteSpaceExpansion {
   lazy val Json = rule { WhiteSpace ~ Value ~ EOI }
 
   def JsonObject = rule {
-    "{ " ~ zeroOrMore(Pair, separator = ", ") ~ "} " ~~> { ObjectNode(_: _*) }
+    "{ " ~ JsonObjectUnwrapped ~ "} " ~~> { ObjectNode(_) }
   }
 
-  def Pair = rule { JsonStringUnwrapped ~ ": " ~ Value ~~> { (_, _) } }
+  def JsonObjectUnwrapped = rule { Pairs ~~> { _.result } }
+
+  def Pairs = rule {
+    push(Map.newBuilder[String, ValueNode]) ~ zeroOrMore(rule {
+      Pair ~~% { withContext[String, ValueNode, Unit](appendToMb) }
+    }, separator = ", ")
+  }
+
+  def Pair = rule { JsonStringUnwrapped ~ ": " ~ Value }
 
   def Value: Rule1[ValueNode] = rule {
     JsonString | JsonNumber | JsonObject | JsonArray |
@@ -45,27 +54,40 @@ object JsonParser extends BaseParser with WhiteSpaceExpansion {
   }
 
   def JsonArray = rule {
-    "[ " ~ zeroOrMore(Value, separator = ", ") ~ "] " ~~> { ArrayNode(_) }
+    "[ " ~ JsonArrayUnwrapped ~ "] " ~~> { ArrayNode(_) }
+  }
+
+  def JsonArrayUnwrapped = rule { Values ~~> { _.result } }
+
+  def Values = rule {
+    push(Vector.newBuilder[ValueNode]) ~ zeroOrMore(rule {
+      Value ~~% { withContext(appendToVb(_: ValueNode, _)) }
+    }, separator = ", ")
   }
 
   def Characters = rule {
     push(new StringBuilder) ~ zeroOrMore("\\" ~ EscapedChar | NormalChar)
   }
 
-  def EscapedChar = rule {
-    anyOf("\"\\/") ~:% withContext(appendToSb(_)(_)) |
-      "b" ~ appendToSb('\b') |
-      "f" ~ appendToSb('\f') |
-      "n" ~ appendToSb('\n') |
-      "r" ~ appendToSb('\r') |
-      "t" ~ appendToSb('\t') |
-      Unicode ~~% {
-        withContext((code, ctx) => appendToSb(code.asInstanceOf[Char])(ctx))
-      }
+  def EscapedChar = {
+    def unicode(code: Int, ctx: Context[_]) {
+      appendToSb(code.asInstanceOf[Char], ctx)
+    }
+    def escaped(c: Char, ctx: Context[_]) {
+      appendToSb('\\', ctx)
+      appendToSb(c, ctx)
+    }
+    rule {
+      anyOf("\"\\/") ~:% withContext(appendToSb) |
+        anyOf("bfnrt") ~:% withContext(escaped) |
+        Unicode ~~% {
+          withContext(unicode)
+        }
+    }
   }
 
   def NormalChar = rule {
-    !anyOf("\"\\") ~ ANY ~:% { withContext(appendToSb(_)(_)) }
+    !anyOf("\"\\") ~ ANY ~:% { withContext(appendToSb) }
   }
 
   def Unicode = rule {
@@ -91,7 +113,15 @@ object JsonParser extends BaseParser with WhiteSpaceExpansion {
 
   def JsonNull = rule { "null " ~ push(NullNode) }
 
-  def appendToSb(c: Char): Context[Any] => Unit = { ctx =>
+  def appendToSb(c: Char, ctx: Context[_]) {
     ctx.getValueStack.peek.asInstanceOf[StringBuilder].append(c)
+  }
+
+  def appendToMb(k: String, v: ValueNode, ctx: Context[_]) {
+    ctx.getValueStack.peek.asInstanceOf[Builder[(String, ValueNode), Map[String, ValueNode]]] += ((k, v))
+  }
+
+  def appendToVb[T](e: T, ctx: Context[_]) {
+    ctx.getValueStack.peek.asInstanceOf[Builder[T, Vector[T]]] += e
   }
 }
