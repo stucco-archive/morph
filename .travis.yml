@@ -9,3 +9,7 @@ before_install:
   - cd JSON-java
   - mvn clean install
   - cd ..
+after_success:
+  - wget https://raw.githubusercontent.com/stucco/test/master/rerun-test.sh
+  - chmod a+x ./rerun-test.sh
+  - ./rerun-test.sh
