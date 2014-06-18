@@ -5,6 +5,7 @@
   <version>1.0.0</version>
   <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <maven.test.skip>false</maven.test.skip>
   </properties>
   <repositories>
   	<repository>
@@ -67,6 +68,9 @@
             <groupId>org.scalatest</groupId>
             <artifactId>scalatest-maven-plugin</artifactId>
             <version>1.0-M2</version>
+            <configuration>
+                <skipTests>${maven.test.skip}</skipTests>
+            </configuration>
             <executions>
                 <execution>
                     <id>scala-tests</id>
