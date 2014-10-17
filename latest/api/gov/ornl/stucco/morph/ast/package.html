@@ -1,0 +1,332 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>ast - gov.ornl.stucco.morph.ast</title>
+          <meta name="description" content="ast - gov.ornl.stucco.morph.ast" />
+          <meta name="keywords" content="ast gov.ornl.stucco.morph.ast" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../../../index.html';
+            var hash = 'gov.ornl.stucco.morph.ast.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img src="../../../../../lib/package_big.png" />
+        <p id="owner"><a href="../../../../package.html" class="extype" name="gov">gov</a>.<a href="../../../package.html" class="extype" name="gov.ornl">ornl</a>.<a href="../../package.html" class="extype" name="gov.ornl.stucco">stucco</a>.<a href="../package.html" class="extype" name="gov.ornl.stucco.morph">morph</a></p>
+        <h1>ast</h1>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ast</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        
+        
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="gov.ornl.stucco.morph.ast.ArrayNode" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ArrayNodeextendsValueNodewithProductwithSerializable"></a>
+      <a id="ArrayNode:ArrayNode"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="ArrayNode.html"><span class="name">ArrayNode</span></a><span class="params">(<span name="elements">elements: <span class="extype" name="scala.IndexedSeq">IndexedSeq</span>[<a href="ValueNode.html" class="extype" name="gov.ornl.stucco.morph.ast.ValueNode">ValueNode</a>]</span>)</span><span class="result"> extends <a href="ValueNode.html" class="extype" name="gov.ornl.stucco.morph.ast.ValueNode">ValueNode</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">An array.</p>
+    </li><li name="gov.ornl.stucco.morph.ast.BooleanNode" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="BooleanNodeextendsValueNode"></a>
+      <a id="BooleanNode:BooleanNode"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">sealed abstract </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="BooleanNode.html"><span class="name">BooleanNode</span></a><span class="result"> extends <a href="ValueNode.html" class="extype" name="gov.ornl.stucco.morph.ast.ValueNode">ValueNode</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="gov.ornl.stucco.morph.ast.DSL" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="DSLextendsAnyRef"></a>
+      <a id="DSL:DSL"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="DSL.html"><span class="name">DSL</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">A DSL for manipulating and transforming an AST.</p>
+    </li><li name="gov.ornl.stucco.morph.ast.Implicits" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ImplicitsextendsAnyRef"></a>
+      <a id="Implicits:Implicits"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="Implicits.html"><span class="name">Implicits</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Implicit conversions from several scala built in data types to
+their corresponding AST representations.</p>
+    </li><li name="gov.ornl.stucco.morph.ast.NumberNode" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="NumberNodeextendsValueNodewithProductwithSerializable"></a>
+      <a id="NumberNode:NumberNode"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="NumberNode.html"><span class="name">NumberNode</span></a><span class="params">(<span name="value">value: <span class="extype" name="scala.BigDecimal">BigDecimal</span></span>)</span><span class="result"> extends <a href="ValueNode.html" class="extype" name="gov.ornl.stucco.morph.ast.ValueNode">ValueNode</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">A number.</p>
+    </li><li name="gov.ornl.stucco.morph.ast.ObjectNode" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ObjectNodeextendsValueNodewithProductwithSerializable"></a>
+      <a id="ObjectNode:ObjectNode"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="ObjectNode.html"><span class="name">ObjectNode</span></a><span class="params">(<span name="fields">fields: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <a href="ValueNode.html" class="extype" name="gov.ornl.stucco.morph.ast.ValueNode">ValueNode</a>]</span>)</span><span class="result"> extends <a href="ValueNode.html" class="extype" name="gov.ornl.stucco.morph.ast.ValueNode">ValueNode</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">An object.</p>
+    </li><li name="gov.ornl.stucco.morph.ast.StringNode" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="StringNodeextendsValueNodewithProductwithSerializable"></a>
+      <a id="StringNode:StringNode"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="StringNode.html"><span class="name">StringNode</span></a><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <a href="ValueNode.html" class="extype" name="gov.ornl.stucco.morph.ast.ValueNode">ValueNode</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">A string.</p>
+    </li><li name="gov.ornl.stucco.morph.ast.ValueNode" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ValueNodeextendsAnyRef"></a>
+      <a id="ValueNode:ValueNode"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">sealed abstract </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="ValueNode.html"><span class="name">ValueNode</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">The abstract superclass for all AST node types.</p>
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="gov.ornl.stucco.morph.ast.ArrayNode" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ArrayNode"></a>
+      <a id="ArrayNode:ArrayNode"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ArrayNode$.html"><span class="name">ArrayNode</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="gov.ornl.stucco.morph.ast.BooleanNode" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BooleanNode"></a>
+      <a id="BooleanNode:BooleanNode"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BooleanNode$.html"><span class="name">BooleanNode</span></a>
+      </span>
+      </h4>
+      <p class="comment cmt">A boolean.</p>
+    </li><li name="gov.ornl.stucco.morph.ast.DSL" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DSL"></a>
+      <a id="DSL:DSL"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="DSL$.html"><span class="name">DSL</span></a><span class="result"> extends <a href="DSL.html" class="extype" name="gov.ornl.stucco.morph.ast.DSL">DSL</a></span>
+      </span>
+      </h4>
+      <p class="comment cmt">A companion object that extends <code>DSL</code> so that DSL methods
+may be imported into scope instead of using the DSL as a mixin.</p>
+    </li><li name="gov.ornl.stucco.morph.ast.FalseNode" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="FalseNode"></a>
+      <a id="FalseNode:FalseNode"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="FalseNode$.html"><span class="name">FalseNode</span></a><span class="result"> extends <a href="BooleanNode.html" class="extype" name="gov.ornl.stucco.morph.ast.BooleanNode">BooleanNode</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="gov.ornl.stucco.morph.ast.Implicits" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Implicits"></a>
+      <a id="Implicits:Implicits"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Implicits$.html"><span class="name">Implicits</span></a><span class="result"> extends <a href="Implicits.html" class="extype" name="gov.ornl.stucco.morph.ast.Implicits">Implicits</a></span>
+      </span>
+      </h4>
+      <p class="comment cmt">A companion object to make it possible to either
+mix in the trait or import the companion object's methods.</p>
+    </li><li name="gov.ornl.stucco.morph.ast.NullNode" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="NullNode"></a>
+      <a id="NullNode:NullNode"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="NullNode$.html"><span class="name">NullNode</span></a><span class="result"> extends <a href="ValueNode.html" class="extype" name="gov.ornl.stucco.morph.ast.ValueNode">ValueNode</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">A null value.</p>
+    </li><li name="gov.ornl.stucco.morph.ast.NumberNode" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="NumberNode"></a>
+      <a id="NumberNode:NumberNode"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="NumberNode$.html"><span class="name">NumberNode</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="gov.ornl.stucco.morph.ast.ObjectNode" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ObjectNode"></a>
+      <a id="ObjectNode:ObjectNode"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ObjectNode$.html"><span class="name">ObjectNode</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="gov.ornl.stucco.morph.ast.StringNode" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="StringNode"></a>
+      <a id="StringNode:StringNode"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="StringNode$.html"><span class="name">StringNode</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="gov.ornl.stucco.morph.ast.TrueNode" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="TrueNode"></a>
+      <a id="TrueNode:TrueNode"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="TrueNode$.html"><span class="name">TrueNode</span></a><span class="result"> extends <a href="BooleanNode.html" class="extype" name="gov.ornl.stucco.morph.ast.BooleanNode">BooleanNode</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+      <script defer="defer" type="text/javascript" id="jquery-js" src="../../../../../lib/jquery.js"></script><script defer="defer" type="text/javascript" id="jquery-ui-js" src="../../../../../lib/jquery-ui.js"></script><script defer="defer" type="text/javascript" id="tools-tooltip-js" src="../../../../../lib/tools.tooltip.js"></script><script defer="defer" type="text/javascript" id="template-js" src="../../../../../lib/template.js"></script>
+    </body>
+      </html>

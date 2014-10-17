@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Thu Aug 08 15:33:16 EDT 2013
+# Fri Oct 17 15:04:20 EDT 2014
 css/custom.css
 Morph.html
 Getting+Morph.html
@@ -25,6 +25,8 @@ Function+Mapping.html
 Partial+Function+Mapping.html
 Type+Conversion.html
 Auto+Collapsing.html
+Encapsulate.html
+Auto+Flatten.html
 DSL+Quick+Reference.html
 Contents+in+Depth.html
 Combined+Pages.html

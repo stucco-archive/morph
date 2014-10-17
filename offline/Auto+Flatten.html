@@ -1,0 +1,115 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html manifest="pamflet.manifest">
+      <head>
+        <title>Morph — Auto Flatten</title>
+        <link type="text/css" media="screen, projection" rel="stylesheet" href="css/blueprint/screen.css"></link>
+        <link type="text/css" media="screen and (min-device-width: 800px), projection" rel="stylesheet" href="css/blueprint/grid.css"></link>
+        <link type="text/css" media="print" rel="stylesheet" href="css/blueprint/print.css"></link> 
+        <!--[if lt IE 8]>
+          <link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"/>
+        <![endif]-->
+        <link type="text/css" media="screen, projection" rel="stylesheet" href="css/pamflet.css"></link>
+        <link type="text/css" media="print" rel="stylesheet" href="css/pamflet-print.css"></link>
+        <link type="text/css" media="screen and (min-device-width: 800px), projection" rel="stylesheet" href="css/pamflet-grid.css"></link>
+        <link type="text/css" media="screen, projection" rel="stylesheet" href="css/custom.css"></link>
+        <script src="js/jquery-1.6.2.min.js"></script>
+        <script src="js/jquery.collapse.js"></script>
+        <script src="js/pamflet.js"></script>
+        <script type="text/javascript" src="js/prettify/prettify.js"></script><script type="text/javascript" src="js/prettify/lang-scala.js"></script><link type="text/css" rel="stylesheet" href="css/prettify.css"></link><script type="text/javascript"><!--
+        window.onload=function() { prettyPrint(); };
+      --></script>
+        <meta charset="utf-8"></meta>
+        <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+        
+      </head>
+      <body>
+        <a class="page prev nav" href="Encapsulate.html">
+            <span class="space">&nbsp;</span>
+            <span class="flip">❧</span>
+          </a><a class="page next nav" href="DSL+Quick+Reference.html">
+            <span class="space">&nbsp;</span>
+            <span>❧</span>
+          </a>
+        <div class="container">
+          <div class="span-16 prepend-1 append-1">
+            <div class="top nav span-16 title">
+              <span>Morph</span> — Auto Flatten
+            </div>
+          </div>
+          <div class="span-16 prepend-1 append-1 contents">
+            <h2 id="Auto+Flatten">Auto Flatten</h2><p>Auto Flatten takes a (potentially) two-dimentional array, and ‘flattens’ it into a single array.
+</p><pre><code class="prettyprint lang-scala">scala&gt; val a = Some(*(*(1,2,3),4))
+a: Some[morph.ast.ArrayNode] = 
+Some([
+  [
+    1,
+    2,
+    3
+  ],
+  4
+])
+
+scala&gt; val a = Some(*(*(1,2,3),4)).autoFlatten
+a: Option[morph.ast.ValueNode] = 
+Some([
+  1,
+  2,
+  3,
+  4
+])
+
+scala&gt; val a = Some(*(1,2,3)).autoFlatten
+a: Option[morph.ast.ValueNode] = 
+Some([
+  1,
+  2,
+  3
+])
+</code></pre><p>Note that this reduces the nesting by at most one level.  If desired, it can be invoked repeatedly to remove additional nesting.
+</p><pre><code class="prettyprint lang-scala">scala&gt; val a = Some(*(0, *(*(1,2,3))))
+a: Some[morph.ast.ArrayNode] = 
+Some([
+  0,
+  [
+    [
+      1,
+      2,
+      3
+    ]
+  ]
+])
+
+scala&gt; val a = Some(*(0, *(*(1,2,3)))).autoFlatten
+a: Option[morph.ast.ValueNode] = 
+Some([
+  0,
+  [
+    1,
+    2,
+    3
+  ]
+])
+
+scala&gt; val a = Some(*(0, *(*(1,2,3)))).autoFlatten.autoFlatten
+a: Option[morph.ast.ValueNode] = 
+Some([
+  0,
+  1,
+  2,
+  3
+])
+</code></pre><div class="bottom nav">
+                        <em>Next Page</em>
+                        <span class="arrow">❧</span>
+                        <a href="DSL+Quick+Reference.html"> DSL Quick Reference </a>
+                      </div><div class="tocwrapper show">
+      <a class="tochead nav" style="display: none" href="#toc">❦</a>
+      <a name="toc"></a>
+      <h4 class="toctitle">Contents</h4>
+      <div class="tocbody">
+      <div><a href="Morph.html">Morph</a></div><ol class="toc"> <li><div><a href="Getting+Morph.html">Getting Morph</a></div><ol class="toc"> <li><div><a href="Getting+the+Source+Code.html">Getting the Source Code</a></div></li><li><div><a href="Build+Dependency.html">Build Dependency</a></div></li> </ol></li><li><div><a href="Using+Morph.html">Using Morph</a></div></li><li><div><a href="The+Model.html">The Model</a></div><ol class="toc"> <li><div><a href="Functional+Paradigm.html">Functional Paradigm</a></div></li> </ol></li><li><div><a href="Parsing.html">Parsing</a></div><ol class="toc"> <li><div><a href="Parser+Usage.html">Parser Usage</a></div></li><li><div><a href="Custom+Parsers.html">Custom Parsers</a></div></li> </ol></li><li><div><a href="DSL+Basics.html">DSL Basics</a></div><ol class="toc"> <li><div><a href="AST+Definition.html">AST Definition</a></div></li><li><div><a href="Pretty+Printing.html">Pretty Printing</a></div></li><li><div><a href="AST+Node+Creation.html">AST Node Creation</a></div></li><li><div><a href="Option+Usage.html">Option Usage</a></div></li> </ol></li><li><div><a href="Data+Extraction.html">Data Extraction</a></div><ol class="toc"> <li><div><a href="Element+Access.html">Element Access</a></div></li><li><div><a href="Value+Access.html">Value Access</a></div></li><li><div><a href="Query+Chaining.html">Query Chaining</a></div></li> </ol></li><li><div><a href="Data+Manipulation.html">Data Manipulation</a></div><ol class="toc"> <li><div><a href="Function+Mapping.html">Function Mapping</a></div></li><li><div><a href="Partial+Function+Mapping.html">Partial Function Mapping</a></div></li><li><div><a href="Type+Conversion.html">Type Conversion</a></div></li><li><div><a href="Auto+Collapsing.html">Auto Collapsing</a></div></li><li><div><a href="Encapsulate.html">Encapsulate</a></div></li><li><div class="current">Auto Flatten</div></li> </ol></li><li><div><a href="DSL+Quick+Reference.html">DSL Quick Reference</a></div></li><li class="generated"><div><a href="Contents+in+Depth.html">Contents in Depth</a></div></li><li class="generated"><div><a href="Combined+Pages.html">Combined Pages</a></div></li> </ol></div></div>
+          </div>
+        </div>
+        <a class="fork nav" href="http://github.com/stucco/morph"><img alt="Fork me on GitHub" src="img/fork.png"></img></a>
+      </body>
+    </html>

@@ -39,13 +39,14 @@
       <a name="toc"></a>
       <h4 class="toctitle">Contents</h4>
       <div class="tocbody">
-      <div><a href="#Morph">Morph</a></div><ol class="toc"> <li><div><a href="#Getting+Morph">Getting Morph</a></div><ol class="toc"> <li><div><a href="#Getting+the+Source+Code">Getting the Source Code</a></div></li><li><div><a href="#Build+Dependency">Build Dependency</a></div></li> </ol></li><li><div><a href="#Using+Morph">Using Morph</a></div></li><li><div><a href="#The+Model">The Model</a></div><ol class="toc"> <li><div><a href="#Functional+Paradigm">Functional Paradigm</a></div></li> </ol></li><li><div><a href="#Parsing">Parsing</a></div><ol class="toc"> <li><div><a href="#Parser+Usage">Parser Usage</a></div></li><li><div><a href="#Custom+Parsers">Custom Parsers</a></div></li> </ol></li><li><div><a href="#DSL+Basics">DSL Basics</a></div><ol class="toc"> <li><div><a href="#AST+Definition">AST Definition</a></div></li><li><div><a href="#Pretty+Printing">Pretty Printing</a></div></li><li><div><a href="#AST+Node+Creation">AST Node Creation</a></div></li><li><div><a href="#Option+Usage">Option Usage</a></div></li> </ol></li><li><div><a href="#Data+Extraction">Data Extraction</a></div><ol class="toc"> <li><div><a href="#Element+Access">Element Access</a></div></li><li><div><a href="#Value+Access">Value Access</a></div></li><li><div><a href="#Query+Chaining">Query Chaining</a></div></li> </ol></li><li><div><a href="#Data+Manipulation">Data Manipulation</a></div><ol class="toc"> <li><div><a href="#Function+Mapping">Function Mapping</a></div></li><li><div><a href="#Partial+Function+Mapping">Partial Function Mapping</a></div></li><li><div><a href="#Type+Conversion">Type Conversion</a></div></li><li><div><a href="#Auto+Collapsing">Auto Collapsing</a></div></li> </ol></li><li><div><a href="#DSL+Quick+Reference">DSL Quick Reference</a></div></li> </ol></div></div><h1 id="Morph">Morph</h1><p><em>Morph</em> is a framework and domain-specific language (DSL) that helps parse and
+      <div><a href="#Morph">Morph</a></div><ol class="toc"> <li><div><a href="#Getting+Morph">Getting Morph</a></div><ol class="toc"> <li><div><a href="#Getting+the+Source+Code">Getting the Source Code</a></div></li><li><div><a href="#Build+Dependency">Build Dependency</a></div></li> </ol></li><li><div><a href="#Using+Morph">Using Morph</a></div></li><li><div><a href="#The+Model">The Model</a></div><ol class="toc"> <li><div><a href="#Functional+Paradigm">Functional Paradigm</a></div></li> </ol></li><li><div><a href="#Parsing">Parsing</a></div><ol class="toc"> <li><div><a href="#Parser+Usage">Parser Usage</a></div></li><li><div><a href="#Custom+Parsers">Custom Parsers</a></div></li> </ol></li><li><div><a href="#DSL+Basics">DSL Basics</a></div><ol class="toc"> <li><div><a href="#AST+Definition">AST Definition</a></div></li><li><div><a href="#Pretty+Printing">Pretty Printing</a></div></li><li><div><a href="#AST+Node+Creation">AST Node Creation</a></div></li><li><div><a href="#Option+Usage">Option Usage</a></div></li> </ol></li><li><div><a href="#Data+Extraction">Data Extraction</a></div><ol class="toc"> <li><div><a href="#Element+Access">Element Access</a></div></li><li><div><a href="#Value+Access">Value Access</a></div></li><li><div><a href="#Query+Chaining">Query Chaining</a></div></li> </ol></li><li><div><a href="#Data+Manipulation">Data Manipulation</a></div><ol class="toc"> <li><div><a href="#Function+Mapping">Function Mapping</a></div></li><li><div><a href="#Partial+Function+Mapping">Partial Function Mapping</a></div></li><li><div><a href="#Type+Conversion">Type Conversion</a></div></li><li><div><a href="#Auto+Collapsing">Auto Collapsing</a></div></li><li><div><a href="#Encapsulate">Encapsulate</a></div></li><li><div><a href="#Auto+Flatten">Auto Flatten</a></div></li> </ol></li><li><div><a href="#DSL+Quick+Reference">DSL Quick Reference</a></div></li> </ol></div></div><h1 id="Morph">Morph</h1><p><em>Morph</em> is a framework and domain-specific language (DSL) that helps parse and
 transform structured documents. Morph currently supports several file formats
 including XML, JSON, and CSV out of the box, and custom formats are usable
 as well.
 </p><blockquote><p>Morph is hosted on <a  href="https://github.com/stucco/morph">GitHub</a>.
 Morph is currently at version 0.0.1. Morph uses Scala 2.10.2.
-</p></blockquote><hr></hr><p>This resource is intended to be a user guide to help you learn the basics
+</p></blockquote><p>If you are already familiar with the basics of Morph, you may wish to refer to the <a  href="DSL+Quick+Reference.html">quick reference.</a>
+</p><hr></hr><p>This resource is intended to be a user guide to help you learn the basics
 of <em>using</em> Morph. It is <strong>not</strong> an API reference, and it is <strong>not</strong> a
 tutorial on programming in Scala. For complete coverage of the API, please see
 the Morph <a  href="latest/api">Scaladoc</a>. For an excellent Scala
@@ -567,8 +568,101 @@ obj: morph.ast.ObjectNode =
 {
   &quot;test&quot;: true
 }
+</code></pre><h2 id="Encapsulate">Encapsulate</h2><p>The encapsulate method ensures that the contents are always contained in some outer array.
+This is useful in cases where some value could otherwise be either a single item, or a list of items.  (This sometimes occures when processing XML data, for example.)
+If the item to be ‘encapsulated’ is already a list, then it is left as-is (without adding an additional outer list.)
+</p><pre><code class="prettyprint lang-scala">scala&gt; val a = ^(&quot;a&quot;-&gt;&quot;aaa&quot;,&quot;b&quot;-&gt;&quot;bbb&quot;)
+a: morph.ast.ObjectNode = 
+{
+  &quot;a&quot;: &quot;aaa&quot;,
+  &quot;b&quot;: &quot;bbb&quot;
+}
+
+scala&gt; val a = ^(&quot;a&quot;-&gt;&quot;aaa&quot;,&quot;b&quot;-&gt;&quot;bbb&quot;).encapsulate
+a: Option[morph.ast.ValueNode] = 
+Some([
+  {
+    &quot;a&quot;: &quot;aaa&quot;,
+    &quot;b&quot;: &quot;bbb&quot;
+  }
+])
+
+scala&gt; val a = *(^(&quot;a&quot;-&gt;&quot;aaa&quot;,&quot;b&quot;-&gt;&quot;bbb&quot;),^(&quot;c&quot;-&gt;&quot;ccc&quot;)).encapsulate
+a: Option[morph.ast.ValueNode] = 
+Some([
+  {
+    &quot;a&quot;: &quot;aaa&quot;,
+    &quot;b&quot;: &quot;bbb&quot;
+  },
+  {
+    &quot;c&quot;: &quot;ccc&quot;
+  }
+])
+</code></pre><h2 id="Auto+Flatten">Auto Flatten</h2><p>Auto Flatten takes a (potentially) two-dimentional array, and ‘flattens’ it into a single array.
+</p><pre><code class="prettyprint lang-scala">scala&gt; val a = Some(*(*(1,2,3),4))
+a: Some[morph.ast.ArrayNode] = 
+Some([
+  [
+    1,
+    2,
+    3
+  ],
+  4
+])
+
+scala&gt; val a = Some(*(*(1,2,3),4)).autoFlatten
+a: Option[morph.ast.ValueNode] = 
+Some([
+  1,
+  2,
+  3,
+  4
+])
+
+scala&gt; val a = Some(*(1,2,3)).autoFlatten
+a: Option[morph.ast.ValueNode] = 
+Some([
+  1,
+  2,
+  3
+])
+</code></pre><p>Note that this reduces the nesting by at most one level.  If desired, it can be invoked repeatedly to remove additional nesting.
+</p><pre><code class="prettyprint lang-scala">scala&gt; val a = Some(*(0, *(*(1,2,3))))
+a: Some[morph.ast.ArrayNode] = 
+Some([
+  0,
+  [
+    [
+      1,
+      2,
+      3
+    ]
+  ]
+])
+
+scala&gt; val a = Some(*(0, *(*(1,2,3)))).autoFlatten
+a: Option[morph.ast.ValueNode] = 
+Some([
+  0,
+  [
+    1,
+    2,
+    3
+  ]
+])
+
+scala&gt; val a = Some(*(0, *(*(1,2,3)))).autoFlatten.autoFlatten
+a: Option[morph.ast.ValueNode] = 
+Some([
+  0,
+  1,
+  2,
+  3
+])
 </code></pre><h2 id="DSL+Quick+Reference">DSL Quick Reference</h2><p>Here is a list of all DSL methods, their symbolic aliases, and short
 descriptions.
+</p><hr></hr><h6><code>ObjectNode  ==  ^()</code></h6><p>Constructor for a new ObjectNode.
+</p><hr></hr><h6><code>ArrayNode  ==  *()</code></h6><p>Constructor for a new ArrayNode.
 </p><hr></hr><h6><code>get  ==  ~&gt;</code></h6><p>Gets an element in an <code>ArrayNode</code> by index or a value in an <code>ObjectNode</code> by key.
 </p><hr></hr><h6><code>recGet  ==  ~&gt;&gt;</code></h6><p>Recursively searches for a value corresponding to the specified key.
 </p><hr></hr><h6><code>mapFunc == %-&gt;</code></h6><p>Maps a function over an array node.
@@ -578,6 +672,8 @@ array node.
 </p><hr></hr><h6><code>applyOrMapPartial == %%~&gt;</code></h6><p>Applies a partial function to a value node or maps the partial function over
 the elements of an array node.
 </p><hr></hr><h6><code>applyFilter</code></h6><p>Filters an array node by a predicate.
+</p><hr></hr><h6><code>autoFlatten</code></h6><p>“Flattens” an array of arrays into a single array.
+</p><hr></hr><h6><code>encapsulate</code></h6><p>Ensures that the contents are always contained in an array (even if the array would only have one item.)
 </p><hr></hr><p>This list is only a quick reference. Certain methods in particular, the
 <code>is{something}</code> and <code>as{something}</code> family of methods as well as <code>Safely</code> are
 not covered. Please refer to the <a  href="latest/api">Scaladoc</a> for more details.
