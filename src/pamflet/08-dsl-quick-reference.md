@@ -6,6 +6,18 @@ descriptions.
 
 ---
 
+###### `ObjectNode  ==  ^()`
+
+Constructor for a new ObjectNode.
+
+---
+
+###### `ArrayNode  ==  *()`
+
+Constructor for a new ArrayNode.
+
+---
+
 ###### `get  ==  ~>`
 
 Gets an element in an `ArrayNode` by index or a value in an `ObjectNode` by key.
@@ -47,6 +59,18 @@ the elements of an array node.
 ###### `applyFilter`
 
 Filters an array node by a predicate.
+
+---
+
+###### `autoFlatten`
+
+"Flattens" an array of arrays into a single array.
+
+---
+
+###### `encapsulate`
+
+Ensures that the contents are always contained in an array (even if the array would only have one item.)
 
 ---
 
