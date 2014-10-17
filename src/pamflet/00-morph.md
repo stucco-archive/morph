@@ -9,6 +9,9 @@ as well.
 > Morph is hosted on [GitHub]($githuburl$).
 > Morph is currently at version $version$. Morph uses Scala $scala$.
 
+
+If you are already familiar with the basics of Morph, you may wish to refer to the [quick reference.](DSL+Quick+Reference.html)
+
 ---
 
 This resource is intended to be a user guide to help you learn the basics
